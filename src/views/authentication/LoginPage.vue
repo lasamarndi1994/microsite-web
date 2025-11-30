@@ -7,7 +7,7 @@
 
       <form @submit.prevent="sendOtp">
         <v-text-field v-model="mobile" label="Enter your mobile number" variant="outlined" density="comfortable"
-          type="tel" class="mb-4" :error-messages="mobileError" />
+          maxlength="10" type="tel" class="mb-4" :error-messages="mobileError" />
 
         <v-btn type="submit" class="mt-4" block color="primary" size="large" :disabled="isSubmitting">
           Send OTP
