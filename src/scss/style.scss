@@ -1,0 +1,608 @@
+@charset "UTF-8";
+
+@import "./fornt.css";
+
+:root {
+
+  --primary-color: #385688;
+  --secondary-color: #7f56da;
+  --tertiary-color: #FF3636;
+  --tertiary-opacity: #ff3636b0;
+  --success: #45823D;
+  --text-light: #ffffff;
+  --text-color1: #262630;
+  --text-color2: #534B4B;
+  --text-color4: #282828;
+  --bg-color1: #3856881C;
+
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.text-primary-color {
+  color: var(--primary-color);
+}
+
+.text-secondary-color {
+  color: var(--secondary-color);
+}
+
+.text-tertiary-color {
+  color: var(--tertiary-color);
+}
+
+.text-success-color {
+  color: var(--success);
+}
+
+.text-light-color {
+  color: var(--text-light);
+}
+
+.text-color1 {
+  color: var(--text-color1);
+}
+
+.text-color2 {
+  color: var(--text-color2);
+}
+
+.text-color4 {
+  color: var(--text-color4);
+}
+
+.bg-primary-color {
+  background: var(--primary-color);
+}
+
+.bg-tertiary-color {
+  background: var(--tertiary-color);
+}
+
+.bg-tertiary-color-1 {
+  background: #ff3636bf;
+}
+
+.bg-tertiary-opacity {
+  background-color: var(--tertiary-opacity);
+}
+
+.bg-light-color {
+  background-color: var(--text-light);
+}
+
+.bg-color1 {
+  background-color: var(--bg-color1);
+}
+
+.fw-400 {
+  font-weight: 400;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.fw-medium {
+  font-weight: 550;
+}
+
+.fs-10 {
+  font-size: 10px !important;
+}
+
+.fs-11 {
+  font-size: 11px !important;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.fs-14 {
+  font-size: 14px !important;
+}
+
+.fs-15 {
+  font-size: 14px !important;
+}
+
+.fs-16 {
+  font-size: 16px;
+}
+
+.fs-18 {
+  font-size: 18px !important;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.fs-24 {
+  font-size: 24px;
+}
+
+.fs-26 {
+  font-size: 26px;
+}
+
+.fs-32 {
+  font-size: 32px;
+}
+
+.fs-36 {
+  font-size: 36px;
+}
+
+.btn {
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  height: 44px;
+  color: #ffffff;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+}
+
+.btn-secondary {
+  background: var(--secondary-color);
+}
+
+.btn-primary:hover {
+  background: #1c3766;
+}
+
+.btn-outline-primary {
+  background: var(--text-light);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  color: var(--text-light);
+}
+
+.btn-border-primary {
+  border: 1px solid var(--border-color);
+}
+
+.btn-border-primary:hover {
+  border: 1px solid var(----border-color);
+}
+
+.btn-empty {
+  background: var(--text-light);
+}
+
+.btn-empty:hover {
+  background: var(--primary-color);
+  color: var(--text-light);
+}
+
+.border-secondary {
+  border: 1px solid #b1b1b1 !important;
+  padding: 11px 8px;
+  border-radius: 3px;
+  outline: none;
+}
+
+.border-bottom {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #999999 !important;
+  padding: 11px 8px;
+  outline: none;
+}
+
+.border-secondary:hover {
+  border: 1px solid var(--border-color);
+}
+
+.border-danger {
+  border: 1px solid var(--tertiary-color);
+  padding: 11px 8px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.border-danger:hover {
+  border: 1px solid var(--tertiary-color);
+}
+
+// Border-radius 
+.border-radius-4 {
+  border-radius: 4px;
+}
+
+.border-radius-8 {
+  border-radius: 8px;
+}
+
+.a-disabled {
+  cursor: not-allowed;
+}
+
+.vertical-left-primary {
+  border-left: 2.9px solid var(--primary-color);
+}
+
+.btn-primary:disabled {
+  background-color: var(--primary-color);
+}
+
+.btn-upload {
+  border-radius: 0px 5px 5px 0px;
+  padding: 12px 8px;
+}
+
+.progress-bar {
+  background: #00000033;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.progress-text {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress,
+.progress-stacked {
+  --bs-progress-height: 1rem;
+  --bs-progress-font-size: 0.75rem;
+  --bs-progress-bg: transparent;
+}
+
+.progress,
+.progress-stacked {
+  --bs-progress-height: 1rem;
+  --bs-progress-font-size: 0.75rem;
+  --bs-progress-bg: transparent;
+}
+
+.auth-logo {
+  max-width: 3%;
+
+  @media (max-width: 960px) {
+    max-width: 8%;
+  }
+}
+
+.auth-bg-img {
+  position: fixed;
+  z-index: -1;
+
+  &.left {
+    max-width: 365px;
+    max-height: 290px;
+    left: 10%;
+    top: 62%;
+  }
+
+  &.right {
+    max-width: 451px;
+    max-height: 458px;
+    left: 60%;
+    top: 35%;
+  }
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+}
+
+.responsive-heading {
+  @media (max-width: 960px) {
+    font-size: 1.25rem !important;
+  }
+}
+
+.responsive-body {
+  @media (max-width: 960px) {
+    font-size: 0.875rem !important;
+  }
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.fs-24 {
+  font-size: 24px;
+}
+
+.fs-26 {
+  font-size: 26px;
+}
+
+.fs-32 {
+  font-size: 32px;
+}
+
+.btn {
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  height: 44px;
+  color: #ffffff;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+}
+
+.btn-secondary {
+  background: var(--secondary-color);
+}
+
+.btn-primary:hover {
+  background: #1c3766;
+}
+
+.btn-outline-primary {
+  background: var(--text-light);
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  color: var(--text-light);
+}
+
+.btn-border-primary {
+  border: 1px solid var(--border-color);
+}
+
+.btn-border-primary:hover {
+  border: 1px solid var(----border-color);
+}
+
+.btn-empty {
+  background: var(--text-light);
+}
+
+.btn-empty:hover {
+  background: var(--primary-color);
+  color: var(--text-light);
+}
+
+.border-secondary {
+  border: 1px solid #b1b1b1 !important;
+  padding: 11px 8px;
+  border-radius: 3px;
+  outline: none;
+}
+
+.border-bottom {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid #999999 !important;
+  padding: 11px 8px;
+  outline: none;
+}
+
+.border-secondary:hover {
+  border: 1px solid var(--border-color);
+}
+
+.border-danger {
+  border: 1px solid var(--tertiary-color);
+  padding: 11px 8px;
+  border-radius: 5px;
+  outline: none;
+}
+
+.border-danger:hover {
+  border: 1px solid var(--tertiary-color);
+}
+
+// Border-radius 
+.border-radius-4 {
+  border-radius: 4px;
+}
+
+.border-radius-8 {
+  border-radius: 8px;
+}
+
+.a-disabled {
+  cursor: not-allowed;
+}
+
+.vertical-left-primary {
+  border-left: 2.9px solid var(--primary-color);
+}
+
+.btn-primary:disabled {
+  background-color: var(--primary-color);
+}
+
+.btn-upload {
+  border-radius: 0px 5px 5px 0px;
+  padding: 12px 8px;
+}
+
+.custom-chip {
+  border-radius: 6px !important;
+  font-weight: 400;
+  padding: 0 20px;
+  height: 36px;
+}
+
+// .progress-bar {
+//   background: #00000033;
+//   position: absolute;
+//   left: 0;
+//   top: 0;
+//   bottom: 0;
+//   right: 0;
+// }
+
+// .progress-text {
+//   height: 100%;
+//   width: 100%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+// }
+
+// .progress,
+// .progress-stacked {
+//   --bs-progress-height: 1rem;
+//   --bs-progress-font-size: 0.75rem;
+//   --bs-progress-bg: transparent;
+// }
+
+// .progress,
+// .progress-stacked {
+//   --bs-progress-height: 1rem;
+//   --bs-progress-font-size: 0.75rem;
+//   --bs-progress-bg: transparent;
+// }
+
+.auth-logo {
+  max-width: 3%;
+
+  @media (max-width: 960px) {
+    max-width: 8%;
+  }
+}
+
+.auth-bg-img {
+  position: fixed;
+  z-index: -1;
+
+  &.left {
+    max-width: 365px;
+    max-height: 290px;
+    left: 10%;
+    top: 62%;
+  }
+
+  &.right {
+    max-width: 451px;
+    max-height: 458px;
+    left: 60%;
+    top: 35%;
+  }
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+}
+
+.responsive-heading {
+  @media (max-width: 960px) {
+    font-size: 1.25rem !important;
+  }
+}
+
+.responsive-body {
+  @media (max-width: 960px) {
+    font-size: 0.875rem !important;
+  }
+}
+
+.otp-responsive {
+  --v-otp-input-width: 50px;
+  --v-otp-input-height: 50px;
+
+  @media (max-width: 960px) {
+    --v-otp-input-width: 40px;
+    --v-otp-input-height: 40px;
+  }
+}
+
+.shadow-card {
+  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05) !important;
+}
+
+.dashed-border {
+  border: 2px dashed #e0e0e0 !important;
+  border-radius: 8px;
+}
+
+.card-padding {
+  padding: 50px !important;
+
+  @media (max-width: 768px) {
+    padding: 40px !important;
+  }
+
+  @media (max-width: 480px) {
+    padding: 40px !important;
+  }
+}
+
+// Vuetify Input Focus Styles - Secondary Color
+.v-field--focused {
+  .v-field__outline {
+    --v-field-border-width: 2px;
+    color: var(--secondary-color) !important;
+  }
+}
+
+.v-text-field--focused {
+  .v-field__outline {
+    color: var(--secondary-color) !important;
+  }
+}
+
+.v-textarea--focused {
+  .v-field__outline {
+    color: var(--secondary-color) !important;
+  }
+}
+
+// OTP Input Focus
+.v-otp-input--focused {
+  .v-field__outline {
+    color: var(--secondary-color) !important;
+  }
+}
+
+// Input focus for all v-field components
+:deep(.v-field--focused) {
+
+  .v-field__outline__start,
+  .v-field__outline__end,
+  .v-field__outline__notch {
+    border-color: var(--secondary-color) !important;
+  }
+}

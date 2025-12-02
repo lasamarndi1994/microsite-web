@@ -1,0 +1,11 @@
+<template>
+    <v-app-bar flat color="white" class="border-b">
+        <v-container class="d-flex align-center py-0">
+            <img src="@/assets/images/logo.svg" alt="logo">
+            <v-spacer></v-spacer>
+        </v-container>
+    </v-app-bar>
+</template>
+
+<script setup>
+</script>

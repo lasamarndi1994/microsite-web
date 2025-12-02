@@ -1,0 +1,42 @@
+import axios from 'axios';
+import { authStore } from "@/stores/authStore";
+
+const myBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+const createAxios = axios.create({
+  baseURL: myBaseUrl,
+  headers: {
+    Accept: "application/json",
+  },
+});
+
+createAxios.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('authToken'); 
+    if (token) {
+      config.headers["Authorization"] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+createAxios.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    const store = authStore();
+    if (error.response) {
+      if (
+        error.response.status === 401 ||
+        error.response.data.message == "Unauthenticated."
+      ) {
+        store.tokenTimeOut();
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default createAxios;
