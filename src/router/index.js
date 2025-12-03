@@ -5,12 +5,12 @@ const routes = [
   {
     path: '/',
     name: 'Login',
-    component: () => import('@/views/authentication/LoginPage.vue'),
+    component: () => import('@/views/auth/LoginPage.vue'),
   },
   {
-    path: '/otp_verification',
+    path: '/otp-verification',
     name: 'OtpPage',
-    component: () => import('@/views/authentication/OtpPage.vue'),
+    component: () => import('@/views/auth/OtpPage.vue'),
   },
   {
     path: '/dashboard',

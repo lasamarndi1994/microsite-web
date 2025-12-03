@@ -44,7 +44,7 @@ const handleSendOtp = () => {
 
   if (validation === true) {
     mobileError.value = "";
-    router.push("/otp_verification");
+    router.push("/otp-verification");
   } else {
     mobileError.value = validation;
   }

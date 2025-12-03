@@ -272,4 +272,17 @@ const createMicrosite = () => {
 };
 </script>
 
+<style scoped>
+/* Card Hover Transitions */
+.v-card, .card {
+  transition: all 0.3s ease-in-out !important;
+}
+
+.v-card:hover, .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+</style>
+
 

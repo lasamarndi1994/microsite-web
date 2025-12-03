@@ -591,6 +591,7 @@ body {
 }
 
 // OTP Input Focus
+// OTP Input Focus
 .v-otp-input--focused {
   .v-field__outline {
     color: var(--secondary-color) !important;
@@ -605,4 +606,18 @@ body {
   .v-field__outline__notch {
     border-color: var(--secondary-color) !important;
   }
+}
+
+/* Button Hover Transitions */
+.btn,
+.v-btn {
+  transition: all 0.3s ease-in-out !important;
+  border: 1px solid transparent;
+}
+
+.btn:hover,
+.v-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-color: var(--primary-color) !important;
 }

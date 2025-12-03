@@ -1,22 +1,6 @@
 <template>
     <v-app>
-        <!-- Header -->
-        <v-app-bar flat color="white" class="border-b">
-            <v-container class="d-flex align-center py-0">
-                <v-btn class="btn-secondary text-white text-capitalize font-weight-bold px-4" variant="flat"
-                    rounded="lg">
-                    Fincommunity
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn variant="text" class="text-capitalize">
-                    Microsite platform <v-icon end>mdi-chevron-down</v-icon>
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-avatar color="grey-lighten-3" size="40">
-                    <v-icon icon="mdi-account" color="grey"></v-icon>
-                </v-avatar>
-            </v-container>
-        </v-app-bar>
+        <AppBar/>
 
         <v-main class="bg-grey-lighten-5">
             <v-container class="py-8">
@@ -52,9 +36,9 @@
 
                     <!-- Search and Filter -->
                     <div class="d-flex mb-6 gap-4">
-                        <v-text-field density="compact" variant="outlined" label="Search"
+                        <v-text-field density="compact" variant="outlined" label="Search" 
                             prepend-inner-icon="mdi-magnify" hide-details single-line
-                            class="bg-white rounded-lg"></v-text-field>
+                            class="bg-white rounded-lg search-input"></v-text-field>
                         <v-btn variant="outlined" class="text-capitalize ml-4 text-grey-darken-2"
                             prepend-icon="mdi-filter-variant" height="44" color="grey-lighten-1">
                             Filters
@@ -93,11 +77,11 @@
                                     <td class="text-body-2 text-grey-darken-1">{{ item.date }}</td>
                                     <td class="text-right">
                                         <v-btn icon="mdi-delete-outline" variant="text" color="grey"
-                                            size="small"></v-btn>
+                                            size="large"></v-btn>
                                         <v-btn v-if="item.status !== 'Pending'" icon="mdi-pencil-outline" variant="text"
-                                            color="grey" size="small"></v-btn>
+                                            color="grey" size="large"></v-btn>
                                         <v-btn v-if="item.status !== 'Pending'" icon="mdi-eye-outline" variant="text"
-                                            color="grey" size="small"></v-btn>
+                                            color="grey" size="large" @click="openPreview(item)"></v-btn>
                                     </td>
                                 </tr>
                             </tbody>
@@ -107,11 +91,47 @@
                 </v-card>
             </v-container>
         </v-main>
+
+        <!-- Preview Dialog -->
+        <v-dialog v-model="showPreview" max-width="600">
+            <v-card class="rounded-xl pa-6">
+                <div class="d-flex justify-space-between align-center mb-4">
+                    <h3 class="text-h5 font-weight-bold">Microsite Preview</h3>
+                    <v-btn icon="mdi-close" variant="text" @click="showPreview = false"></v-btn>
+                </div>
+
+                <div v-if="selectedMicrosite" class="text-center">
+                    <v-avatar color="blue-lighten-5" size="80" class="mb-4">
+                        <v-icon :icon="selectedMicrosite.icon" :color="selectedMicrosite.iconColor" size="40"></v-icon>
+                    </v-avatar>
+                    <h2 class="text-h5 font-weight-bold mb-1">{{ selectedMicrosite.title }}</h2>
+                    <p class="text-body-1 text-grey mb-4">{{ selectedMicrosite.subtitle }}</p>
+
+                    <v-chip :color="selectedMicrosite.statusColor" class="mb-6">
+                        {{ selectedMicrosite.status }}
+                    </v-chip>
+
+                    <div class="bg-grey-lighten-4 rounded-lg pa-4 text-left">
+                        <p class="text-caption text-grey mb-1">Last Updated</p>
+                        <p class="font-weight-medium">{{ selectedMicrosite.date }}</p>
+                    </div>
+                </div>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
 <script setup>
 import { ref } from 'vue';
+import AppBar from '@/components/AppBar.vue';
+
+const showPreview = ref(false);
+const selectedMicrosite = ref(null);
+
+const openPreview = (item) => {
+    selectedMicrosite.value = item;
+    showPreview.value = true;
+};
 
 const microsites = ref([
     {
@@ -145,5 +165,23 @@ const microsites = ref([
 </script>
 
 <style scoped>
+.search-input {
+    width: 100% !important;
+    max-width: 600px;
+}
+
+@media (max-width: 600px) {
+    .d-flex.gap-4 {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .d-flex.gap-4 .v-btn {
+        width: 100%;
+        margin-right: 0 !important;
+        margin-bottom: 8px;
+    }
+}
+
 /* Custom styles if needed to tweak Vuetify defaults */
 </style>

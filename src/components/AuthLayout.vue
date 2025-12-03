@@ -12,7 +12,7 @@
         <h1 class="font-weight-bold mb-2" :class="$vuetify.display.smAndDown ? 'text-h5' : 'text-h4'">
           Welcome to microsite Platform
         </h1>
-        <p class="text-body-2 mb-4 mb-md-8">
+        <p class="mb-4 mb-md-8 fs-18">
           Create your professional microsite in minutes
         </p>
 
