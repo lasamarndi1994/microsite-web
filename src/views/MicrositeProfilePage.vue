@@ -50,7 +50,10 @@
                     </div>
                     <v-spacer></v-spacer>
                     <v-btn color="deep-purple-accent-2" class="text-capitalize text-white px-6 mt-4 mt-md-0"
-                        prepend-icon="mdi-handshake-outline" height="44" flat>
+                        height="44" flat @click="showJoinDialog = true">
+                        <template v-slot:prepend>
+                            <v-icon size="28">mdi-handshake-outline</v-icon>
+                        </template>
                         Join me
                     </v-btn>
                 </div>
@@ -133,12 +136,66 @@
                 </div>
 
             </v-container>
+
+
         </v-main>
+
+        <!-- Join Me Dialog -->
+        <v-dialog v-model="showJoinDialog" max-width="600" location="center">
+            <v-card class="rounded-lg pa-0 overflow-hidden">
+                <!-- Banner & Avatar Section -->
+                <div class="position-relative mb-12">
+                    <v-img src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" cover height="100"
+                        class="align-start justify-end pa-2">
+                        <v-btn icon="mdi-close" variant="text" color="white" density="compact"
+                            @click="showJoinDialog = false"></v-btn>
+                    </v-img>
+                    <div class="position-absolute" style="bottom: -40px; left: 24px;">
+                        <v-avatar size="80" class="border-2 border-white">
+                            <v-img
+                                src="https://lh3.googleusercontent.com/a/ACg8ocL47Ufo56JpLHtUzse6nZg_MremwJGvscCRSfEI0X102sUSdsaK=s432-c-no"
+                                cover></v-img>
+                        </v-avatar>
+                    </div>
+                </div>
+
+                <div class="px-6 pb-6">
+                    <div class="mb-6">
+                        <h3 class="text-h6 font-weight-bold">Join me</h3>
+                    </div>
+
+                    <div class="mb-4">
+                        <v-text-field v-model="joinForm.name" label="Name" variant="outlined" density="comfortable"
+                            hide-details="auto" class="mb-5"></v-text-field>
+
+                        <v-text-field v-model="joinForm.mobile" label="Mobile Number" variant="outlined"
+                            density="comfortable" hide-details="auto" class="mb-5"></v-text-field>
+
+                        <v-text-field v-model="joinForm.email" label="E-mail Address" placeholder="Ex : ajru@gmail.com"
+                            variant="outlined" density="comfortable" hide-details="auto" class="mb-5"></v-text-field>
+                    </div>
+
+                    <v-btn block color="deep-purple-accent-2" size="large"
+                        class="text-capitalize text-white rounded-lg mb-6" flat height="48"
+                        @click="showJoinDialog = false">
+                        Join Now
+                    </v-btn>
+                </div>
+            </v-card>
+        </v-dialog>
     </v-app>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import AppBar from '@/components/AppBar.vue'
+
+const showJoinDialog = ref(false)
+const joinForm = ref({
+    name: 'Lasa Marndi',
+    mobile: '9786453125',
+    email: ''
+})
 </script>
 
 <style scoped>
