@@ -38,6 +38,11 @@ const routes = [
     component: () => import('@/views/MicrositeProfilePage.vue'),
   },
   {
+    path: '/admin/login',
+    name: 'AdminLogin',
+    component: () => import('@/views/auth/AdminLoginPage.vue'),
+  },
+  {
     path: '/admin/dashboard',
     name: 'AdminDashboard',
     component: () => import('@/views/admin/AdminDashboard.vue'),
