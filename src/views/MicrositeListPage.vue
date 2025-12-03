@@ -6,10 +6,50 @@
                     hide-details single-line class="bg-white rounded-lg search-input" max-width="450px"></v-text-field>
             </v-col>
             <v-col cols="auto">
-                <v-btn variant="outlined" class="text-capitalize text-grey-darken-2" prepend-icon="mdi-filter-variant"
-                    height="44" color="grey-lighten-1">
-                    Filters
-                </v-btn>
+                  <v-btn variant="outlined" prepend-icon="mdi-filter-variant" class="ml-4 text-capitalize" height="48"
+                color="grey-darken-3" style="border-color: #7f56da; color: #7f56da">
+                {{ selectedFilterLabel || 'Filters' }}
+                <v-menu activator="parent">
+                  <v-list class="py-3 px-2" min-width="220">
+                    <v-list-item 
+                      v-for="(filter, index) in filterOptions" 
+                      :key="index" 
+                      :value="filter.value"
+                      class="mb-2 filter-item rounded-lg"
+                      @click="selectFilter(filter.value)"
+                    >
+                      <template v-slot:default>
+                        <div class="d-flex align-center justify-space-between w-100">
+                          <v-chip 
+                            :color="filter.color" 
+                            size="small" 
+                            variant="flat" 
+                            class="px-3"
+                          >
+                            <v-icon :icon="filter.icon" size="16" class="mr-1"></v-icon>
+                            <span class="text-capitalize font-weight-medium">{{ filter.label }}</span>
+                          </v-chip>
+                          <v-icon 
+                            v-if="selectedFilter === filter.value" 
+                            icon="mdi-check-circle" 
+                            color="success" 
+                            size="20"
+                          ></v-icon>
+                        </div>
+                      </template>
+                    </v-list-item>
+                    <v-divider class="my-2"></v-divider>
+                    <v-list-item class="filter-item rounded-lg" @click="clearFilter">
+                      <template v-slot:default>
+                        <div class="d-flex align-center">
+                          <v-icon icon="mdi-close-circle-outline" size="18" class="mr-2 text-grey"></v-icon>
+                          <span class="text-body-2 text-grey-darken-2">Clear Filter</span>
+                        </div>
+                      </template>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </v-btn>
             </v-col>
         </v-row>
 
@@ -125,7 +165,9 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
-const router = useRouter();
+
+const selectedFilter = ref(null);
+const selectedFilterLabel = ref(null);
 
 const showPreview = ref(false);
 const selectedMicrosite = ref(null);
@@ -180,6 +222,41 @@ const microsites = ref([
         date: '24 NOV 2025',
     },
 ]);
+
+const filterOptions = ref([
+  {
+    label: 'Active',
+    value: 'active',
+    color: 'green-lighten-4 text-green-darken-4',
+    icon: 'mdi-check-circle'
+  },
+  {
+    label: 'Rejected',
+    value: 'rejected',
+    color: 'red-lighten-4 text-red-darken-4',
+    icon: 'mdi-close-circle'
+  },
+  {
+    label: 'Pending',
+    value: 'pending',
+    color: 'orange-lighten-4 text-orange-darken-4',
+    icon: 'mdi-clock-outline'
+  }
+]);
+
+const selectFilter = (value) => {
+  selectedFilter.value = value;
+  const filter = filterOptions.value.find(f => f.value === value);
+  selectedFilterLabel.value = filter ? filter.label : null;
+  // Add your filter logic here
+  console.log('Filter selected:', value);
+};
+
+const clearFilter = () => {
+  selectedFilter.value = null;
+  selectedFilterLabel.value = null;
+};
+
 </script>
 
 <style scoped></style>

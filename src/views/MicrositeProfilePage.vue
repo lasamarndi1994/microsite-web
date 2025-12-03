@@ -40,12 +40,12 @@
                 <!-- Profile Header -->
                 <div class="d-flex flex-column flex-md-row align-start align-md-center mb-8">
                     <v-avatar size="100" class="mr-6 mb-4 mb-md-0">
-                        <v-img src="https://cdn.vuetifyjs.com/images/john.jpg" cover></v-img>
+                        <v-img src="https://lh3.googleusercontent.com/a/ACg8ocL47Ufo56JpLHtUzse6nZg_MremwJGvscCRSfEI0X102sUSdsaK=s432-c-no" cover></v-img>
                     </v-avatar>
                     <div>
-                        <h1 class="text-h5 font-weight-bold mb-1">Arjun Mehta</h1>
+                        <h1 class="text-h5 font-weight-bold mb-1">Lasa Marndi</h1>
                         <div class="text-body-1 text-grey-darken-2">
-                            Mehta Creative Studio <span class="mx-2">|</span> Bengaluru, India
+                            ABCD Comapany <span class="mx-2">|</span> Bengaluru, India
                         </div>
                     </div>
                     <v-spacer></v-spacer>

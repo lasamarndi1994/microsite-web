@@ -58,7 +58,7 @@
                     <h2 class="fs-18 font-weight-bold mb-4">Analytics</h2>
                     <v-row class="mb-8">
                         <v-col cols="12" md="4">
-                            <v-card flat border class="pa-4 rounded-lg">
+                            <v-card flat border class="pa-4 rounded-lg card-hover">
                                 <div class="d-flex align-center">
                                     <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
                                         <img src="@/assets/images/Frame12.svg" alt="Visitors" width="44" height="44" />
@@ -76,7 +76,7 @@
                         </v-col>
 
                         <v-col cols="12" md="4">
-                            <v-card flat border class="pa-4 rounded-lg">
+                            <v-card flat border class="pa-4 rounded-lg card-hover">
                                 <div class="d-flex align-center">
                                     <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
                                         <img src="@/assets/images/Frame54.svg" alt="Engagement" width="44"
@@ -95,7 +95,7 @@
                         </v-col>
 
                         <v-col cols="12" md="4">
-                            <v-card flat border class="pa-4 rounded-lg">
+                            <v-card flat border class="pa-4 rounded-lg card-hover">
                                 <div class="d-flex align-center">
                                     <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
                                         <img src="@/assets/images/Frame54(1).svg" alt="Conversions" width="44"
@@ -307,7 +307,9 @@ import PendingMicrosite from "@/views/MicrositeListPage.vue";
 
 
 const router = useRouter();
-const activeTab = ref('my-microsites')
+const activeTab = ref('my-microsites');
+const selectedFilter = ref(null);
+const selectedFilterLabel = ref(null);
 
 const createMicrosite = () => {
     router.push("/create-microsite");
@@ -316,16 +318,20 @@ const createMicrosite = () => {
 const DraftMicrosite = () => {
     router.push("/drafts-microsite");
 };
+
+
 </script>
 
 <style scoped>
 /* Card Hover Transitions */
-.v-card,
+.card-hover,
+.microsite-card,
 .card {
     transition: all 0.3s ease-in-out !important;
 }
 
-.v-card:hover,
+.card-hover:hover,
+.microsite-card:hover,
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;

@@ -13,6 +13,11 @@ const routes = [
     component: () => import('@/views/auth/OtpPage.vue'),
   },
   {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: () => import('@/views/DashboardPage.vue'),
+  },
+  {
     path: '/dashboard2',
     name: 'Dashboard2',
     component: () => import('@/views/Dashboard2Page.vue'),
@@ -33,9 +38,19 @@ const routes = [
     component: () => import('@/views/MicrositeProfilePage.vue'),
   },
   {
-    path: '/drafts-microsite',
-    name: 'DraftsMicrosite',
-    component: () => import('@/views/DraftsPage.vue'),
+    path: '/admin/dashboard',
+    name: 'AdminDashboard',
+    component: () => import('@/views/admin/AdminDashboard.vue'),
+  },
+  {
+    path: '/admin/partner-details',
+    name: 'PartnerDetails',
+    component: () => import('@/views/admin/PartnerDetails.vue'),
+  },
+  {
+    path: '/admin/microsite-review',
+    name: 'MicrositeReview',
+    component: () => import('@/views/admin/MicrositeReview.vue'),
   },
   {
     path: '/:pathMatch(.*)*',

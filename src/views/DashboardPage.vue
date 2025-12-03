@@ -43,7 +43,7 @@
                             <v-card flat border class="pa-4 rounded-lg">
                                 <div class="d-flex align-center">
                                     <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
-                                        <img src="@/assets/images/Frame 12.svg" alt="Visitors" width="44" height="44" />
+                                        <img src="@/assets/images/Frame12.svg" alt="Visitors" width="44" height="44" />
                                     </v-avatar>
                                     <div>
                                         <div class="fs-11 text-grey">Visitors</div>
@@ -61,7 +61,7 @@
                             <v-card flat border class="pa-4 rounded-lg">
                                 <div class="d-flex align-center">
                                     <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
-                                        <img src="@/assets/images/Frame 54.svg" alt="Engagement" width="44" height="44" />
+                                        <img src="@/assets/images/Frame54.svg" alt="Engagement" width="44" height="44" />
                                     </v-avatar>
                                     <div>
                                         <div class="fs-11 text-grey">Engagement</div>
@@ -79,7 +79,7 @@
                             <v-card flat border class="pa-4 rounded-lg">
                                 <div class="d-flex align-center">
                                     <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
-                                        <img src="@/assets/images/Frame 54 (1).svg" alt="Conversions" width="44" height="44" />
+                                        <img src="@/assets/images/Frame54(1).svg" alt="Conversions" width="44" height="44" />
                                     </v-avatar>
                                     <div>
                                         <div class="fs-11 text-grey">Conversions</div>
