@@ -37,6 +37,11 @@ const routes = [
     name: 'MicrositeProfile',
     component: () => import('@/views/MicrositeProfilePage.vue'),
   },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'NotFound',
+    component: () => import('@/views/NotFoundPage.vue'),
+  },
 
 ];
 
