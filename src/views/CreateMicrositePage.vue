@@ -5,12 +5,10 @@
             <v-container class="py-8">
                 <v-card flat class="card-padding rounded-xl" min-height="80vh">
 
-                    <v-row class="mb-6" align="center">
-                        <v-col cols="12" md="6">
-                            <h1 class="fs-24 font-weight-bold text-grey-darken-3">Create your microsite profile</h1>
-                        </v-col>
-                       
-                    </v-row>
+                    <div class="d-flex align-center justify-space-between mb-6">
+                        <h1 class="fs-24 font-weight-bold text-grey-darken-3">Create your microsite profile</h1>
+                        <v-btn variant="text" icon="mdi-arrow-left" color="grey-darken-2" @click="goBack"></v-btn>
+                    </div>
 
                     <!-- Media Section -->
                     <div class="mb-8">
@@ -242,6 +240,10 @@ const socialPlatforms = ref([
 ])
 
 const selectedSocial = ref(socialPlatforms.value[0])
+
+const goBack = () => {
+    router.back()
+}
 </script>
 
 <style scoped>

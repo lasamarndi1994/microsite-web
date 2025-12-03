@@ -335,6 +335,7 @@ const DraftMicrosite = () => {
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+    border-color: #7f56da !important;
 }
 
 
