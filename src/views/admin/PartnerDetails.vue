@@ -201,15 +201,15 @@
                     </v-chip>
                   </td>
                   <td class="text-right">
-                    <v-btn 
-                      variant="flat" 
-                      color="secondary-color" 
-                      class="text-capitalize text-white px-6" 
-                      height="36"
-                      @click="reviewMicrosite(item)"
-                    >
-                      Review
-                    </v-btn>
+                    <v-btn
+                      icon="mdi-eye-outline"
+                      variant="text"
+                      color="grey-darken-2"
+                      class="mr-2"
+                      size="large"
+                        @click="reviewMicrosite(item)"
+                    ></v-btn>
+                    
                   </td>
                 </tr>
               </tbody>
