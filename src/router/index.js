@@ -13,11 +13,6 @@ const routes = [
     component: () => import('@/views/auth/OtpPage.vue'),
   },
   {
-    path: '/dashboard',
-    name: 'Dashboard',
-    component: () => import('@/views/DashboardPage.vue'),
-  },
-  {
     path: '/dashboard2',
     name: 'Dashboard2',
     component: () => import('@/views/Dashboard2Page.vue'),
@@ -36,6 +31,11 @@ const routes = [
     path: '/microsite-profile',
     name: 'MicrositeProfile',
     component: () => import('@/views/MicrositeProfilePage.vue'),
+  },
+  {
+    path: '/drafts-microsite',
+    name: 'DraftsMicrosite',
+    component: () => import('@/views/DraftsPage.vue'),
   },
   {
     path: '/:pathMatch(.*)*',

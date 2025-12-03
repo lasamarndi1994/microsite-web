@@ -139,7 +139,6 @@
 
 <script setup>
 import AppBar from '@/components/AppBar.vue'
-// No script logic needed for this static view yet
 </script>
 
 <style scoped>
@@ -151,10 +150,8 @@ import AppBar from '@/components/AppBar.vue'
     gap: 16px;
 }
 
-
-
 .social-icon {
-    font-size: 40px;
+    font-size: 30px;
 }
 
 a {

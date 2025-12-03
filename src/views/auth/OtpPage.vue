@@ -10,7 +10,7 @@
 
           <p class="text-start fs-16 mb-2 responsive-body">Enter OTP</p>
 
-          <v-otp-input v-model="otp" length="6" class="otp-responsive" :error="!!otpError" />
+          <v-otp-input v-model="otp" length="6" class="otp-responsive" :error="!!otpError" maxWidth="100%"/>
           <div class="error-container">
             <div v-if="otpError" class="text-error text-caption">{{ otpError }}</div>
           </div>
@@ -19,22 +19,11 @@
             <span class="text-body-2 text-secondary-color font-weight-medium mr-2">
               Resend OTP : {{ timer }}s
             </span>
-            <v-icon 
-              icon="mdi-refresh" 
-              size="small" 
-              color="secondary"
-              class="cursor-pointer"
-              :class="{ 'spin-animation': !canResend }"
-              @click="handleResendOtp"
-              :disabled="!canResend"
-            ></v-icon>
+            <v-icon icon="mdi-refresh" size="small" color="secondary" class="cursor-pointer"
+              :class="{ 'spin-animation': !canResend }" @click="handleResendOtp" :disabled="!canResend"></v-icon>
           </div>
 
-          <VueButton
-            title="Verify OTP"
-            classStyle="w-100"
-            type="submit"
-          />
+          <VueButton title="Verify OTP" classStyle="w-100" type="submit" />
 
           <p class="fs-16 mt-3 text-center responsive-body">Enter the OTP sent to your email to continue.</p>
         </form>
@@ -87,7 +76,7 @@ const validateOtp = (value) => {
 const handleVerifyOtp = () => {
   const otpString = Array.isArray(otp.value) ? otp.value.join('') : otp.value;
   const validation = validateOtp(otpString);
-  
+
   if (validation === true) {
     otpError.value = "";
     router.push("/dashboard2");
