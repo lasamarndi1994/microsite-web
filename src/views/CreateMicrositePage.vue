@@ -7,7 +7,10 @@
 
                     <div class="d-flex align-center justify-space-between mb-6">
                         <h1 class="fs-24 font-weight-bold text-grey-darken-3">Create your microsite profile</h1>
-                        <v-btn variant="text" icon="mdi-arrow-left" color="grey-darken-2" @click="goBack"></v-btn>
+                        <v-btn variant="text" color="grey-darken-2" icon @click="goBack">
+                            <v-icon>mdi-arrow-left</v-icon>
+                            <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
+                        </v-btn>
                     </div>
 
                     <!-- Media Section -->

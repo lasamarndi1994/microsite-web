@@ -135,157 +135,32 @@
 
                     <!-- Microsites Grid -->
                     <v-row v-if="activeTab === 'my-microsites'">
-                        <!-- Product Launch Card -->
-                        <v-col cols="12" md="4">
-                            <v-card flat border class="rounded-lg overflow-hidden microsite-card" height="100%">
-                                <v-img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=500"
-                                    height="200" cover class="bg-grey-lighten-2">
+                        <v-col cols="12" md="4" v-for="(site, index) in microsites" :key="index">
+                            <v-card flat border class="rounded-lg overflow-hidden microsite-card cursor-pointer" height="100%" @click="navigateToProfile">
+                                <v-img :src="site.image" height="200" cover :class="site.bgColor">
+                                    <div class="d-flex justify-end pa-2">
+                                        <v-chip
+                                            :color="getStatusColor(site.status)"
+                                            class="text-uppercase font-weight-bold text-white"
+                                            size="small"
+                                            label
+                                            variant="flat"
+                                            elevation="2"
+                                            style="border: 1px solid white;"
+                                        >
+                                            {{ site.status }}
+                                        </v-chip>
+                                    </div>
 
+                                   
                                 </v-img>
                                 <v-card-text class="pa-4">
                                     <div class="d-flex align-center justify-space-between">
-                                        <h3 class="fs-22 font-weight-bold">Product Launch</h3>
-                                        <v-icon class="font-weight-bold">mdi-arrow-top-right</v-icon>
+                                        <h3 class="fs-22 font-weight-bold hover-text-primary transition-colors">{{ site.title }}</h3>
+                                        <v-icon :class="{ 'font-weight-bold': index === 0 }" class="hover-text-primary transition-colors">mdi-arrow-top-right</v-icon>
                                     </div>
                                     <p class="text-caption text-grey-darken-1 mt-2 mb-0 fs-14 font-weight-medium">
-                                        Introduce your latest products with clarity and impact. This section highlights
-                                        key features, value
-                                        propositions, and benefits to ensure your audience understands the importance
-                                        and uniqueness of the
-                                        new offering.
-                                    </p>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-
-                        <!-- Event Hub Card -->
-                        <v-col cols="12" md="4">
-                            <v-card flat border class="rounded-lg overflow-hidden microsite-card" height="100%">
-                                <v-img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500"
-                                    height="200" cover class="bg-deep-purple-lighten-4">
-
-                                </v-img>
-                                <v-card-text class="pa-4">
-                                    <div class="d-flex align-center justify-space-between">
-                                        <h3 class="fs-22 font-weight-bold">Event Hub</h3>
-                                        <v-icon>mdi-arrow-top-right</v-icon>
-                                    </div>
-                                    <p class="text-caption text-grey-darken-1 mt-2 mb-0 fs-14 font-weight-medium">
-                                        A centralized space to explore, manage, and engage with all events. From
-                                        upcoming sessions to past
-                                        highlights, this hub provides users with easy access to event details,
-                                        registrations, and real-time
-                                        updates.
-                                    </p>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-
-                        <!-- Portfolio Card -->
-                        <v-col cols="12" md="4">
-                            <v-card flat border class="rounded-lg overflow-hidden microsite-card" height="100%">
-                                <v-img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500"
-                                    height="200" cover class="bg-grey-lighten-2">
-
-                                </v-img>
-                                <v-card-text class="pa-4">
-                                    <div class="d-flex align-center justify-space-between">
-                                        <h3 class="fs-22 font-weight-bold">Portfolio</h3>
-                                        <v-icon>mdi-arrow-top-right</v-icon>
-                                    </div>
-                                    <p class="text-caption text-grey-darken-1 mt-2 mb-0 fs-14 font-weight-medium">
-                                        Showcase and track the complete range of your assets in one place. This section
-                                        provides clear
-                                        insights, performance analytics, and organized summaries to help users
-                                        understand and manage their
-                                        portfolio effectively.
-                                    </p>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-
-                        <!-- Second Row -->
-                        <!-- Headline Card -->
-                        <v-col cols="12" md="4">
-                            <v-card flat border class="rounded-lg overflow-hidden microsite-card" height="100%">
-                                <v-img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500"
-                                    height="200" cover class="bg-purple-lighten-4">
-
-                                </v-img>
-                                <v-card-text class="pa-4">
-                                    <div class="d-flex align-center justify-space-between">
-                                        <h3 class="fs-22 font-weight-bold">Campaign Landing</h3>
-                                        <v-icon>mdi-arrow-top-right</v-icon>
-                                    </div>
-                                    <p class="text-caption text-grey-darken-1 mt-2 mb-0 fs-14 font-weight-medium">
-                                        Drive focused engagement through tailored campaign pages. Present key messaging,
-                                        calls to action,
-                                        and targeted content that guide users toward meaningful interactions and
-                                        campaign goals.
-                                    </p>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-
-                        <!-- Creative Journey Card -->
-                        <v-col cols="12" md="4">
-                            <v-card flat border class="rounded-lg overflow-hidden microsite-card" height="100%">
-                                <v-img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=500"
-                                    height="200" cover class="bg-grey-lighten-2">
-                                    <div class="card-overlay pa-6 d-flex align-center justify-center">
-                                        <div>
-                                            <h3 class="text-h6 font-weight-bold text-grey-darken-3 text-center mb-4">
-                                                CREATIVE<br />JOURNEY
-                                            </h3>
-                                            <div class="d-flex justify-center gap-2">
-                                                <v-btn icon size="small" variant="tonal" color="grey-darken-3">
-                                                    <v-icon>mdi-chevron-left</v-icon>
-                                                </v-btn>
-                                                <v-btn icon size="small" variant="tonal" color="grey-darken-3">
-                                                    <v-icon>mdi-chevron-right</v-icon>
-                                                </v-btn>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </v-img>
-                                <v-card-text class="pa-4">
-                                    <div class="d-flex align-center justify-space-between">
-                                        <h3 class="fs-22 font-weight-bold">Portfolio Showcase</h3>
-                                        <v-icon>mdi-arrow-top-right</v-icon>
-                                    </div>
-                                    <p class="text-caption text-grey-darken-1 mt-2 mb-0 fs-14 font-weight-medium">
-                                        Interactive portfolio display with navigation controls. Showcase your creative
-                                        work with an engaging
-                                        carousel interface that highlights your best projects.
-                                    </p>
-                                </v-card-text>
-                            </v-card>
-                        </v-col>
-
-                        <!-- Event Series Card -->
-                        <v-col cols="12" md="4">
-                            <v-card flat border class="rounded-lg overflow-hidden microsite-card" height="100%">
-                                <v-img src="https://images.unsplash.com/photo-1557804506-669a67965ba0?w=500"
-                                    height="200" cover class="bg-deep-purple-lighten-4">
-                                    <div class="card-overlay pa-6">
-                                        <h3 class="text-h6 font-weight-bold text-grey-darken-3 mb-2">Innovate &
-                                            Connect:<br />Event Series
-                                        </h3>
-                                        <v-btn size="small" variant="tonal" color="deep-purple"
-                                            class="text-capitalize mt-2">
-                                            Explore Events
-                                        </v-btn>
-                                    </div>
-                                </v-img>
-                                <v-card-text class="pa-4">
-                                    <div class="d-flex align-center justify-space-between">
-                                        <h3 class="fs-22 font-weight-bold">Event Management</h3>
-                                        <v-icon>mdi-arrow-top-right</v-icon>
-                                    </div>
-                                    <p class="text-caption text-grey-darken-1 mt-2 mb-0 fs-14 font-weight-medium">
-                                        Comprehensive event management platform. Organize, promote, and track your
-                                        events with powerful
-                                        tools designed for seamless event coordination and attendee engagement.
+                                        {{ site.description }}
                                     </p>
                                 </v-card-text>
                             </v-card>
@@ -319,6 +194,66 @@ const DraftMicrosite = () => {
     router.push("/drafts-microsite");
 };
 
+const navigateToProfile = () => {
+    router.push("/microsite-profile");
+};
+
+const microsites = [
+    {
+        title: 'Product Launch',
+        description: 'Introduce your latest products with clarity and impact. This section highlights key features, value propositions, and benefits to ensure your audience understands the importance and uniqueness of the new offering.',
+        image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=800&q=80',
+        bgColor: 'bg-grey-lighten-2',
+        status: 'Active'
+    },
+    {
+        title: 'Event Hub',
+        description: 'A centralized space to explore, manage, and engage with all events. From upcoming sessions to past highlights, this hub provides users with easy access to event details, registrations, and real-time updates.',
+        image: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800&q=80',
+        bgColor: 'bg-deep-purple-lighten-4',
+        status: 'Pending'
+    },
+    {
+        title: 'Portfolio',
+        description: 'Showcase and track the complete range of your assets in one place. This section provides clear insights, performance analytics, and organized summaries to help users understand and manage their portfolio effectively.',
+        image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=800&q=80',
+        bgColor: 'bg-grey-lighten-2',
+        status: 'Approved'
+    },
+    {
+        title: 'Campaign Landing',
+        description: 'Drive focused engagement through tailored campaign pages. Present key messaging, calls to action, and targeted content that guide users toward meaningful interactions and campaign goals.',
+        image: 'https://images.unsplash.com/photo-1557683316-973673baf926?w=800&q=80',
+        bgColor: 'bg-purple-lighten-4',
+        status: 'Active'
+    },
+    {
+        title: 'Portfolio Showcase',
+        description: 'Interactive portfolio display with navigation controls. Showcase your creative work with an engaging carousel interface that highlights your best projects.',
+        image: 'https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?w=800&q=80',
+        bgColor: 'bg-grey-lighten-2',
+        overlay: 'creative-journey',
+        status: 'Pending'
+    },
+    {
+        title: 'Event Management',
+        description: 'Comprehensive event management platform. Organize, promote, and track your events with powerful tools designed for seamless event coordination and attendee engagement.',
+        image: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&q=80',
+        bgColor: 'bg-deep-purple-lighten-4',
+        overlay: 'event-series',
+        status: 'Approved'
+    }
+];
+
+const getStatusColor = (status) => {
+    switch (status) {
+        case 'Active': return 'success';
+        case 'Pending': return 'warning';
+        case 'Approved': return 'info';
+        default: return 'grey';
+    }
+};
+
 
 </script>
 
@@ -336,6 +271,14 @@ const DraftMicrosite = () => {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
     border-color: #7f56da !important;
+}
+
+.transition-colors {
+    transition: color 0.3s ease-in-out;
+}
+
+.microsite-card:hover .hover-text-primary {
+    color: #7f56da !important;
 }
 
 

@@ -16,10 +16,13 @@
               </div>
               <v-btn 
                 variant="text" 
-                icon="mdi-arrow-left" 
                 color="grey-darken-2"
+                icon
                 @click="goBack"
-              ></v-btn>
+              >
+                <v-icon>mdi-arrow-left</v-icon>
+                <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
+              </v-btn>
             </div>
           </div>
 
