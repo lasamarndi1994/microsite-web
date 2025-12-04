@@ -8,11 +8,13 @@
                     class="align-center">
                     <div class="d-flex fill-height align-center justify-center">
                         <div class="text-center text-white px-4" style="max-width: 800px;">
-                            <h2 class="font-weight-regular mb-2" style="line-height: 1.4;" :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
+                            <h2 class="font-weight-regular mb-2" style="line-height: 1.4;"
+                                :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
                                 A passionate digital creator helping brands grow through web development, design, and
                                 strategic digital marketing.
                             </h2>
-                            <p class="font-weight-light" :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
+                            <p class="font-weight-light"
+                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
                                 With 6+ years of experience, I build modern, conversion-focused digital experiences
                             </p>
                         </div>
@@ -24,11 +26,13 @@
                     <div class="position-absolute top-0 left-0 w-100 h-100 d-flex align-center justify-center"
                         style="z-index: 1;">
                         <div class="text-center text-white px-4" style="max-width: 800px;">
-                            <h2 class="font-weight-medium mb-2" style="line-height: 1.4;" :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
+                            <h2 class="font-weight-medium mb-2" style="line-height: 1.4;"
+                                :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
                                 A passionate digital creator helping brands grow through web development, design, and
                                 strategic digital marketing.
                             </h2>
-                            <p class="font-weight-regular" :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
+                            <p class="font-weight-regular"
+                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
                                 With 6+ years of experience, I build modern, conversion-focused digital experiences
                             </p>
                         </div>
@@ -54,29 +58,33 @@
 
                             <!-- Name & Info Section -->
                             <div class="text-center mb-6">
-                                <h1 class="profile-name font-weight-bold mb-3" :class="$vuetify.display.smAndDown ? 'text-h5' : 'text-h4'">Lasa Marndi</h1>
-                                <div class="profile-info d-flex flex-column flex-sm-row align-center justify-center gap-2">
+                                <h1 class="profile-name font-weight-bold mb-3"
+                                    :class="$vuetify.display.smAndDown ? 'text-h5' : 'text-h4'">Lasa Marndi</h1>
+                                <div
+                                    class="profile-info d-flex flex-column flex-sm-row align-center justify-center gap-2">
                                     <div class="d-flex align-center">
-                                        <v-icon size="20" color="deep-purple-accent-2" class="mr-2">mdi-office-building</v-icon>
-                                        <span class="text-grey-darken-2" :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">ABCD Company</span>
+                                        <v-icon size="20" color="deep-purple-accent-2"
+                                            class="mr-2">mdi-office-building</v-icon>
+                                        <span class="text-grey-darken-2"
+                                            :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">ABCD
+                                            Company</span>
                                     </div>
                                     <span class="d-none d-sm-inline text-grey-lighten-1 mx-2">•</span>
                                     <div class="d-flex align-center">
-                                        <v-icon size="20" color="deep-purple-accent-2" class="mr-2">mdi-map-marker</v-icon>
-                                        <span class="text-grey-darken-2" :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">Bengaluru, India</span>
+                                        <v-icon size="20" color="deep-purple-accent-2"
+                                            class="mr-2">mdi-map-marker</v-icon>
+                                        <span class="text-grey-darken-2"
+                                            :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">Bengaluru,
+                                            India</span>
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Action Button -->
                             <div class="text-center">
-                                <v-btn 
-                                    color="deep-purple-accent-2" 
-                                    class="join-btn text-capitalize text-white px-8 elevation-4"
-                                    height="50" 
-                                    rounded="pill"
-                                    flat 
-                                    @click="showJoinDialog = true">
+                                <v-btn color="deep-purple-accent-2"
+                                    class="join-btn text-capitalize text-white px-8 elevation-4" height="50"
+                                    rounded="pill" flat @click="showJoinDialog = true">
                                     <template v-slot:prepend>
                                         <v-icon size="24">mdi-handshake-outline</v-icon>
                                     </template>
@@ -90,7 +98,8 @@
                 <!-- About Section -->
                 <div class="mb-8">
                     <h2 class="text-h6 font-weight-bold mb-4">About</h2>
-                    <div class="border rounded-lg pa-6 text-grey-darken-3" :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
+                    <div class="border rounded-lg pa-6 text-grey-darken-3"
+                        :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
                         A passionate digital creator helping brands grow through web development, design, and strategic
                         digital marketing. With 6+ years of experience, I build modern, conversion-focused digital
                         experiences.
@@ -189,9 +198,7 @@
                     </v-img>
                     <div class="position-absolute" style="bottom: -40px; left: 24px;">
                         <v-avatar size="80" class="border-2 border-white">
-                            <v-img
-                                src="https://randomuser.me/api/portraits/men/3.jpg"
-                                cover></v-img>
+                            <v-img src="https://randomuser.me/api/portraits/men/3.jpg" cover></v-img>
                         </v-avatar>
                     </div>
                 </div>
@@ -302,6 +309,7 @@ a {
         opacity: 0;
         transform: scale(0.8);
     }
+
     to {
         opacity: 1;
         transform: scale(1);
@@ -337,10 +345,13 @@ a {
 }
 
 @keyframes ringPulse {
-    0%, 100% {
+
+    0%,
+    100% {
         opacity: 0;
         transform: scale(1);
     }
+
     50% {
         opacity: 0.6;
         transform: scale(1.1);
@@ -361,6 +372,7 @@ a {
         opacity: 0;
         transform: translateY(20px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);
@@ -448,4 +460,3 @@ a {
     -webkit-tap-highlight-color: transparent;
 }
 </style>
-

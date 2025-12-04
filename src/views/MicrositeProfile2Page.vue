@@ -40,7 +40,7 @@
                 <!-- Profile Header -->
                 <div class="d-flex flex-column flex-md-row align-center align-md-start mb-8 profile-header">
                     <v-avatar size="100" class="mb-4 mb-md-0 mx-0 mx-md-6 mr-md-6 ml-md-0">
-                        <v-img src="https://lh3.googleusercontent.com/a/ACg8ocL47Ufo56JpLHtUzse6nZg_MremwJGvscCRSfEI0X102sUSdsaK=s432-c-no" cover></v-img>
+                        <v-img src="https://randomuser.me/api/portraits/men/3.jpg" cover></v-img>
                     </v-avatar>
                     <div class="text-center text-md-start">
                         <h1 class="text-h5 font-weight-bold mb-1">Lasa Marndi</h1>
@@ -49,8 +49,8 @@
                         </div>
                     </div>
                     <v-spacer class="d-none d-md-block"></v-spacer>
-                    <v-btn color="deep-purple-accent-2" class="text-capitalize text-white px-6 mt-4 mt-md-0"
-                        height="44" flat @click="showJoinDialog = true">
+                    <v-btn color="deep-purple-accent-2" class="text-capitalize text-white px-6 mt-4 mt-md-0" height="44"
+                        flat @click="showJoinDialog = true">
                         <template v-slot:prepend>
                             <v-icon size="28">mdi-handshake-outline</v-icon>
                         </template>
@@ -152,9 +152,7 @@
                     </v-img>
                     <div class="position-absolute" style="bottom: -40px; left: 24px;">
                         <v-avatar size="80" class="border-2 border-white">
-                            <v-img
-                                src="https://lh3.googleusercontent.com/a/ACg8ocL47Ufo56JpLHtUzse6nZg_MremwJGvscCRSfEI0X102sUSdsaK=s432-c-no"
-                                cover></v-img>
+                            <v-img src="https://randomuser.me/api/portraits/men/3.jpg" cover></v-img>
                         </v-avatar>
                     </div>
                 </div>
