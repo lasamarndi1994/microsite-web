@@ -18,16 +18,6 @@ const routes = [
     component: () => import('@/views/DashboardPage.vue'),
   },
   {
-    path: '/dashboard2',
-    name: 'Dashboard2',
-    component: () => import('@/views/Dashboard2Page.vue'),
-  },
-  // {
-  //   path: '/microsites',
-  //   name: 'Microsites',
-  //   component: () => import('@/views/MicrositeListPage.vue'),
-  // },
-  {
     path: '/create-microsite',
     name: 'CreateMicrosite',
     component: () => import('@/views/CreateMicrositePage.vue'),

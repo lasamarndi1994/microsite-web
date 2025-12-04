@@ -4,8 +4,8 @@
 
 :root {
 
-  --primary-color: #385688;
-  --secondary-color: #7f56da;
+  --primary-color: #7f56da;
+  --secondary-color: #385688;
   --tertiary-color: #FF3636;
   --tertiary-opacity: #ff3636b0;
   --success: #45823D;
@@ -29,11 +29,11 @@ body {
 }
 
 .text-primary-color {
-  color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .text-secondary-color {
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .text-tertiary-color {
@@ -61,7 +61,7 @@ body {
 }
 
 .bg-primary-color {
-  background: var(--primary-color);
+  background: var(--secondary-color);
 }
 
 .bg-tertiary-color {
@@ -102,6 +102,10 @@ body {
 
 .fw-medium {
   font-weight: 550;
+}
+
+.fs-8 {
+  font-size: 8px !important;
 }
 
 .fs-10 {
@@ -165,11 +169,11 @@ body {
 }
 
 .btn-primary {
-  background: var(--primary-color);
+  background: var(--secondary-color);
 }
 
 .btn-secondary {
-  background: var(--secondary-color);
+  background: var(--primary-color);
 }
 
 .btn-primary:hover {
@@ -178,13 +182,13 @@ body {
 
 .btn-outline-primary {
   background: var(--text-light);
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
 }
 
 .btn-outline-primary:hover {
-  background: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  background: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
   color: var(--text-light);
 }
 
@@ -201,7 +205,7 @@ body {
 }
 
 .btn-empty:hover {
-  background: var(--primary-color);
+  background: var(--secondary-color);
   color: var(--text-light);
 }
 
@@ -248,11 +252,11 @@ body {
 
 
 .vertical-left-primary {
-  border-left: 2.9px solid var(--primary-color);
+  border-left: 2.9px solid var(--secondary-color);
 }
 
 .btn-primary:disabled {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
 }
 
 .btn-upload {
@@ -359,11 +363,11 @@ body {
 }
 
 .btn-primary {
-  background: var(--primary-color);
+  background: var(--secondary-color);
 }
 
 .btn-secondary {
-  background: var(--secondary-color);
+  background: var(--primary-color);
 }
 
 .btn-primary:hover {
@@ -372,13 +376,13 @@ body {
 
 .btn-outline-primary {
   background: var(--text-light);
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
+  border: 1px solid var(--secondary-color);
+  color: var(--secondary-color);
 }
 
 .btn-outline-primary:hover {
-  background: var(--primary-color);
-  border: 1px solid var(--primary-color);
+  background: var(--secondary-color);
+  border: 1px solid var(--secondary-color);
   color: var(--text-light);
 }
 
@@ -395,7 +399,7 @@ body {
 }
 
 .btn-empty:hover {
-  background: var(--primary-color);
+  background: var(--secondary-color);
   color: var(--text-light);
 }
 
@@ -442,11 +446,11 @@ body {
 
 
 .vertical-left-primary {
-  border-left: 2.9px solid var(--primary-color);
+  border-left: 2.9px solid var(--secondary-color);
 }
 
 .btn-primary:disabled {
-  background-color: var(--primary-color);
+  background-color: var(--secondary-color);
 }
 
 .btn-upload {
@@ -474,10 +478,15 @@ body {
   z-index: -1;
 
   &.left {
-    max-width: 365px;
+    max-width: 335px;
     max-height: 290px;
-    left: 10%;
-    top: 62%;
+    left: 1%;
+    top: 65%;
+
+    @media (max-width: 1600px) {
+      max-width: 290px;
+      top: 69%;
+    }
   }
 
   &.right {
@@ -515,7 +524,7 @@ body {
 }
 
 .shadow-card {
-  box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 4px 20px 0 #0000000d !important;
 }
 
 .dashed-border {
@@ -539,19 +548,19 @@ body {
 .v-field--focused {
   .v-field__outline {
     --v-field-border-width: 2px;
-    color: var(--secondary-color) !important;
+    color: var(--primary-color) !important;
   }
 }
 
 .v-text-field--focused {
   .v-field__outline {
-    color: var(--secondary-color) !important;
+    color: var(--primary-color) !important;
   }
 }
 
 .v-textarea--focused {
   .v-field__outline {
-    color: var(--secondary-color) !important;
+    color: var(--primary-color) !important;
   }
 }
 
@@ -559,7 +568,7 @@ body {
 // OTP Input Focus
 .v-otp-input--focused {
   .v-field__outline {
-    color: var(--secondary-color) !important;
+    color: var(--primary-color) !important;
   }
 }
 
@@ -569,7 +578,7 @@ body {
   .v-field__outline__start,
   .v-field__outline__end,
   .v-field__outline__notch {
-    border-color: var(--secondary-color) !important;
+    border-color: var(--primary-color) !important;
   }
 }
 
@@ -584,5 +593,5 @@ body {
 .v-btn:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px #0000001a;
-  border-color: #7f56da !important;
+  border-color: var(--primary-color) !important;
 }

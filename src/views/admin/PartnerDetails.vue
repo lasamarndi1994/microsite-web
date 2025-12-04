@@ -8,17 +8,12 @@
           <div class="mb-8">
             <div class="d-flex align-center justify-space-between mb-1">
               <div>
-                <h1 class="fs-24 font-weight-bold text-grey-darken-3 mb-1">Partner Details</h1>
-                <p class="text-subtitle-1 text-grey-darken-1">
+                <h1 class="font-weight-bold text-grey-darken-3 mb-1" :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Partner Details</h1>
+                <p class="text-grey-darken-1" :class="$vuetify.display.smAndDown ? 'text-subtitle-2' : 'text-subtitle-1'">
                   Essential partner information and microsite submissions
                 </p>
               </div>
-              <v-btn 
-                variant="text" 
-                color="grey-darken-2"
-                icon
-                @click="goBack"
-              >
+              <v-btn variant="text" color="grey-darken-2" icon @click="goBack">
                 <v-icon>mdi-arrow-left</v-icon>
                 <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
               </v-btn>
@@ -27,15 +22,15 @@
 
           <!-- Partner Info Card -->
           <v-card flat class="bg-purple-lighten-5 mb-8 rounded-lg pa-6">
-            <div class="d-flex align-center justify-space-between">
-              <div class="d-flex align-center">
-                <v-avatar size="80" class="mr-6">
+            <div class="d-flex flex-column flex-sm-row align-center justify-space-between ga-4">
+              <div class="d-flex flex-column flex-sm-row align-center ga-4 w-100">
+                <v-avatar size="80" class="flex-shrink-0">
                   <v-img :src="partnerInfo.avatar" cover></v-img>
                 </v-avatar>
-                <div>
+                <div class="text-center text-sm-left">
                   <div class="text-h5 font-weight-bold text-grey-darken-3 mb-1">{{ partnerInfo.name }}</div>
                   <div class="text-body-1 text-grey-darken-2 mb-2">{{ partnerInfo.company }}</div>
-                  <div class="d-flex align-center gap-4">
+                  <div class="d-flex flex-column flex-sm-row align-center ga-4">
                     <div class="d-flex align-center">
                       <v-icon icon="mdi-email-outline" size="18" class="mr-2 text-grey-darken-1"></v-icon>
                       <span class="text-body-2 text-grey-darken-2">{{ partnerInfo.email }}</span>
@@ -47,109 +42,35 @@
                   </div>
                 </div>
               </div>
-              <v-chip 
-                :color="getStatusColor(partnerInfo.status)" 
-                size="default" 
-                variant="flat" 
-                class="px-4"
-              >
+              <v-chip :color="getStatusColor(partnerInfo.status)" size="default" variant="flat" class="px-4 flex-shrink-0">
                 <span class="text-capitalize font-weight-medium">{{ partnerInfo.status }}</span>
               </v-chip>
             </div>
           </v-card>
 
-          <!-- Stats Cards -->
-          <!-- <v-row class="mb-8">
-            <v-col cols="12" md="4">
-              <v-card flat border class="pa-4 rounded-lg">
-                <div class="d-flex align-center justify-space-between">
-                  <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Total Microsites</div>
-                    <div class="text-h5 font-weight-bold text-grey-darken-3">{{ stats.totalMicrosites }}</div>
-                  </div>
-                  <v-avatar color="blue-lighten-5" size="48" rounded="lg">
-                    <v-icon icon="mdi-web" color="blue" size="24"></v-icon>
-                  </v-avatar>
-                </div>
-              </v-card>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-card flat border class="pa-4 rounded-lg">
-                <div class="d-flex align-center justify-space-between">
-                  <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Pending Review</div>
-                    <div class="text-h5 font-weight-bold text-grey-darken-3">{{ stats.pendingReview }}</div>
-                  </div>
-                  <v-avatar color="orange-lighten-5" size="48" rounded="lg">
-                    <v-icon icon="mdi-clock-outline" color="orange" size="24"></v-icon>
-                  </v-avatar>
-                </div>
-              </v-card>
-            </v-col>
-            <v-col cols="12" md="4">
-              <v-card flat border class="pa-4 rounded-lg">
-                <div class="d-flex align-center justify-space-between">
-                  <div>
-                    <div class="text-caption text-grey-darken-1 mb-1">Approved</div>
-                    <div class="text-h5 font-weight-bold text-grey-darken-3">{{ stats.approved }}</div>
-                  </div>
-                  <v-avatar color="green-lighten-5" size="48" rounded="lg">
-                    <v-icon icon="mdi-check-circle" color="green" size="24"></v-icon>
-                  </v-avatar>
-                </div>
-              </v-card>
-            </v-col>
-          </v-row> -->
-
           <!-- Filters Section -->
           <v-row class="mb-6" align="center">
             <v-col cols="12" md="6">
-              <v-text-field 
-                v-model="search" 
-                placeholder="Search microsites" 
-                prepend-inner-icon="mdi-magnify" 
-                variant="outlined"
-                density="comfortable" 
-                hide-details 
-                bg-color="white" 
-                class="rounded-lg"
-              ></v-text-field>
+              <v-text-field v-model="search" placeholder="Search microsites" prepend-inner-icon="mdi-magnify"
+                variant="outlined" density="comfortable" hide-details bg-color="white"
+                class="rounded-lg"></v-text-field>
             </v-col>
             <v-col cols="12" md="6" class="d-flex justify-end gap-4 align-center">
-              <v-btn 
-                variant="outlined" 
-                prepend-icon="mdi-filter-variant" 
-                class="text-capitalize" 
-                height="48"
-                color="grey-darken-3" style="border-color: #7f56da; color: #7f56da"
-              >
+              <v-btn variant="outlined" prepend-icon="mdi-filter-variant" class="text-capitalize" height="48"
+                color="grey-darken-3" style="border-color: #7f56da; color: #7f56da">
                 {{ selectedFilterLabel || 'Filters' }}
                 <v-menu activator="parent">
                   <v-list class="py-3 px-2" min-width="220">
-                    <v-list-item 
-                      v-for="(filter, index) in filterOptions" 
-                      :key="index" 
-                      :value="filter.value"
-                      class="mb-2 filter-item rounded-lg"
-                      @click="selectFilter(filter.value)"
-                    >
+                    <v-list-item v-for="(filter, index) in filterOptions" :key="index" :value="filter.value"
+                      class="mb-2 filter-item rounded-lg" @click="selectFilter(filter.value)">
                       <template v-slot:default>
                         <div class="d-flex align-center justify-space-between w-100">
-                          <v-chip 
-                            :color="filter.color" 
-                            size="small" 
-                            variant="flat" 
-                            class="px-3"
-                          >
+                          <v-chip :color="filter.color" size="small" variant="flat" class="px-3">
                             <v-icon :icon="filter.icon" size="16" class="mr-1"></v-icon>
                             <span class="text-capitalize font-weight-medium">{{ filter.label }}</span>
                           </v-chip>
-                          <v-icon 
-                            v-if="selectedFilter === filter.value" 
-                            icon="mdi-check-circle" 
-                            color="success" 
-                            size="20"
-                          ></v-icon>
+                          <v-icon v-if="selectedFilter === filter.value" icon="mdi-check-circle" color="success"
+                            size="20"></v-icon>
                         </div>
                       </template>
                     </v-list-item>
@@ -194,25 +115,13 @@
                   </td>
                   <td class="text-body-2 text-grey-darken-1">{{ item.lastUpdate }}</td>
                   <td>
-                    <v-chip 
-                      :color="getMicrositeStatusColor(item.status)" 
-                      size="small" 
-                      variant="flat" 
-                      class="px-2"
-                    >
+                    <v-chip :color="getMicrositeStatusColor(item.status)" size="small" variant="flat" class="px-2">
                       <span class="text-capitalize">{{ item.status }}</span>
                     </v-chip>
                   </td>
                   <td class="text-right">
-                    <v-btn
-                      icon="mdi-eye-outline"
-                      variant="text"
-                      color="grey-darken-2"
-                      class="mr-2"
-                      size="large"
-                        @click="reviewMicrosite(item)"
-                    ></v-btn>
-                    
+                    <v-btn class="btn-secondary text-white text-capitalize rounded-lg" height="34" flat
+                      @click="reviewMicrosite(item)">Review</v-btn>
                   </td>
                 </tr>
               </tbody>
@@ -220,36 +129,20 @@
 
             <!-- Pagination -->
             <div class="d-flex align-center justify-space-between px-6 py-4 border-t">
-              <v-btn 
-                variant="outlined" 
-                color="grey-darken-1" 
-                class="text-capitalize px-6"
-                prepend-icon="mdi-arrow-left"
-              >
+              <v-btn variant="outlined" color="grey-darken-1" class="text-capitalize px-6"
+                prepend-icon="mdi-arrow-left">
                 Previous
               </v-btn>
 
               <div class="d-flex align-center gap-2">
-                <v-btn 
-                  v-for="n in 3" 
-                  :key="n" 
-                  variant="text" 
-                  :color="n === 1 ? 'secondary-color' : 'grey-darken-1'"
-                  :class="{ 'bg-purple-lighten-5': n === 1 }" 
-                  class="min-width-40 px-0" 
-                  height="40" 
-                  width="40"
-                >
+                <v-btn v-for="n in 3" :key="n" variant="text" :color="n === 1 ? 'secondary-color' : 'grey-darken-1'"
+                  :class="{ 'bg-purple-lighten-5': n === 1 }" class="min-width-40 px-0" height="40" width="40">
                   {{ n }}
                 </v-btn>
               </div>
 
-              <v-btn 
-                variant="outlined" 
-                color="grey-darken-1" 
-                class="text-capitalize px-6"
-                append-icon="mdi-arrow-right"
-              >
+              <v-btn variant="outlined" color="grey-darken-1" class="text-capitalize px-6"
+                append-icon="mdi-arrow-right">
                 Next
               </v-btn>
             </div>
@@ -370,8 +263,8 @@ const reviewMicrosite = (microsite) => {
 };
 
 const getStatusColor = (status) => {
-  return status === 'Action Required' 
-    ? 'orange-lighten-4 text-orange-darken-4' 
+  return status === 'Action Required'
+    ? 'orange-lighten-4 text-orange-darken-4'
     : 'green-lighten-4 text-green-darken-4';
 };
 

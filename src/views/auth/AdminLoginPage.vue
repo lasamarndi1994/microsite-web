@@ -3,38 +3,25 @@
     <template #card>
       <AuthCard>
         <form @submit.prevent="handleLogin">
-          <h3 class="fs-18 text-start font-weight-medium mb-6 mt-0 text-center responsive-heading">
+          <h3 class="text-start fw-500 mb-6 mt-0 text-center responsive-heading" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-20'">
             Admin Login
           </h3>
 
-          <v-text-field 
-            v-model="username" 
-            label="Username" 
-            variant="outlined" 
-            density="default"
-            prepend-inner-icon="mdi-account-outline"
-            :error-messages="usernameError ? [usernameError] : []" 
-            class="mb-2 text-start"
-          />
+          <v-text-field v-model="username" label="Username" variant="outlined" density="default"
+            prepend-inner-icon="mdi-account-outline" :error-messages="usernameError ? [usernameError] : []"
+            class="mb-2 text-start" />
 
-          <v-text-field 
-            v-model="password" 
-            label="Password" 
-            variant="outlined" 
-            density="default"
-            :type="showPassword ? 'text' : 'password'"
-            prepend-inner-icon="mdi-lock-outline"
+          <v-text-field v-model="password" label="Password" variant="outlined" density="default"
+            :type="showPassword ? 'text' : 'password'" prepend-inner-icon="mdi-lock-outline"
             :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
-            @click:append-inner="showPassword = !showPassword"
-            :error-messages="passwordError ? [passwordError] : []" 
-            class="mb-2 text-start"
-          />
+            @click:append-inner="showPassword = !showPassword" :error-messages="passwordError ? [passwordError] : []"
+            class="mb-2 text-start" />
 
-         
+
 
           <VueButton title="Login" classStyle="w-100" type="submit" />
 
-          <p class="fs-14 mt-2 text-center text-grey-darken-1">
+          <p class="mt-2 text-center text-grey-darken-1" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-14'">
             Access restricted to authorized administrators only
           </p>
         </form>
@@ -79,7 +66,7 @@ const handleLogin = () => {
   if (usernameValidation === true && passwordValidation === true) {
     // TODO: Add actual authentication logic here
     console.log("Login attempt:", { username: username.value, password: password.value });
-    
+
     // For now, redirect to admin dashboard
     router.push("/admin/dashboard");
   }

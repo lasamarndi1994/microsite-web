@@ -2,8 +2,8 @@
   <v-card
     :elevation="elevation"
     class="mx-auto my-5"
-    :class="$vuetify.display.smAndDown ? 'pa-6' : 'pa-16'"
-    :width="$vuetify.display.smAndDown ? '95%' : width"
+    :class="$vuetify.display.smAndDown ? 'pa-10' : 'pa-16'"
+    :width="$vuetify.display.smAndDown ? '75%' : width"
     :height="height"
   >
     <slot />

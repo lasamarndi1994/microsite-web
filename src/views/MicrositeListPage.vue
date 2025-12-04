@@ -102,7 +102,7 @@
                 <div class="d-flex justify-space-between align-center mb-6">
                     <h3 class="text-h6 font-weight-bold">
                         {{ selectedMicrosite?.status === 'Rejected' ? 'Rejection Details' : 'Microsite Details' }}</h3>
-                    <v-btn icon="mdi-close" variant="text" density="compact" @click="showPreview = false"></v-btn>
+                    <v-btn icon="mdi-close" variant="text" density="compact" class="mt-n5" @click="showPreview = false"></v-btn>
                 </div>
 
                 <v-row class="mb-4" v-if="selectedMicrosite">
@@ -133,18 +133,20 @@
             </v-card>
         </v-dialog>
 
-        <v-dialog v-model="showDeleteConfirm" max-width="500">
+        <v-dialog v-model="showDeleteConfirm" max-width="400">
             <v-card class="rounded-xl pa-6">
-                <h3 class="text-h6 font-weight-bold mb-4">Delete Microsite?</h3>
-                <p class="text-body-1 text-grey mb-6">
-                    Are you sure you want to delete <span class="font-weight-bold text-black">{{ itemToDelete?.title
-                    }}</span>?
-                    This action cannot be undone.
+                <div class="d-flex justify-space-between align-center mb-6">
+                    <h3 class="fs-18 fw-500 mb-0">Delete Campaign Landing?</h3>
+                <v-btn icon="mdi-close" variant="text" density="compact" class="mt-n5" @click="showDeleteConfirm = false"></v-btn>
+                </div>
+                
+                <p class="fs-14 fw-400 text-grey mb-6">
+                    Are you sure you want to delete this post?<br> This action cannot be undone.
                 </p>
 
                 <v-row class="gx-2">
                     <v-col cols="6">
-                        <v-btn variant="outlined" class="w-100 text-capitalize" height="44"
+                        <v-btn variant="outlined" class="w-100 text-capitalize border" height="44"
                             @click="showDeleteConfirm = false">
                             Cancel
                         </v-btn>

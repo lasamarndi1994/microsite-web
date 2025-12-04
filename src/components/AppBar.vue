@@ -12,6 +12,6 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const navigateToHome = () => {
-    router.push('/dashboard2');
+    router.push('/dashboard');
 }
 </script>

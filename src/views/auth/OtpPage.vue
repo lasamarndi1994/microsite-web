@@ -2,20 +2,19 @@
   <AuthLayout>
     <template #card>
       <AuthCard>
-
         <form @submit.prevent="handleVerifyOtp">
-          <h3 class="fs-18 font-weight-medium mb-3 mt-3 text-start responsive-heading">
+          <h3 class="fw-500 mb-3 text-start" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-18'">
             Check your inbox at rajesh**@gmail.com
           </h3>
 
-          <p class="text-start fs-16 mb-2 responsive-body">Enter OTP</p>
+          <p class="text-start mb-2 responsive-body" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">Enter OTP</p>
 
-          <v-otp-input v-model="otp" length="6" class="otp-responsive" :error="!!otpError" maxWidth="100%"/>
-          <div class="error-container">
+          <v-otp-input v-model="otp" length="6" class="otp-responsive" :error="!!otpError" maxWidth="100%" />
+          <div class="error-container mb-0">
             <div v-if="otpError" class="text-error text-caption">{{ otpError }}</div>
           </div>
 
-          <div class="d-flex justify-end align-center mb-4">
+          <div class="d-flex justify-end align-center mb-2">
             <span class="text-body-2 text-secondary-color font-weight-medium mr-2">
               Resend OTP : {{ timer }}s
             </span>
@@ -25,7 +24,7 @@
 
           <VueButton title="Verify OTP" classStyle="w-100" type="submit" />
 
-          <p class="fs-16 mt-3 text-center responsive-body">Enter the OTP sent to your email to continue.</p>
+          <p class="mt-3 text-center responsive-body" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Enter the OTP sent to your email to continue.</p>
         </form>
 
       </AuthCard>
@@ -79,7 +78,7 @@ const handleVerifyOtp = () => {
 
   if (validation === true) {
     otpError.value = "";
-    router.push("/dashboard2");
+    router.push("/dashboard");
   } else {
     otpError.value = validation;
   }
@@ -95,8 +94,27 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* .error-container {
+@media (max-width: 768px) {
+  .text-body-2 {
+    font-size: 12px;
+  }
+
+  .text-caption {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .text-body-2 {
+    font-size: 11px;
+  }
+
+  .text-caption {
+    font-size: 9px;
+  }
+}
+.error-container {
   height: 24px;
   margin-bottom: 16px;
-} */
+}
 </style>
