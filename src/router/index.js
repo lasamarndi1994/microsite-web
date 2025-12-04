@@ -22,11 +22,11 @@ const routes = [
     name: 'Dashboard2',
     component: () => import('@/views/Dashboard2Page.vue'),
   },
-  {
-    path: '/microsites',
-    name: 'Microsites',
-    component: () => import('@/views/MicrositeListPage.vue'),
-  },
+  // {
+  //   path: '/microsites',
+  //   name: 'Microsites',
+  //   component: () => import('@/views/MicrositeListPage.vue'),
+  // },
   {
     path: '/create-microsite',
     name: 'CreateMicrosite',
@@ -36,6 +36,11 @@ const routes = [
     path: '/microsite-profile',
     name: 'MicrositeProfile',
     component: () => import('@/views/MicrositeProfilePage.vue'),
+  },
+  {
+    path: '/microsite-profile2',
+    name: 'MicrositeProfile2',
+    component: () => import('@/views/MicrositeProfile2Page.vue'),
   },
   {
     path: '/admin/login',

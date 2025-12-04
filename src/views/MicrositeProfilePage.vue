@@ -38,17 +38,17 @@
 
             <v-container class="py-8" style="max-width: 1000px;">
                 <!-- Profile Header -->
-                <div class="d-flex flex-column flex-md-row align-start align-md-center mb-8">
-                    <v-avatar size="100" class="mr-6 mb-4 mb-md-0">
+                <div class="d-flex flex-column flex-md-row align-center align-md-start mb-8 profile-header">
+                    <v-avatar size="100" class="mb-4 mb-md-0 mx-0 mx-md-6 mr-md-6 ml-md-0">
                         <v-img src="https://lh3.googleusercontent.com/a/ACg8ocL47Ufo56JpLHtUzse6nZg_MremwJGvscCRSfEI0X102sUSdsaK=s432-c-no" cover></v-img>
                     </v-avatar>
-                    <div>
+                    <div class="text-center text-md-start">
                         <h1 class="text-h5 font-weight-bold mb-1">Lasa Marndi</h1>
                         <div class="text-body-1 text-grey-darken-2">
                             ABCD Comapany <span class="mx-2">|</span> Bengaluru, India
                         </div>
                     </div>
-                    <v-spacer></v-spacer>
+                    <v-spacer class="d-none d-md-block"></v-spacer>
                     <v-btn color="deep-purple-accent-2" class="text-capitalize text-white px-6 mt-4 mt-md-0"
                         height="44" flat @click="showJoinDialog = true">
                         <template v-slot:prepend>
@@ -90,7 +90,7 @@
                     <div class="d-flex flex-wrap justify-space-between gap-4" style="max-width: 800px;">
                         <!-- LinkedIn -->
                         <div class="d-flex flex-column align-center text-center">
-                            <v-btn icon="mdi-linkedin" color="blue-darken-2" size="x-large" variant="text"
+                            <v-btn icon="mdi-linkedin" color="#0A66C2" size="x-large" variant="text"
                                 class="mb-2 social-icon"></v-btn>
                             <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
                                 https://linkedn-<br>Mehta Creative Studio
@@ -99,7 +99,7 @@
 
                         <!-- X (Twitter) -->
                         <div class="d-flex flex-column align-center text-center">
-                            <v-btn icon="mdi-close" color="black" size="x-large" variant="text"
+                            <v-btn icon="mdi-alpha-x-circle" color="#000000" size="x-large" variant="text"
                                 class="mb-2 social-icon"></v-btn>
                             <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
                                 https://X-<br>Mehta Creative Studio
@@ -108,7 +108,7 @@
 
                         <!-- Instagram -->
                         <div class="d-flex flex-column align-center text-center">
-                            <v-btn icon="mdi-instagram" color="pink-accent-3" size="x-large" variant="text"
+                            <v-btn icon="mdi-instagram" color="#E4405F" size="x-large" variant="text"
                                 class="mb-2 social-icon"></v-btn>
                             <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
                                 https://Instgram-<br>Mehta Creative Studio
@@ -117,7 +117,7 @@
 
                         <!-- Telegram -->
                         <div class="d-flex flex-column align-center text-center">
-                            <v-btn icon="mdi-send" color="light-blue" size="x-large" variant="text"
+                            <v-btn icon="mdi-send-circle" color="#0088cc" size="x-large" variant="text"
                                 class="mb-2 social-icon"></v-btn>
                             <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
                                 https://Telegram-<br>Mehta Creative Studio
@@ -126,7 +126,7 @@
 
                         <!-- Facebook -->
                         <div class="d-flex flex-column align-center text-center">
-                            <v-btn icon="mdi-facebook" color="blue-darken-4" size="x-large" variant="text"
+                            <v-btn icon="mdi-facebook" color="#1877F2" size="x-large" variant="text"
                                 class="mb-2 social-icon"></v-btn>
                             <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
                                 https://Facebook-<br>Mehta Creative Studio
