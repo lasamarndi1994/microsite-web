@@ -117,4 +117,10 @@ onUnmounted(() => {
   height: 24px;
   margin-bottom: 16px;
 }
+
+/* Ensure all OTP boxes have the same height and width (square) */
+:deep(.v-otp-input input) {
+  height: 56px !important;
+  width: 56px !important;
+}
 </style>
