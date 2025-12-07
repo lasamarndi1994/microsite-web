@@ -33,8 +33,8 @@
                                 </div>
                             </v-col>
                             <v-col cols="12" md="6" lg="4">
-                                <v-text-field label="Title" placeholder="Title" variant="outlined" density="default"
-                                    class="bg-white"></v-text-field>
+                                <v-text-field v-model="title" label="Title" placeholder="Title" variant="outlined" density="default"
+                                    class="bg-white" :error-messages="titleError"></v-text-field>
                             </v-col>
                         </v-row>
                     </div>
@@ -51,19 +51,19 @@
                         </h2>
                         <v-row>
                             <v-col cols="12" md="4">
-                                <v-text-field label="Full Name" placeholder="First Name" variant="outlined"
-                                    density="default" class="bg-white"></v-text-field>
+                                <v-text-field v-model="fullName" label="Full Name" placeholder="First Name" variant="outlined"
+                                    density="default" class="bg-white" :error-messages="fullNameError"></v-text-field>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-text-field label="Business name" placeholder="Business name" variant="outlined"
-                                    density="default" class="bg-white"></v-text-field>
+                                <v-text-field v-model="businessName" label="Business name" placeholder="Business name" variant="outlined"
+                                    density="default" class="bg-white" :error-messages="businessNameError"></v-text-field>
                             </v-col>
                             <v-col cols="12" md="4">
-                                <v-text-field label="Business location" placeholder="Business location"
-                                    variant="outlined" density="default" class="bg-white"></v-text-field>
+                                <v-text-field v-model="businessLocation" label="Business location" placeholder="Business location"
+                                    variant="outlined" density="default" class="bg-white" :error-messages="businessLocationError"></v-text-field>
                             </v-col>
                             <v-col cols="12">
-                                <v-textarea label="Professional note" placeholder="Professional note" variant="outlined"
+                                <v-textarea v-model="professionalNote" label="Professional note" placeholder="Professional note" variant="outlined"
                                     rows="3" class="bg-white"></v-textarea>
                             </v-col>
                         </v-row>
@@ -121,8 +121,8 @@
                                     </v-list-item>
                                 </v-list>
                             </v-menu>
-                            <v-text-field :placeholder="selectedSocial.placeholder" variant="outlined" hide-details
-                                class="bg-white mr-4 social-text-field" density="default"></v-text-field>
+                            <v-text-field v-model="socialUrl" :placeholder="selectedSocial.placeholder" variant="outlined" hide-details="auto"
+                                class="bg-white mr-4 social-text-field" density="default" :error-messages="socialUrlError"></v-text-field>
                             <v-btn variant="text" class="text-capitalize px-3" prepend-icon="mdi-plus-circle-outline"
                                 style="color: var(--secondary-color); font-size: 16px; font-weight: 500;"
                                 :ripple="false">
@@ -172,7 +172,7 @@
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
                             <v-btn class="btn-secondary text-white text-capitalize"
                                 prepend-icon="mdi-content-save-outline" height="44" flat
-                                @click="router.push('/microsite-profile')">
+                                @click="handleSave">
                                 Save and Continue
                             </v-btn>
                         </v-col>
@@ -189,7 +189,17 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import AppBar from '@/components/AppBar.vue'
 
+import { useField, useForm } from 'vee-validate'
+
 const router = useRouter()
+const { validate } = useForm()
+
+const { value: title, errorMessage: titleError } = useField('title', 'required')
+const { value: fullName, errorMessage: fullNameError } = useField('fullName', 'required')
+const { value: businessName, errorMessage: businessNameError } = useField('businessName', 'required')
+const { value: businessLocation, errorMessage: businessLocationError } = useField('businessLocation', 'required')
+const { value: professionalNote } = useField('professionalNote')
+const { value: socialUrl, errorMessage: socialUrlError } = useField('socialUrl', 'url')
 
 // Social media platforms data
 const socialPlatforms = ref([
@@ -249,7 +259,7 @@ const socialPlatforms = ref([
     }
 ])
 
-const selectedSocial = ref(socialPlatforms.value[0])
+const selectedSocial = ref({ ...socialPlatforms.value[0] })
 const selectedServices = ref(['Web development'])
 
 const toggleService = (service) => {
@@ -263,6 +273,30 @@ const toggleService = (service) => {
 
 const goBack = () => {
     router.back()
+}
+
+const handleSave = async () => {
+    const { valid } = await validate()
+
+    if (valid) {
+        // Proceed with save
+        const formData = {
+            title: title.value,
+            fullName: fullName.value,
+            businessName: businessName.value,
+            businessLocation: businessLocation.value,
+            professionalNote: professionalNote.value,
+            socialUrl: socialUrl.value
+        }
+        console.log('Form is valid', formData)
+        router.push('/microsite-profile')
+    } else {
+        // Scroll to top to show errors
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        })
+    }
 }
 </script>
 

@@ -8,7 +8,7 @@
             </h3>
 
             <v-text-field v-model="mobile" label="Enter your mobile number" variant="outlined" density="default"
-              maxlength="10" :error-messages="mobileError ? [mobileError] : []" class="mb-2 text-start"
+              maxlength="10" :error-messages="mobileError" class="mb-2 text-start"
               @input="onInput" />
 
             <VueButton title="Send OTP" classStyle="w-100" type="submit" />
@@ -22,33 +22,26 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { useField } from "vee-validate";
 import { useRouter } from "vue-router";
 import AuthLayout from "@/components/AuthLayout.vue";
 import AuthCard from "@/components/AuthCard.vue";
-const router = useRouter();
-const mobile = ref("");
-const mobileError = ref("");
+import { restrictToNumbers } from "@/utils/validators";
 
-const validateMobile = (value) => {
-  if (!value) return "Mobile number is required";
-  if (!/^\d{10}$/.test(value)) return "Mobile number must be 10 digits";
-  return true;
-};
+const router = useRouter();
+
+const { value: mobile, errorMessage: mobileError, validate } = useField('mobile', 'required|numeric|min:10');
 
 const onInput = (event) => {
   const value = event.target.value;
-  mobile.value = value.replace(/\D/g, "");
+  mobile.value = restrictToNumbers(value);
 };
 
-const handleSendOtp = () => {
-  const validation = validateMobile(mobile.value);
+const handleSendOtp = async () => {
+  const { valid } = await validate();
 
-  if (validation === true) {
-    mobileError.value = "";
+  if (valid) {
     router.push("/otp-verification");
-  } else {
-    mobileError.value = validation;
   }
 };
 </script>

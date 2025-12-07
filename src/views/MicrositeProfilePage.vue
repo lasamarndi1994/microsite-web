@@ -209,19 +209,19 @@
                     </div>
 
                     <div class="mb-4">
-                        <v-text-field v-model="joinForm.name" label="Name" variant="outlined" density="comfortable"
-                            hide-details="auto" class="mb-5"></v-text-field>
+                        <v-text-field v-model="name" label="Name" variant="outlined" density="comfortable"
+                            hide-details="auto" class="mb-5" :error-messages="nameError"></v-text-field>
 
-                        <v-text-field v-model="joinForm.mobile" label="Mobile Number" variant="outlined"
-                            density="comfortable" hide-details="auto" class="mb-5"></v-text-field>
+                        <v-text-field v-model="mobile" label="Mobile Number" variant="outlined"
+                            density="comfortable" hide-details="auto" class="mb-5" :error-messages="mobileError"></v-text-field>
 
-                        <v-text-field v-model="joinForm.email" label="E-mail Address" placeholder="Ex : ajru@gmail.com"
-                            variant="outlined" density="comfortable" hide-details="auto" class="mb-5"></v-text-field>
+                        <v-text-field v-model="email" label="E-mail Address" placeholder="Ex : ajru@gmail.com"
+                            variant="outlined" density="comfortable" hide-details="auto" class="mb-5" :error-messages="emailError"></v-text-field>
                     </div>
 
                     <v-btn block color="deep-purple-accent-2" size="large"
                         class="text-capitalize text-white rounded-lg mb-6" flat height="48"
-                        @click="showJoinDialog = false">
+                        @click="handleJoin">
                         Join Now
                     </v-btn>
                 </div>
@@ -233,13 +233,27 @@
 <script setup>
 import { ref } from 'vue'
 import AppBar from '@/components/AppBar.vue'
+import { useField, useForm } from 'vee-validate'
 
 const showJoinDialog = ref(false)
-const joinForm = ref({
-    name: 'Lasa Marndi',
-    mobile: '9786453125',
-    email: ''
-})
+const { validate } = useForm()
+
+const { value: name, errorMessage: nameError } = useField('name', 'required')
+const { value: mobile, errorMessage: mobileError } = useField('mobile', 'required|numeric|min:10')
+const { value: email, errorMessage: emailError } = useField('email', 'required|email')
+
+// Initialize values
+name.value = 'Lasa Marndi'
+mobile.value = '9786453125'
+
+const handleJoin = async () => {
+    const { valid } = await validate()
+
+    if (valid) {
+        console.log('Join form valid', { name: name.value, mobile: mobile.value, email: email.value })
+        showJoinDialog.value = false
+    }
+}
 </script>
 
 <style scoped>

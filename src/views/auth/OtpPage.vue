@@ -33,14 +33,14 @@
 </template>
 
 <script setup>
+import { useField } from "vee-validate";
 import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import AuthLayout from "@/components/AuthLayout.vue";
 import AuthCard from "@/components/AuthCard.vue";
 
 const router = useRouter();
-const otp = ref("");
-const otpError = ref("");
+const { value: otp, errorMessage: otpError, validate } = useField('otp', 'required|numeric|min:6');
 const timer = ref(30);
 const canResend = ref(false);
 let intervalId = null;
@@ -65,22 +65,11 @@ const handleResendOtp = () => {
   }
 };
 
-const validateOtp = (value) => {
-  const otpString = Array.isArray(value) ? value.join('') : value;
-  if (!otpString) return "OTP is required";
-  if (!/^\d{6}$/.test(otpString)) return "OTP must be 6 digits";
-  return true;
-};
+const handleVerifyOtp = async () => {
+  const { valid } = await validate();
 
-const handleVerifyOtp = () => {
-  const otpString = Array.isArray(otp.value) ? otp.value.join('') : otp.value;
-  const validation = validateOtp(otpString);
-
-  if (validation === true) {
-    otpError.value = "";
+  if (valid) {
     router.push("/dashboard");
-  } else {
-    otpError.value = validation;
   }
 };
 

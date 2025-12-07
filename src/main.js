@@ -1,4 +1,5 @@
 import vuetify from '@/plugins/vuetify';
+import '@/plugins/validation';
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 import App from '@/App.vue';

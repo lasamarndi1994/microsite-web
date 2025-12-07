@@ -153,7 +153,7 @@
               Admin Comments
             </h2>
             <v-textarea v-model="adminComments" placeholder="Please review the microsite carefully and provide feedback"
-              variant="outlined" rows="2" bg-color="grey-lighten-5" hide-details></v-textarea>
+              variant="outlined" rows="2" bg-color="grey-lighten-5" hide-details="auto" :error-messages="adminCommentsError"></v-textarea>
           </div>
 
           <!-- Action Buttons -->
@@ -186,9 +186,11 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import AppBar from '@/components/AppBar.vue';
+import { useField, useForm } from 'vee-validate';
 
 const router = useRouter();
-const adminComments = ref('');
+const { validate } = useForm();
+const { value: adminComments, errorMessage: adminCommentsError } = useField('adminComments', 'required');
 
 const socialLinks = ref([
   {
@@ -233,14 +235,14 @@ const goBack = () => {
   router.push({ name: 'PartnerDetails' });
 };
 
-const rejectMicrosite = () => {
-  if (!adminComments.value.trim()) {
-    alert('Please provide comments before rejecting');
-    return;
+const rejectMicrosite = async () => {
+  const { valid } = await validate();
+  
+  if (valid) {
+    console.log('Microsite rejected with comments:', adminComments.value);
+    alert('Microsite rejected');
+    router.push({ name: 'PartnerDetails' });
   }
-  console.log('Microsite rejected with comments:', adminComments.value);
-  alert('Microsite rejected');
-  router.push({ name: 'PartnerDetails' });
 };
 
 const approveMicrosite = () => {
