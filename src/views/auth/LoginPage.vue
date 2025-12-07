@@ -41,12 +41,13 @@ import { useRouter } from "vue-router";
 import AuthLayout from "@/components/AuthLayout.vue";
 import AuthCard from "@/components/AuthCard.vue";
 import { restrictToNumbers } from "@/utils/validators";
+import api from "@/api";
 
 const router = useRouter();
   const loading = ref(false);
 
 
-const { value: mobile, errorMessage: mobileError, validate } = useField('mobile', 'required|numeric|min:10');
+const { value: mobile, errorMessage: mobileError, validate, setErrors } = useField('mobile', 'required|numeric|min:10');
 
 const onInput = (event) => {
   const value = event.target.value;
@@ -55,10 +56,25 @@ const onInput = (event) => {
 
 const handleSendOtp = async () => {
   const { valid } = await validate();
-
   if (valid) {
    loading.value = true;
-   router.push("/otp-verification");
+
+   api.post("/validate-mobile-number", { mobile_number: mobile.value })
+   .then((response) => {
+    if(response.data.status){
+    loading.value = false;
+     router.push("/otp-verification");
+    }
+   })
+   .catch((error) => {
+    loading.value = false;
+     console.log(error);
+     if (error.response && error.response.data && error.response.data.message) {
+        setErrors(error.response.data.message);
+     }
+   })
+   
   }
+  // router.push("/otp-verification");
 };
 </script>

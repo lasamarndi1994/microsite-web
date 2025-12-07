@@ -4,7 +4,7 @@
       <AuthCard>
         <form @submit.prevent="handleVerifyOtp">
           <h3 class="fw-500 mb-3 text-start" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-18'">
-            Check your inbox at rajesh**@gmail.com
+            Check your inbox at rajesh**@gmail.com <span class="text-secondary-color text-caption cursor-pointer ml-2" @click="changeEmail">Change</span>
           </h3>
 
           <p class="text-start mb-2 responsive-body" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">Enter OTP</p>
@@ -69,6 +69,10 @@ const startTimer = () => {
       clearInterval(intervalId);
     }
   }, 1000);
+};
+
+const changeEmail = () => {
+  router.back();
 };
 
 const handleResendOtp = () => {
