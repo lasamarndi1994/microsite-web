@@ -1,9 +1,9 @@
 <template>
-    <button :type="'type'" class="btn btn-secondary fs-14" :class="classStyle"  v-if="!progress" :disabled="isDisabled">
+    <button :type="'type'" class="btn btn-primary fs-14" :class="classStyle"  v-if="!progress" :disabled="isDisabled">
         {{ title }} 
     </button>
 
-    <button type="button" class="btn btn-secondary text-white  fs-14" :class="classStyle" disabled v-else>
+    <button type="button" class="btn btn-primary text-white  fs-14" :class="classStyle" disabled v-else>
         <span class="spinner-border spinner-border-sm  " role="status" aria-hidden="true"></span>
         Processing...
     </button>

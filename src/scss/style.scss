@@ -5,7 +5,7 @@
 :root {
 
   --primary-color: #7f56da;
-  --secondary-color: #385688;
+  --secondary-color: #512da8;
   --tertiary-color: #FF3636;
   --tertiary-opacity: #ff3636b0;
   --success: #45823D;
@@ -160,16 +160,16 @@ body {
   font-size: 36px;
 }
 
-.btn {
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  height: 44px;
-  color: #ffffff;
-}
+// .btn {
+//   border: none;
+//   border-radius: 5px;
+//   font-size: 14px;
+//   height: 44px;
+//   color: #ffffff;
+// }
 
 .btn-primary {
-  background: var(--secondary-color);
+  background: var(--primary-color);
 }
 
 .btn-secondary {
@@ -177,7 +177,7 @@ body {
 }
 
 .btn-primary:hover {
-  background: #1c3766;
+  background: var(--primary-color) !important;
 }
 
 .btn-outline-primary {
@@ -366,7 +366,7 @@ body {
   background: var(--secondary-color);
 }
 
-.btn-secondary {
+.btn-primary {
   background: var(--primary-color);
 }
 
@@ -585,6 +585,7 @@ body {
 /* Button Hover Transitions */
 .btn,
 .v-btn {
+
   transition: all 0.3s ease-in-out !important;
   border: 1px solid transparent;
 }
@@ -594,4 +595,5 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 4px 8px #0000001a;
   border-color: var(--primary-color) !important;
+
 }

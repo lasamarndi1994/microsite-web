@@ -19,7 +19,7 @@
               <v-icon icon="mdi-file-question-outline" size="100" color="grey-lighten-2" class="mb-6"></v-icon>
 
               <div class="d-flex flex-column flex-sm-row gap-6 justify-center">
-                <v-btn class="btn-secondary text-white text-capitalize m-2" prepend-icon="mdi-home" height="48" flat
+                <v-btn class="btn-primary text-white text-capitalize m-2" prepend-icon="mdi-home" height="48" flat
                   to="/" size="large">
                   Go to Home
                 </v-btn>

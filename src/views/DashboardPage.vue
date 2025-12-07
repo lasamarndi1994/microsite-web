@@ -17,7 +17,7 @@
                                 </template>
                                 Drafts
                             </v-btn>
-                            <v-btn class="btn-secondary text-white text-capitalize" height="44" flat
+                            <v-btn class="btn-primary text-white text-capitalize" height="44" flat
                                 @click="createMicrosite">
                                 <template v-slot:prepend>
                                     <div class="d-inline-flex align-center justify-center mr-2"
@@ -41,7 +41,7 @@
                             </v-btn>
                         </v-col>
                         <v-col cols="12" sm="6">
-                            <v-btn class="btn-secondary text-white text-capitalize w-100" height="44" flat
+                            <v-btn class="btn-primary text-white text-capitalize w-100" height="44" flat
                                 @click="createMicrosite">
                                 <template v-slot:prepend>
                                     <div class="d-inline-flex align-center justify-center mr-2"
@@ -118,14 +118,14 @@
                         <v-row no-gutters>
                             <v-col cols="6" sm="auto">
                                 <v-btn variant="text" class="text-capitalize px-md-6 px-3 text-body-2 text-sm-body-1 mobile-hover" rounded="lg" height="44" width="150"
-                                    :class="activeTab === 'my-microsites' ? 'btn-secondary text-white' : 'text-grey-darken-1'"
+                                    :class="activeTab === 'my-microsites' ? 'btn-primary text-white' : 'text-grey-darken-1'"
                                     @click="activeTab = 'my-microsites'">
                                     My Microsites
                                 </v-btn>
                             </v-col>
                             <v-col cols="6" sm="auto">
                                 <v-btn class="text-capitalize px-md-6 px-3 text-body-2 text-sm-body-1 ms-sm-3 ms-0 mobile-hover" variant="flat" rounded="lg" height="44" width="200"
-                                    :class="activeTab === 'pending' ? 'btn-secondary text-white' : ''"
+                                    :class="activeTab === 'pending' ? 'btn-primary text-white' : ''"
                                     @click="activeTab = 'pending'">
                                     Pending Microsites
                                 </v-btn>

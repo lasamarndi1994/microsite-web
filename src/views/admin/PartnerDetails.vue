@@ -120,7 +120,7 @@
                     </v-chip>
                   </td>
                   <td class="text-right">
-                    <v-btn class="btn-secondary text-white text-capitalize rounded-lg" height="34" flat
+                    <v-btn class="btn-primary text-white text-capitalize rounded-lg" height="34" flat
                       @click="reviewMicrosite(item)">Review</v-btn>
                   </td>
                 </tr>

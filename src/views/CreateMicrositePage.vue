@@ -170,7 +170,7 @@
                             </v-btn>
                         </v-col>
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
-                            <v-btn class="btn-secondary text-white text-capitalize"
+                            <v-btn class="btn-primary text-white text-capitalize"
                                 prepend-icon="mdi-content-save-outline" height="44" flat
                                 @click="handleSave">
                                 Save and Continue
