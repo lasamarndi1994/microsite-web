@@ -2,15 +2,16 @@
   <AuthLayout>
     <template #card>
       <AuthCard>
+    
         <form @submit.prevent="handleVerifyOtp">
           <h3 class="fw-500 mb-3 text-start" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-18'">
-            Check your inbox at rajesh**@gmail.com <span class="text-secondary-color text-caption cursor-pointer ml-2" @click="changeEmail">Change</span>
+            Check your inbox at {{ store.user.email }} <span class="text-secondary-color text-caption cursor-pointer ml-2" @click="changeEmail">Change</span>
           </h3>
 
           <p class="text-start mb-2 responsive-body" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">Enter OTP</p>
 
-          <v-otp-input v-model="otp" length="6" class="otp-responsive" :error="!!otpError" maxWidth="100%" />
-          <div class="error-container mb-0">
+          <v-otp-input v-model="otp" length="6" class="otp-responsive"  maxWidth="100%" :error-messages="mobileError" />
+          <div class=" mb-0">
             <div v-if="otpError" class="text-error text-caption">{{ otpError }}</div>
           </div>
 
@@ -41,6 +42,9 @@
       </AuthCard>
     </template>
   </AuthLayout>
+  <v-snackbar v-model="showSuccess" color="success" timeout="3000" location="bottom center">
+    {{ successMessage }}
+  </v-snackbar>
 </template>
 
 <script setup>
@@ -50,17 +54,24 @@ import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import AuthLayout from "@/components/AuthLayout.vue";
 import AuthCard from "@/components/AuthCard.vue";
+import api from "@/api";
+import { useAuthStore } from "@/stores/authStore";
+
+const store = useAuthStore();
 
 const loading = ref(false);
 const router = useRouter();
-const { value: otp, errorMessage: otpError, validate } = useField('otp', 'required|numeric|min:6');
-const timer = ref(30);
+const { value: otp, errorMessage: otpError, validate, setErrors } = useField('otp', 'required|numeric|min:6');
+const timer = ref(60);
 const canResend = ref(false);
 let intervalId = null;
+const showSuccess = ref(false);
+const successMessage = ref('');
+
 
 const startTimer = () => {
   canResend.value = false;
-  timer.value = 30;
+  timer.value = 60;
   intervalId = setInterval(() => {
     if (timer.value > 0) {
       timer.value--;
@@ -77,8 +88,20 @@ const changeEmail = () => {
 
 const handleResendOtp = () => {
   if (canResend.value) {
-    // Logic to resend OTP would go here
-    startTimer();
+   api.post("/auth/resend-otp", { mobile_number: store.user.mobile_number.toString() })
+    .then((response) => {
+      if(response.data.status){
+        startTimer();
+        successMessage.value = response.data.message || 'OTP has been resent successfully';
+        showSuccess.value = true;
+      }
+    })
+    .catch((error) => {
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrors(error.response.data.message);
+      }
+    })
+    
   }
 };
 
@@ -87,7 +110,22 @@ const handleVerifyOtp = async () => {
 
   if (valid) {
     loading.value = true;
-    router.push("/dashboard");
+    api.post("/auth/login", { mobile_otp: otp.value,
+       mobile_number: store.user.mobile_number.toString() })
+    .then(async(response) => {
+      if(response.data.status){
+        loading.value = false;
+        await store.storeToken(response.data.data);
+        await router.push("/dashboard");
+      }
+    })
+    .catch((error) => {
+      loading.value = false;
+      if (error.response && error.response.data && error.response.data.message) {
+        setErrors(error.response.data.message);
+      }
+    })
+   
   }
 };
 

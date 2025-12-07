@@ -182,7 +182,7 @@ body {
 }
 
 .btn-primary:hover {
-  background: #1c3766 !important;
+  background: var(--secondary-color) !important;
 }
 
 .btn-primary:disabled {

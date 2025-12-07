@@ -8,7 +8,7 @@
             </h3>
 
             <v-text-field v-model="mobile" label="Enter your mobile number" variant="outlined" density="default"
-              maxlength="10" :error-messages="mobileError" class="mb-2 text-start"
+              maxlength="10" :error-messages="mobileError" class="mb-2 text-start" autocomplete="off"
               @input="onInput" />
 
             <!-- <VueButton title="Send OTP" classStyle="w-100" type="submit" /> -->
@@ -35,16 +35,18 @@
 </template>
 
 <script setup>
-  import{ref} from 'vue';
+import{ref} from 'vue';
 import { useField } from "vee-validate";
 import { useRouter } from "vue-router";
 import AuthLayout from "@/components/AuthLayout.vue";
 import AuthCard from "@/components/AuthCard.vue";
 import { restrictToNumbers } from "@/utils/validators";
 import api from "@/api";
+import { useAuthStore } from "@/stores/authStore";
 
 const router = useRouter();
-  const loading = ref(false);
+const store = useAuthStore();
+const loading = ref(false);
 
 
 const { value: mobile, errorMessage: mobileError, validate, setErrors } = useField('mobile', 'required|numeric|min:10');
@@ -60,21 +62,21 @@ const handleSendOtp = async () => {
    loading.value = true;
 
    api.post("/validate-mobile-number", { mobile_number: mobile.value })
-   .then((response) => {
+   .then(async(response) => {
     if(response.data.status){
-    loading.value = false;
-     router.push("/otp-verification");
+      loading.value = false;
+      await store.storeUser(response.data.data);
+      await router.push("/otp-verification");
     }
    })
    .catch((error) => {
     loading.value = false;
-     console.log(error);
+     
      if (error.response && error.response.data && error.response.data.message) {
         setErrors(error.response.data.message);
      }
    })
    
   }
-  // router.push("/otp-verification");
 };
 </script>
