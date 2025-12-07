@@ -8,7 +8,8 @@
             </h3>
 
             <v-text-field v-model="mobile" label="Enter your mobile number" variant="outlined" density="default"
-              maxlength="10" :error-messages="mobileError ? [mobileError] : []" class="mb-2 text-start" />
+              maxlength="10" :error-messages="mobileError ? [mobileError] : []" class="mb-2 text-start"
+              @input="onInput" />
 
             <VueButton title="Send OTP" classStyle="w-100" type="submit" />
 
@@ -33,6 +34,11 @@ const validateMobile = (value) => {
   if (!value) return "Mobile number is required";
   if (!/^\d{10}$/.test(value)) return "Mobile number must be 10 digits";
   return true;
+};
+
+const onInput = (event) => {
+  const value = event.target.value;
+  mobile.value = value.replace(/\D/g, "");
 };
 
 const handleSendOtp = () => {
