@@ -50,7 +50,7 @@
                             <div class="text-center mb-6">
                                 <div class="avatar-wrapper d-inline-block position-relative">
                                     <v-avatar size="140" class="profile-avatar elevation-8">
-                                        <v-img src="https://randomuser.me/api/portraits/men/3.jpg" cover></v-img>
+                                        <v-img src="https://randomuser.me/api/portraits/men/5.jpg" cover></v-img>
                                     </v-avatar>
                                     <div class="avatar-ring"></div>
                                 </div>
@@ -198,7 +198,7 @@
                     </v-img>
                     <div class="position-absolute" style="bottom: -40px; left: 24px;">
                         <v-avatar size="80" class="border-2 border-white">
-                            <v-img src="https://randomuser.me/api/portraits/men/3.jpg" cover></v-img>
+                            <v-img src="https://randomuser.me/api/portraits/men/5.jpg" cover></v-img>
                         </v-avatar>
                     </div>
                 </div>

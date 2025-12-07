@@ -3,7 +3,7 @@
       <template #card>
         <AuthCard>
           <form @submit.prevent="handleSendOtp">
-            <h3 class="text-start font-weight-medium mb-8 mt-3 text-center responsive-heading" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-18'">
+            <h3 class="font-weight-medium mb-8 mt-3 text-center responsive-heading" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-18'">
               Login with Mobile Number
             </h3>
 
@@ -12,7 +12,7 @@
 
             <VueButton title="Send OTP" classStyle="w-100" type="submit" />
 
-            <p class="mt-3" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">We’ll send a verification code to your E-mail</p>
+            <p class="mt-3 text-center" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">We’ll send a verification code to your E-mail</p>
           </form>
 
         </AuthCard>

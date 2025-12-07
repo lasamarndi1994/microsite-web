@@ -9,7 +9,8 @@
           <v-row class="mb-6">
             <v-col cols="12">
               <div class="d-flex align-center mb-1 flex-wrap">
-                <h1 class="font-weight-bold text-grey-darken-3" :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-30'">Admin Dashboard</h1>
+                  <h1 class="font-weight-bold text-grey-darken-3 mb-1" :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Admin Dashboard</h1>
+               
                 <v-chip class="ml-4 custom-chip bg-purple-lighten-5 text-secondary-color" label size="small">
                   <span class="font-weight-bold">240 Partner</span>
                 </v-chip>
@@ -110,7 +111,7 @@
                     </td>
                     <td class="text-right">
                       <v-btn variant="text" color="grey" size="large"
-                        @click="viewPartner(item)" class="fs-14 fw-500 text-secondary-color text-decoration-underline" style="text-transform: none;">view</v-btn>
+                        @click="viewPartner(item)" class="fs-14 fw-500 text-secondary-color text-decoration-underline" style="text-transform: none;">View</v-btn>
                     </td>
                   </tr>
                 </tbody>

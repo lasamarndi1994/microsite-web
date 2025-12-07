@@ -1,10 +1,10 @@
 <template>
   <v-card
-    :elevation="elevation"
+    :elevation="$vuetify.display.smAndDown ? 0 : elevation"
     class="mx-auto my-5"
-    :class="$vuetify.display.smAndDown ? 'pa-10' : 'pa-16'"
-    :width="$vuetify.display.smAndDown ? '75%' : width"
-    :height="height"
+    :class="$vuetify.display.smAndDown ? 'pa-4 bg-transparent' : 'pa-16'"
+    :width="$vuetify.display.smAndDown ? '100%' : width"
+    :height="$vuetify.display.smAndDown ? 'auto' : height"
   >
     <slot />
   </v-card>
