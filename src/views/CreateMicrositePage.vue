@@ -11,7 +11,7 @@
                             <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
                         </v-btn>
                     </div>
-                    
+
 
                     <!-- Media Section -->
                     <div class="mb-8">
@@ -381,9 +381,9 @@ const newService = ref('')
 const toggleService = (service) => {
     const index = selectedServices.value.indexOf(service)
     if (index > -1) {
-        selectedServices.value.splice(index, 1)
+        selectedServices.value.splice(index, 1);
     } else {
-        selectedServices.value.push(service)
+        selectedServices.value.push(service);
     }
 }
 
@@ -391,24 +391,24 @@ const addCustomService = () => {
     const service = newService.value.trim()
     if (service) {
         if (!availableServices.value.includes(service)) {
-            availableServices.value.push(service)
+            availableServices.value.push(service);
         }
         if (!selectedServices.value.includes(service)) {
-            selectedServices.value.push(service)
+            selectedServices.value.push(service);
         }
-        newService.value = ''
+        newService.value = '';
     }
 }
 
 const removeService = (service) => {
     const availableIndex = availableServices.value.indexOf(service)
     if (availableIndex > -1) {
-        availableServices.value.splice(availableIndex, 1)
+        availableServices.value.splice(availableIndex, 1);
     }
     
     const selectedIndex = selectedServices.value.indexOf(service)
     if (selectedIndex > -1) {
-        selectedServices.value.splice(selectedIndex, 1)
+        selectedServices.value.splice(selectedIndex, 1);
     }
 }
 
