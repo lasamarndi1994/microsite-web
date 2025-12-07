@@ -1,8 +1,5 @@
 <template>
-  <v-app>
-    <AppBar />
-    <v-main class="bg-grey-lighten-5">
-      <v-container class="py-8">
+<app-layout>
         <!-- Main White Card -->
         <v-card flat class="rounded-xl pa-8 card-padding" elevation="0">
           <!-- Header Section Inside Card -->
@@ -177,15 +174,12 @@
             <p :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Once approved, microsite will be live within 24 hours</p>
           </div>
         </v-card>
-      </v-container>
-    </v-main>
-  </v-app>
+    </app-layout>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import AppBar from '@/components/AppBar.vue';
 import { useField, useForm } from 'vee-validate';
 
 const router = useRouter();

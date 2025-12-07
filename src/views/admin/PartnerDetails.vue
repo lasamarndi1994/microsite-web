@@ -1,8 +1,5 @@
 <template>
-  <v-app>
-    <AppBar />
-    <v-main class="bg-grey-lighten-5">
-      <v-container class="py-8">
+<app-layout>
         <v-card flat class="card-padding rounded-xl" min-height="80vh">
           <!-- Header Section -->
           <div class="mb-8">
@@ -148,15 +145,13 @@
             </div>
           </v-card>
         </v-card>
-      </v-container>
-    </v-main>
-  </v-app>
+    </app-layout>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import AppBar from '@/components/AppBar.vue';
+
 
 const router = useRouter();
 const route = useRoute();

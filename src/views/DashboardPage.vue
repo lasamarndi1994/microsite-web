@@ -1,8 +1,5 @@
 <template>
-    <v-app>
-        <AppBar />
-        <v-main class="bg-grey-lighten-5">
-            <v-container class="py-8">
+<app-layout>
                 <v-card flat class="card-padding rounded-xl" min-height="80vh">
                     <!-- Welcome Section -->
                     <v-row class="mb-4" align="center">
@@ -169,15 +166,13 @@
 
                     <PendingMicrosite v-else />
                 </v-card>
-            </v-container>
-        </v-main>
-    </v-app>
+        </app-layout>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from "vue-router";
-import AppBar from '@/components/AppBar.vue';
+
 import PendingMicrosite from "@/views/MicrositeListPage.vue";
 
 
