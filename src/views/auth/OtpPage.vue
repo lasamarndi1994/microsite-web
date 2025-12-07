@@ -22,7 +22,18 @@
               :class="{ 'spin-animation': !canResend }" @click="handleResendOtp" :disabled="!canResend"></v-icon>
           </div>
 
-          <VueButton title="Verify OTP" classStyle="w-100" type="submit" />
+          <v-btn
+        :disabled="loading"
+        :loading="loading"
+        class="text-none mb-4 btn-primary text-white "
+        size="large"
+      
+        type="submit"
+        block
+       
+      >
+        Verify OTP and continue
+      </v-btn>
 
           <p class="mt-3 text-center responsive-body" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Enter the OTP sent to your email to continue.</p>
         </form>
@@ -33,12 +44,14 @@
 </template>
 
 <script setup>
+
 import { useField } from "vee-validate";
 import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import AuthLayout from "@/components/AuthLayout.vue";
 import AuthCard from "@/components/AuthCard.vue";
 
+const loading = ref(false);
 const router = useRouter();
 const { value: otp, errorMessage: otpError, validate } = useField('otp', 'required|numeric|min:6');
 const timer = ref(30);
@@ -69,6 +82,7 @@ const handleVerifyOtp = async () => {
   const { valid } = await validate();
 
   if (valid) {
+    loading.value = true;
     router.push("/dashboard");
   }
 };

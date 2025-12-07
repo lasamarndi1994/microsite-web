@@ -19,7 +19,19 @@
 
 
 
-          <VueButton title="Login" classStyle="w-100" type="submit" />
+         
+          <v-btn
+        :disabled="loading"
+        :loading="loading"
+        class="text-none mb-4 btn-primary text-white "
+        size="large"
+      
+        type="submit"
+        block
+       
+      >
+        Login
+      </v-btn>
 
           <p class="mt-2 text-center text-grey-darken-1" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-14'">
             Access restricted to authorized administrators only
@@ -36,7 +48,8 @@ import { ref } from "vue";
 import { useRouter } from "vue-router";
 import AuthLayout from "@/components/AuthLayout.vue";
 import AuthCard from "@/components/AuthCard.vue";
-import VueButton from "@/components/VueButton.vue";
+
+const loading = ref(false);
 
 const router = useRouter();
 const { validate } = useForm();
@@ -50,10 +63,8 @@ const handleLogin = async () => {
   const { valid } = await validate();
 
   if (valid) {
-    // TODO: Add actual authentication logic here
-    console.log("Login attempt:", { username: username.value, password: password.value });
-
-    // For now, redirect to admin dashboard
+    loading.value = true;
+   
     router.push("/admin/dashboard");
   }
 };
