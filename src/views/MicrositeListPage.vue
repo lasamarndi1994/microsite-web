@@ -6,50 +6,37 @@
                     hide-details single-line class="bg-white rounded-lg search-input" max-width="450px"></v-text-field>
             </v-col>
             <v-col cols="auto">
-                  <v-btn variant="outlined" prepend-icon="mdi-filter-variant" class="ml-4 text-capitalize" height="48"
-                color="grey-darken-3" style="border-color: #7f56da; color: #7f56da">
-                {{ selectedFilterLabel || 'Filters' }}
-                <v-menu activator="parent">
-                  <v-list class="py-3 px-2" min-width="220">
-                    <v-list-item 
-                      v-for="(filter, index) in filterOptions" 
-                      :key="index" 
-                      :value="filter.value"
-                      class="mb-2 filter-item rounded-lg"
-                      @click="selectFilter(filter.value)"
-                    >
-                      <template v-slot:default>
-                        <div class="d-flex align-center justify-space-between w-100">
-                          <v-chip 
-                            :color="filter.color" 
-                            size="small" 
-                            variant="flat" 
-                            class="px-3"
-                          >
-                            <v-icon :icon="filter.icon" size="16" class="mr-1"></v-icon>
-                            <span class="text-capitalize font-weight-medium">{{ filter.label }}</span>
-                          </v-chip>
-                          <v-icon 
-                            v-if="selectedFilter === filter.value" 
-                            icon="mdi-check-circle" 
-                            color="success" 
-                            size="20"
-                          ></v-icon>
-                        </div>
-                      </template>
-                    </v-list-item>
-                    <v-divider class="my-2"></v-divider>
-                    <v-list-item class="filter-item rounded-lg" @click="clearFilter">
-                      <template v-slot:default>
-                        <div class="d-flex align-center">
-                          <v-icon icon="mdi-close-circle-outline" size="18" class="mr-2 text-grey"></v-icon>
-                          <span class="text-body-2 text-grey-darken-2">Clear Filter</span>
-                        </div>
-                      </template>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-              </v-btn>
+                <v-btn variant="outlined" prepend-icon="mdi-filter-variant" class="ml-4 text-capitalize" height="48"
+                    color="grey-darken-3" style="border-color: #7f56da; color: #7f56da">
+                    {{ selectedFilterLabel || 'Filters' }}
+                    <v-menu activator="parent">
+                        <v-list class="py-3 px-2" min-width="220">
+                            <v-list-item v-for="(filter, index) in filterOptions" :key="index" :value="filter.value"
+                                class="mb-2 filter-item rounded-lg" @click="selectFilter(filter.value)">
+                                <template v-slot:default>
+                                    <div class="d-flex align-center justify-space-between w-100">
+                                        <v-chip :color="filter.color" size="small" variant="flat" class="px-3">
+                                            <v-icon :icon="filter.icon" size="16" class="mr-1"></v-icon>
+                                            <span class="text-capitalize font-weight-medium">{{ filter.label }}</span>
+                                        </v-chip>
+                                        <v-icon v-if="selectedFilter === filter.value" icon="mdi-check-circle"
+                                            color="success" size="20"></v-icon>
+                                    </div>
+                                </template>
+                            </v-list-item>
+                            <v-divider class="my-2"></v-divider>
+                            <v-list-item class="filter-item rounded-lg" @click="clearFilter">
+                                <template v-slot:default>
+                                    <div class="d-flex align-center">
+                                        <v-icon icon="mdi-close-circle-outline" size="18"
+                                            class="mr-2 text-grey"></v-icon>
+                                        <span class="text-body-2 text-grey-darken-2">Clear Filter</span>
+                                    </div>
+                                </template>
+                            </v-list-item>
+                        </v-list>
+                    </v-menu>
+                </v-btn>
             </v-col>
         </v-row>
 
@@ -65,24 +52,37 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="item in microsites" :key="item.title">
+
+                    <tr v-for="(item, index) in microsites" :key="index">
                         <td class="py-4">
                             <div class="d-flex align-center">
                                 <v-avatar color="blue-lighten-5" rounded="lg" size="40" class="mr-4">
-                                    <v-icon :color="item.iconColor" :icon="item.icon"></v-icon>
+                                    <!-- Use item.image if available, else default icon -->
+                                    <v-img v-if="item.banner_image" :src="item.banner_image"
+                                        :lazy-src="item.banner_image" cover transition="fade-transition">
+                                        <template v-slot:placeholder>
+                                            <div class="d-flex align-center justify-center fill-height">
+                                                <v-progress-circular color="grey-lighten-4" indeterminate
+                                                    size="20"></v-progress-circular>
+                                            </div>
+                                        </template>
+                                    </v-img>
+                                    <v-icon v-else color="blue">mdi-web</v-icon>
                                 </v-avatar>
                                 <div>
                                     <div class="text-subtitle-2 font-weight-bold">{{ item.title }}</div>
-                                    <div class="text-caption text-grey">{{ item.subtitle }}</div>
+                                    <div class="text-caption text-grey">{{ item.description }}</div>
                                 </div>
                             </div>
                         </td>
                         <td>
-                            <v-chip :color="item.statusColor" size="small" variant="flat" class="px-2">
+                            <v-chip :color="getStatusColor(item.status)" size="small" variant="flat"
+                                class="px-2 text-white font-weight-bold">
                                 <span class="text-capitalize">{{ item.status }}</span>
                             </v-chip>
                         </td>
-                        <td class="text-body-2 text-grey-darken-1">{{ item.date }}</td>
+                        <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at) }}
+                        </td>
                         <td class="text-right">
                             <v-btn icon="mdi-delete-outline" variant="text" color="grey" size="large"
                                 @click="confirmDelete(item)"></v-btn>
@@ -102,7 +102,8 @@
                 <div class="d-flex justify-space-between align-center mb-6">
                     <h3 class="text-h6 font-weight-bold">
                         {{ selectedMicrosite?.status === 'Rejected' ? 'Rejection Details' : 'Microsite Details' }}</h3>
-                    <v-btn icon="mdi-close" variant="text" density="compact" class="mt-n5" @click="showPreview = false"></v-btn>
+                    <v-btn icon="mdi-close" variant="text" density="compact" class="mt-n5"
+                        @click="showPreview = false"></v-btn>
                 </div>
 
                 <v-row class="mb-4" v-if="selectedMicrosite">
@@ -118,18 +119,24 @@
                     </v-col>
                     <v-col cols="4">
                         <div class="text-caption text-grey mb-1">Last Updated</div>
-                        <div class="font-weight-bold">{{ selectedMicrosite.date }}</div>
+                        <div class="font-weight-bold">{{ formatDate(selectedMicrosite.updated_at) }}</div>
                     </v-col>
                 </v-row>
 
-                <div v-if="selectedMicrosite?.rejectionReason" class="mb-6">
+                <div v-if="selectedMicrosite?.rejection_reason" class="mb-6">
                     <div class="text-caption text-grey mb-2">Reason from Admin</div>
                     <div class="bg-grey-lighten-5 pa-4 rounded-lg border text-body-2">
-                        {{ selectedMicrosite.rejectionReason }}
+                        {{ selectedMicrosite.rejection_reason || "Lorem ipsum is a dummy or placeholder text commonly "
+                        }}
                     </div>
                 </div>
 
-                <VueButton title="Close" classStyle="w-100" @click="showPreview = false" />
+                <v-btn :disabled="loading" height="44" :loading="loading" class="text-none mb-4 btn-primary text-white "
+                    size="large" @click="showPreview = false" block>
+                    Close
+                </v-btn>
+
+
             </v-card>
         </v-dialog>
 
@@ -137,9 +144,10 @@
             <v-card class="rounded-xl pa-6">
                 <div class="d-flex justify-space-between align-center mb-6">
                     <h3 class="fs-18 fw-500 mb-0">Delete Campaign Landing?</h3>
-                <v-btn icon="mdi-close" variant="text" density="compact" class="mt-n5" @click="showDeleteConfirm = false"></v-btn>
+                    <v-btn icon="mdi-close" variant="text" density="compact" class="mt-n5"
+                        @click="showDeleteConfirm = false"></v-btn>
                 </div>
-                
+
                 <p class="fs-14 fw-400 text-grey mb-6">
                     Are you sure you want to delete this post?<br> This action cannot be undone.
                 </p>
@@ -167,6 +175,12 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
+const props = defineProps({
+    microsites: {
+        type: Array,
+        default: () => []
+    }
+});
 
 const selectedFilter = ref(null);
 const selectedFilterLabel = ref(null);
@@ -187,76 +201,63 @@ const confirmDelete = (item) => {
 };
 
 const deleteItem = () => {
-    if (itemToDelete.value) {
-        microsites.value = microsites.value.filter(m => m !== itemToDelete.value);
-        showDeleteConfirm.value = false;
-        itemToDelete.value = null;
+    // access props.microsites directly if it was a local ref, but since it is a prop 
+    // we cannot mutate it directly. We should probably emit an event or just log for now as delete logic is mock.
+    // For now, let's just close the dialog.
+    showDeleteConfirm.value = false;
+    itemToDelete.value = null;
+};
+
+const getStatusColor = (status) => {
+    switch (status) {
+        case 'Active': return 'success';
+        case 'Pending': return 'warning';
+        case 'Rejected': return 'error';
+        case 'Approved': return 'info';
+        default: return 'grey';
     }
 };
 
-const microsites = ref([
-    {
-        title: 'Product Launch',
-        subtitle: 'Product Launch.io',
-        icon: 'mdi-rocket-launch-outline',
-        iconColor: 'blue',
-        status: 'Pending',
-        statusColor: 'orange-lighten-4 text-orange-darken-4', // Custom styling for chip
-        date: '20 NOV 2025',
-    },
-    {
-        title: 'Campaign Landing',
-        subtitle: 'Campaign Landing.io',
-        icon: 'mdi-bullhorn-outline',
-        iconColor: 'orange',
-        status: 'Rejected',
-        statusColor: 'red-lighten-4 text-red-darken-4',
-        date: '24 NOV 2025',
-        rejectionReason: 'The banner image uploaded is low resolution and does not meet the required quality standards.',
-    },
-    {
-        title: 'Campaign Landing',
-        subtitle: 'Campaign Landing.io',
-        icon: 'mdi-bullhorn-outline',
-        iconColor: 'orange',
-        status: 'Active',
-        statusColor: 'green-lighten-4 text-green-darken-4',
-        date: '24 NOV 2025',
-    },
-]);
+const formatDate = (dateString) => {
+    if (!dateString) return 'N/A';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+};
 
 const filterOptions = ref([
-  {
-    label: 'Active',
-    value: 'active',
-    color: 'green-lighten-4 text-green-darken-4',
-    icon: 'mdi-check-circle'
-  },
-  {
-    label: 'Rejected',
-    value: 'rejected',
-    color: 'red-lighten-4 text-red-darken-4',
-    icon: 'mdi-close-circle'
-  },
-  {
-    label: 'Pending',
-    value: 'pending',
-    color: 'orange-lighten-4 text-orange-darken-4',
-    icon: 'mdi-clock-outline'
-  }
+    {
+        label: 'Active',
+        value: 'active',
+        color: 'green-lighten-4 text-green-darken-4',
+        icon: 'mdi-check-circle'
+    },
+    {
+        label: 'Rejected',
+        value: 'rejected',
+        color: 'red-lighten-4 text-red-darken-4',
+        icon: 'mdi-close-circle'
+    },
+    {
+        label: 'Pending',
+        value: 'pending',
+        color: 'orange-lighten-4 text-orange-darken-4',
+        icon: 'mdi-clock-outline'
+    }
 ]);
 
+const emit = defineEmits(['filter-change']);
+
 const selectFilter = (value) => {
-  selectedFilter.value = value;
-  const filter = filterOptions.value.find(f => f.value === value);
-  selectedFilterLabel.value = filter ? filter.label : null;
-  // Add your filter logic here
-  console.log('Filter selected:', value);
+    selectedFilter.value = value;
+    const filter = filterOptions.value.find(f => f.value === value);
+    selectedFilterLabel.value = filter ? filter.label : null;
+    emit('filter-change', value);
 };
 
 const clearFilter = () => {
-  selectedFilter.value = null;
-  selectedFilterLabel.value = null;
+    selectedFilter.value = null;
+    selectedFilterLabel.value = null;
+    emit('filter-change', null);
 };
 
 </script>

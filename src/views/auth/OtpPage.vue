@@ -26,6 +26,7 @@
           <v-btn
         :disabled="loading"
         :loading="loading"
+         height="44"
         class="text-none mb-4 btn-primary text-white "
         size="large"
       

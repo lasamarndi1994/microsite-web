@@ -1,41 +1,33 @@
 <template>
-    <AuthLayout>
-      <template #card>
-        <AuthCard>
-          <form @submit.prevent="handleSendOtp">
-            <h3 class="font-weight-medium mb-8 mt-3 text-center responsive-heading" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-18'">
-              Login with Mobile Number
-            </h3>
+  <AuthLayout>
+    <template #card>
+      <AuthCard>
+        <form @submit.prevent="handleSendOtp">
+          <h3 class="font-weight-medium mb-8 mt-3 text-center responsive-heading"
+            :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-18'">
+            Login with Mobile Number
+          </h3>
 
-            <v-text-field v-model="mobile" label="Enter your mobile number" variant="outlined" density="default"
-              maxlength="10" :error-messages="mobileError" class="mb-2 text-start" autocomplete="off"
-              @input="onInput" />
+          <v-text-field v-model="mobile" label="Enter your mobile number" variant="outlined" density="default"
+            maxlength="10" :error-messages="mobileError" class="mb-2 text-start" autocomplete="off" @input="onInput" />
 
-            <!-- <VueButton title="Send OTP" classStyle="w-100" type="submit" /> -->
-             
-      <v-btn
-        :disabled="loading"
-        :loading="loading"
-        class="text-none mb-4 btn-primary text-white "
-        size="large"
-      
-        type="submit"
-        block
-       
-      >
-        Send OTP 
-      </v-btn>
 
-            <p class="mt-3 text-center" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">We’ll send a verification code to your E-mail</p>
-          </form>
+          <v-btn :disabled="loading" height="44" :loading="loading" class="text-none mb-4 btn-primary text-white "
+            size="large" type="submit" block>
+            Send OTP
+          </v-btn>
 
-        </AuthCard>
-      </template>
-    </AuthLayout>
+          <p class="mt-3 text-center" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">We’ll send a verification
+            code to your E-mail</p>
+        </form>
+
+      </AuthCard>
+    </template>
+  </AuthLayout>
 </template>
 
 <script setup>
-import{ref} from 'vue';
+import { ref } from 'vue';
 import { useField } from "vee-validate";
 import { useRouter } from "vue-router";
 import AuthLayout from "@/components/AuthLayout.vue";
@@ -59,24 +51,24 @@ const onInput = (event) => {
 const handleSendOtp = async () => {
   const { valid } = await validate();
   if (valid) {
-   loading.value = true;
+    loading.value = true;
 
-   api.post("/validate-mobile-number", { mobile_number: mobile.value })
-   .then(async(response) => {
-    if(response.data.status){
-      loading.value = false;
-      await store.storeUser(response.data.data);
-      await router.push("/otp-verification");
-    }
-   })
-   .catch((error) => {
-    loading.value = false;
-     
-     if (error.response && error.response.data && error.response.data.message) {
-        setErrors(error.response.data.message);
-     }
-   })
-   
+    api.post("/validate-mobile-number", { mobile_number: mobile.value })
+      .then(async (response) => {
+        if (response.data.status) {
+          loading.value = false;
+          await store.storeUser(response.data.data);
+          await router.push("/otp-verification");
+        }
+      })
+      .catch((error) => {
+        loading.value = false;
+
+        if (error.response && error.response.data && error.response.data.message) {
+          setErrors(error.response.data.message);
+        }
+      })
+
   }
 };
 </script>

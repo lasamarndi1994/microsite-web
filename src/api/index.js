@@ -6,7 +6,8 @@ const myBaseUrl = import.meta.env.VITE_API_BASE_URL;
 const createAxios = axios.create({
   baseURL: myBaseUrl,
   headers: {
-    Accept: "application/json",
+    "Accept": "application/json",
+    "Content-Type": "application/json",
   },
 });
 
@@ -32,7 +33,7 @@ createAxios.interceptors.response.use(
         error.response.status === 401 ||
         error.response.data.message == "Unauthenticated."
       ) {
-        store.tokenTimeOut();
+        store.logout();
       }
     }
     return Promise.reject(error);
