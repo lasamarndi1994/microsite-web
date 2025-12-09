@@ -131,8 +131,8 @@
                     </div>
                 </div>
 
-                <v-btn :disabled="loading" height="44" :loading="loading" class="text-none mb-4 btn-primary text-white "
-                    size="large" @click="showPreview = false" block>
+                <v-btn height="44" class="text-none mb-4 btn-primary text-white " size="large"
+                    @click="showPreview = false" block>
                     Close
                 </v-btn>
 

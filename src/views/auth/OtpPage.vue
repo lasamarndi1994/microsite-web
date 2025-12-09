@@ -2,15 +2,17 @@
   <AuthLayout>
     <template #card>
       <AuthCard>
-    
+
         <form @submit.prevent="handleVerifyOtp">
           <h3 class="fw-500 mb-3 text-start" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-18'">
-            Check your inbox at {{ store.user.email }} <span class="text-secondary-color text-caption cursor-pointer ml-2" @click="changeEmail">Change</span>
+            Check your inbox at {{ store.user.email }} <span
+              class="text-secondary-color text-caption cursor-pointer ml-2" @click="changeEmail">Change</span>
           </h3>
 
-          <p class="text-start mb-2 responsive-body" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">Enter OTP</p>
+          <p class="text-start mb-2 responsive-body" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">Enter OTP
+          </p>
 
-          <v-otp-input v-model="otp" length="6" class="otp-responsive"  maxWidth="100%" :error-messages="mobileError" />
+          <v-otp-input v-model="otp" length="6" class="otp-responsive" maxWidth="100%" />
           <div class=" mb-0">
             <div v-if="otpError" class="text-error text-caption">{{ otpError }}</div>
           </div>
@@ -23,21 +25,13 @@
               :class="{ 'spin-animation': !canResend }" @click="handleResendOtp" :disabled="!canResend"></v-icon>
           </div>
 
-          <v-btn
-        :disabled="loading"
-        :loading="loading"
-         height="44"
-        class="text-none mb-4 btn-primary text-white "
-        size="large"
-      
-        type="submit"
-        block
-       
-      >
-        Verify OTP and continue
-      </v-btn>
+          <v-btn :disabled="loading" :loading="loading" height="44" class="text-none mb-4 btn-primary text-white "
+            size="large" type="submit" block>
+            Verify OTP and continue
+          </v-btn>
 
-          <p class="mt-3 text-center responsive-body" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Enter the OTP sent to your email to continue.</p>
+          <p class="mt-3 text-center responsive-body" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Enter the
+            OTP sent to your email to continue.</p>
         </form>
 
       </AuthCard>
@@ -89,20 +83,20 @@ const changeEmail = () => {
 
 const handleResendOtp = () => {
   if (canResend.value) {
-   api.post("/auth/resend-otp", { mobile_number: store.user.mobile_number.toString() })
-    .then((response) => {
-      if(response.data.status){
-        startTimer();
-        successMessage.value = response.data.message || 'OTP has been resent successfully';
-        showSuccess.value = true;
-      }
-    })
-    .catch((error) => {
-      if (error.response && error.response.data && error.response.data.message) {
-        setErrors(error.response.data.message);
-      }
-    })
-    
+    api.post("/auth/resend-otp", { mobile_number: store.user.mobile_number.toString() })
+      .then((response) => {
+        if (response.data.status) {
+          startTimer();
+          successMessage.value = response.data.message || 'OTP has been resent successfully';
+          showSuccess.value = true;
+        }
+      })
+      .catch((error) => {
+        if (error.response && error.response.data && error.response.data.message) {
+          setErrors(error.response.data.message);
+        }
+      })
+
   }
 };
 
@@ -111,22 +105,24 @@ const handleVerifyOtp = async () => {
 
   if (valid) {
     loading.value = true;
-    api.post("/auth/login", { mobile_otp: otp.value,
-       mobile_number: store.user.mobile_number.toString() })
-    .then(async(response) => {
-      if(response.data.status){
+    api.post("/auth/login", {
+      mobile_otp: otp.value,
+      mobile_number: store.user.mobile_number.toString()
+    })
+      .then(async (response) => {
+        if (response.data.status) {
+          loading.value = false;
+          await store.storeToken(response.data.data);
+          await router.push("/dashboard");
+        }
+      })
+      .catch((error) => {
         loading.value = false;
-        await store.storeToken(response.data.data);
-        await router.push("/dashboard");
-      }
-    })
-    .catch((error) => {
-      loading.value = false;
-      if (error.response && error.response.data && error.response.data.message) {
-        setErrors(error.response.data.message);
-      }
-    })
-   
+        if (error.response && error.response.data && error.response.data.message) {
+          setErrors(error.response.data.message);
+        }
+      })
+
   }
 };
 
@@ -159,6 +155,7 @@ onUnmounted(() => {
     font-size: 9px;
   }
 }
+
 .error-container {
   height: 24px;
   margin-bottom: 16px;
