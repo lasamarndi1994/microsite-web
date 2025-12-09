@@ -52,46 +52,78 @@
                     </tr>
                 </thead>
                 <tbody>
-
-                    <tr v-for="(item, index) in microsites" :key="index">
-                        <td class="py-4">
-                            <div class="d-flex align-center">
-                                <v-avatar color="blue-lighten-5" rounded="lg" size="40" class="mr-4">
-                                    <!-- Use item.image if available, else default icon -->
-                                    <v-img v-if="item.banner_image" :src="item.banner_image"
-                                        :lazy-src="item.banner_image" cover transition="fade-transition">
-                                        <template v-slot:placeholder>
-                                            <div class="d-flex align-center justify-center fill-height">
-                                                <v-progress-circular color="grey-lighten-4" indeterminate
-                                                    size="20"></v-progress-circular>
-                                            </div>
-                                        </template>
-                                    </v-img>
-                                    <v-icon v-else color="blue">mdi-web</v-icon>
-                                </v-avatar>
-                                <div>
-                                    <div class="text-subtitle-2 font-weight-bold">{{ item.title }}</div>
-                                    <div class="text-caption text-grey">{{ item.description }}</div>
+                    <template v-if="loading">
+                        <tr v-for="n in 5" :key="n">
+                            <td class="py-4">
+                                <div class="d-flex align-center">
+                                    <v-skeleton-loader type="avatar" class="mr-4"></v-skeleton-loader>
+                                    <div class="w-100">
+                                        <v-skeleton-loader type="text" width="60%" class="mb-1"></v-skeleton-loader>
+                                        <v-skeleton-loader type="text" width="40%"></v-skeleton-loader>
+                                    </div>
                                 </div>
-                            </div>
-                        </td>
-                        <td>
-                            <v-chip :color="getStatusColor(item.status)" size="small" variant="flat"
-                                class="px-2 text-white font-weight-bold">
-                                <span class="text-capitalize">{{ item.status }}</span>
-                            </v-chip>
-                        </td>
-                        <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at) }}
-                        </td>
-                        <td class="text-right">
-                            <v-btn icon="mdi-delete-outline" variant="text" color="grey" size="large"
-                                @click="confirmDelete(item)"></v-btn>
-                            <v-btn v-if="item.status !== 'Pending'" icon="mdi-pencil-outline" variant="text"
-                                color="grey" size="large"></v-btn>
-                            <v-btn v-if="item.status !== 'Pending'" icon="mdi-eye-outline" variant="text" color="grey"
-                                size="large" @click="openPreview(item)"></v-btn>
-                        </td>
-                    </tr>
+                            </td>
+                            <td>
+                                <v-skeleton-loader type="chip"></v-skeleton-loader>
+                            </td>
+                            <td>
+                                <v-skeleton-loader type="text" width="100px"></v-skeleton-loader>
+                            </td>
+                            <td class="text-right">
+                                <div class="d-flex justify-end">
+                                    <v-skeleton-loader type="avatar" class="ml-2" width="30"
+                                        height="30"></v-skeleton-loader>
+                                    <v-skeleton-loader type="avatar" class="ml-2" width="30"
+                                        height="30"></v-skeleton-loader>
+                                    <v-skeleton-loader type="avatar" class="ml-2" width="30"
+                                        height="30"></v-skeleton-loader>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                    <template v-else>
+
+                        <tr v-for="(item, index) in microsites" :key="index">
+                            <td class="py-4">
+                                <div class="d-flex align-center">
+                                    <v-avatar color="blue-lighten-5" rounded="lg" size="40" class="mr-4">
+                                        <!-- Use item.image if available, else default icon -->
+                                        <v-img v-if="item.banner_image" :src="item.banner_image"
+                                            :lazy-src="item.banner_image" cover transition="fade-transition">
+                                            <template v-slot:placeholder>
+                                                <div class="d-flex align-center justify-center fill-height">
+                                                    <v-progress-circular color="grey-lighten-4" indeterminate
+                                                        size="20"></v-progress-circular>
+                                                </div>
+                                            </template>
+                                        </v-img>
+                                        <v-icon v-else color="blue">mdi-web</v-icon>
+                                    </v-avatar>
+                                    <div>
+                                        <div class="text-subtitle-2 font-weight-bold">{{ item.title }}</div>
+                                        <div class="text-caption text-grey">{{ item.description }}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                                <v-chip :color="getStatusColor(item.status)" size="small" variant="flat"
+                                    class="px-2 text-white font-weight-bold">
+                                    <span class="text-capitalize">{{ item.status }}</span>
+                                </v-chip>
+                            </td>
+                            <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
+                                }}
+                            </td>
+                            <td class="text-right">
+                                <v-btn icon="mdi-delete-outline" variant="text" color="grey" size="large"
+                                    @click="confirmDelete(item)"></v-btn>
+                                <v-btn v-if="item.status !== 'Pending'" icon="mdi-pencil-outline" variant="text"
+                                    color="grey" size="large"></v-btn>
+                                <v-btn v-if="item.status !== 'Pending'" icon="mdi-eye-outline" variant="text"
+                                    color="grey" size="large" @click="openPreview(item)"></v-btn>
+                            </td>
+                        </tr>
+                    </template>
                 </tbody>
             </v-table>
         </v-card>
@@ -179,6 +211,10 @@ const props = defineProps({
     microsites: {
         type: Array,
         default: () => []
+    },
+    loading: {
+        type: Boolean,
+        default: false
     }
 });
 

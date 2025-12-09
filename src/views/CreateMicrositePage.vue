@@ -1,198 +1,241 @@
 <template>
-<app-layout>
-                <v-card flat class="card-padding rounded-xl" min-height="80vh">
-                    <div class="d-flex align-center justify-space-between mb-6">
-                        <h1 class="font-weight-bold text-grey-darken-3" :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Create your microsite profile</h1>
-                        <v-btn variant="text" color="grey-darken-2" icon @click="goBack">
-                            <v-icon>mdi-arrow-left</v-icon>
-                            <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
+    <app-layout>
+        <v-card flat :class="$vuetify.display.smAndDown ? 'bg-transparent' : 'card-padding rounded-xl'"
+            :min-height="$vuetify.display.smAndDown ? '100%' : '80vh'">
+            <v-container class="pa-0" style="max-width: 1000px;">
+                <div class="d-flex align-center justify-space-between mb-6">
+                    <div>
+                        <h1 class="font-weight-bold text-grey-darken-3"
+                            :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">
+                            Create your microsite profile</h1>
+                        <p class="text-grey-darken-1 text-body-2 mt-1">Setup your professional microsite</p>
+                    </div>
+                    <!-- Top Actions -->
+                    <div class="d-flex gap-3">
+
+                        <v-btn variant="text" color="grey-darken-2" icon @click="goBack" class="ml-2">
+                            <v-icon>mdi-close</v-icon>
+                            <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
                         </v-btn>
                     </div>
+                </div>
 
+                <!-- Main Form Card -->
+                <v-card flat class="rounded-xl overflow-hidden pb-8" style="background-color: #F8F9FB;">
 
-                    <!-- Media Section -->
-                    <div class="mb-8">
-                        <h2 class="fs-20 fw-500 mb-4 d-flex align-center" :class="$vuetify.display.smAndDown ? 'fs-18' : 'fs-20'">
-                            <v-icon icon="mdi-image-outline" class="mr-2" color="grey-darken-1"></v-icon> Media
-                        </h2>
-                        <v-row>
-                            <v-col cols="12" md="6" lg="8" class="d-flex align-center">
-                                <div class="position-relative mr-4">
-                                    <input type="file" ref="profileInputRef" accept="image/*" class="d-none" @change="onProfileChange" />
-                                    
-                                    <div v-if="profilePhoto" class="position-relative image-preview-wrapper">
-                                        <v-img :src="profilePhoto" cover class="rounded-circle" width="100" height="100"></v-img>
-                                        <v-btn icon="mdi-close" size="x-small" color="error" variant="flat"
-                                            class="position-absolute remove-icon" style="top: -5px; right: -5px; z-index: 1;"
-                                            @click="removeProfilePhoto"></v-btn>
-                                    </div>
+                    <!-- Hero Section (Banner & Profile) -->
+                    <div class="position-relative bg-white mb-6">
+                        <!-- Banner Area -->
+                        <div class="banner-upload-area position-relative"
+                            :style="{ height: '240px', backgroundColor: bannerPhoto ? '#000' : '#F3F4F6' }">
 
-                                    <div v-else class="bg-grey-lighten-3 rounded-circle d-flex align-center justify-center"
-                                        style="width: 100px; height: 100px;">
-                                        <v-icon icon="mdi-account" color="grey" size="40"></v-icon>
-                                    </div>
-                                </div>
-                                <div>
-                                    <div class="fw-500 mb-1" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Profile Photo</div>
-                                    <v-btn variant="outlined" size="small" class="text-capitalize px-4"
-                                        style="border-color: var(--secondary-color); color: var(--secondary-color);"
-                                        :ripple="false" @click="triggerProfileUpload">
-                                        Upload photo
-                                    </v-btn>
-                                </div>
-                            </v-col>
-                            <v-col cols="12" md="6" lg="4">
-                                <v-text-field v-model="title" label="Title" placeholder="Title" variant="outlined" density="default"
-                                    class="bg-white" :error-messages="titleError"></v-text-field>
-                            </v-col>
-                        </v-row>
-                    </div>
+                            <v-img v-if="bannerPhoto" :src="bannerPhoto" cover height="100%"
+                                class="w-100 opacity-90"></v-img>
 
+                            <!-- Banner Actions -->
+                            <div class="position-absolute w-100 h-100 d-flex flex-column align-center justify-center banner-hover-overlay"
+                                style="top: 0; left: 0; transition: all 0.3s;">
+                                <v-btn variant="flat" color="white" class="text-capitalize" prepend-icon="mdi-camera"
+                                    @click="triggerBannerUpload">
+                                    {{ bannerPhoto ? 'Change Cover' : 'Add Cover Photo' }}
+                                </v-btn>
+                                <input type="file" ref="bannerInputRef" accept="image/*" class="d-none"
+                                    @change="onBannerChange" />
+                                <div v-if="bannerError" class="text-caption text-red mt-2 bg-white px-2 rounded">{{
+                                    bannerError }}</div>
+                            </div>
 
-
-                    <v-divider class="my-6"></v-divider>
-
-                    <!-- Basic Details -->
-                    <div class="mb-8">
-                        <h2 class="fw-500 mb-4 d-flex align-center" :class="$vuetify.display.smAndDown ? 'fs-18' : 'fs-20'">
-                            <v-icon icon="mdi-card-account-details-outline" class="mr-2" color="grey-darken-1"></v-icon>
-                            Basic Details
-                        </h2>
-                        <v-row>
-                            <v-col cols="12" md="4">
-                                <v-text-field v-model="fullName" label="Full Name" placeholder="First Name" variant="outlined"
-                                    density="default" class="bg-white" :error-messages="fullNameError"></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="4">
-                                <v-text-field v-model="businessName" label="Business name" placeholder="Business name" variant="outlined"
-                                    density="default" class="bg-white" :error-messages="businessNameError"></v-text-field>
-                            </v-col>
-                            <v-col cols="12" md="4">
-                                <v-text-field v-model="businessLocation" label="Business location" placeholder="Business location"
-                                    variant="outlined" density="default" class="bg-white" :error-messages="businessLocationError"></v-text-field>
-                            </v-col>
-                            <v-col cols="12">
-                                <v-textarea v-model="professionalNote" label="Professional note" placeholder="Professional note" variant="outlined"
-                                    rows="3" class="bg-white"></v-textarea>
-                            </v-col>
-                        </v-row>
-                    </div>
-
-                    <!-- Banner Photo -->
-                    <div class="mb-8">
-                        <h2 class="fs-20 fw-500 mb-4 d-flex align-center" :class="$vuetify.display.smAndDown ? 'fs-18' : 'fs-20'">
-                            <v-icon icon="mdi-image-multiple-outline" class="mr-2" color="grey-darken-1"></v-icon>
-                            Banner photo
-                        </h2>
-                        <input type="file" ref="bannerInputRef" accept="image/*" class="d-none" @change="onBannerChange" />
-                        
-                        <div v-if="bannerPhoto" class="position-relative w-100 image-preview-wrapper p-1 dashed-border"
-                             style="border-color: #E0E0E0; border-style: dashed; border-width: 2px; border-radius: 12px;">
-                             <v-img :src="bannerPhoto" cover height="200" class="rounded-lg w-100"></v-img>
-                             <v-btn icon="mdi-close" size="small" color="error" variant="flat"
-                                class="position-absolute remove-icon" style="top: 15px; right: 15px; z-index: 1;"
+                            <!-- Close Banner -->
+                            <v-btn v-if="bannerPhoto" icon="mdi-close" size="small" color="error" variant="flat"
+                                class="position-absolute" style="top: 16px; right: 16px; z-index: 2;"
                                 @click="removeBannerPhoto"></v-btn>
                         </div>
 
-                        <div v-else class="dashed-border pa-8 text-center bg-grey-lighten-5 d-flex flex-column align-center justify-center"
-                            style="border-color: #E0E0E0; border-style: dashed; border-width: 2px; border-radius: 12px;">
-                            <div class="bg-deep-purple-lighten-5 rounded-circle d-flex align-center justify-center mb-3"
-                                style="width: 48px; height: 48px;">
-                                <v-icon icon="mdi-cloud-upload-outline" size="24" color="deep-purple-accent-2"></v-icon>
-                            </div>
-                            <div class="text-grey-darken-3 mb-1 font-weight-medium" :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">Browse and chose the
-                                files you want to upload from your computer</div>
-                            <div class="text-caption text-grey mb-4">Formats: JPG, PNG • Max size: 10 MB • Dimensions:
-                                800x800 px</div>
-                            <v-btn variant="outlined" class="text-capitalize px-6"
-                                style="border-color: var(--secondary-color); color: var(--secondary-color);"
-                                :ripple="false" @click="triggerBannerUpload">
-                                Upload Banner
-                            </v-btn>
-                        </div>
-                        <div v-if="bannerError" class="text-error text-caption mt-2">{{ bannerError }}</div>
-                    </div>
-
-                    <!-- Social Links -->
-                    <div class="mb-8">
-                        <h2 class="fw-500 mb-4 d-flex align-center" :class="$vuetify.display.smAndDown ? 'fs-18' : 'fs-20'">
-                            <v-icon icon="mdi-share-variant-outline" class="mr-2" color="grey-darken-1"></v-icon> Social
-                            Links
-                        </h2>
-                        
-                        <v-row>
-                            <v-col cols="12" md="6" v-for="(item, index) in socialLinks" :key="index">
-                                <div class="d-flex align-center">
-                                    <v-menu>
-                                        <template v-slot:activator="{ props }">
-                                            <div v-bind="props"
-                                                class="d-flex align-center bg-grey-lighten-4 rounded-lg mr-2 px-3 social-icon-div"
-                                                style="height: 56px; border: 1px solid #E0E0E0; cursor: pointer;">
-                                                <v-icon :icon="item.platform.icon" class="mr-2"
-                                                    :color="item.platform.color" size="42"></v-icon>
-                                                <v-icon icon="mdi-chevron-down" color="grey-darken-2"></v-icon>
-                                            </div>
-                                        </template>
-                                        <v-list>
-                                            <v-list-item v-for="social in socialPlatforms" :key="social.name"
-                                                @click="item.platform = social">
-                                                <template v-slot:prepend>
-                                                    <v-icon :icon="social.icon" :color="social.color" size="32"></v-icon>
-                                                </template>
-                                                <v-list-item-title>{{ social.name }}</v-list-item-title>
-
-                                            </v-list-item>
-                                        </v-list>
-                                    </v-menu>
-                                    <v-text-field v-model="item.url" :placeholder="item.platform.placeholder" variant="outlined" hide-details="auto"
-                                        class="bg-white mr-4 social-text-field" density="default"></v-text-field>
-                                    
-                                    <v-btn variant="text" class="text-capitalize px-3" prepend-icon="mdi-minus-circle-outline"
-                                        style="color: var(--tertiary-color); font-size: 16px; font-weight: 500;"
-                                        :ripple="false" @click="removeSocialLink(index)" v-if="socialLinks.length >1">
-                                        Remove
-                                    </v-btn>
-                                    
-                                    <v-btn v-if="index === socialLinks.length - 1" variant="text" class="text-capitalize px-3" prepend-icon="mdi-plus-circle-outline"
-                                        style="color: var(--secondary-color); font-size: 16px; font-weight: 500;"
-                                        :ripple="false" @click="addSocialLink">
-                                        Add
-                                    </v-btn>
+                        <!-- Profile Photo Overlay -->
+                        <div class="d-flex justify-center position-relative"
+                            style="margin-top: -60px; pointer-events: none;">
+                            <div class="position-relative profile-upload-wrapper" style="pointer-events: auto;">
+                                <!-- Profile Image -->
+                                <div class="rounded-circle border-white elevation-2 bg-white d-flex align-center justify-center overflow-hidden"
+                                    style="width: 120px; height: 120px; border-width: 4px; border-style: solid;">
+                                    <v-img v-if="profilePhoto" :src="profilePhoto" cover width="100%"
+                                        height="100%"></v-img>
+                                    <v-icon v-else icon="mdi-account" size="48" color="grey-lighten-2"></v-icon>
                                 </div>
-                            </v-col>
-                        </v-row>
-                    </div>
 
-                    <v-divider></v-divider>
+                                <!-- Upload Button (Small) -->
+                                <v-btn icon="mdi-camera" size="small" color="secondary" variant="flat"
+                                    class="position-absolute elevation-3"
+                                    style="bottom: 4px; right: 4px; border: 2px solid white;"
+                                    @click="triggerProfileUpload">
+                                </v-btn>
+                                <input type="file" ref="profileInputRef" accept="image/*" class="d-none"
+                                    @change="onProfileChange" />
 
-                    <!-- Services -->
-                    <div class="mb-8 mt-5">
-                        <h2 class="fw-500 mb-4 d-flex align-center" :class="$vuetify.display.smAndDown ? 'fs-18' : 'fs-20'">
-                            <v-icon icon="mdi-briefcase-outline" class="mr-2" color="grey-darken-1"></v-icon> Services
-                        </h2>
-                        <div class="d-flex flex-wrap gap-3">
-                            <v-chip v-for="service in availableServices" :key="service" class="custom-chip pr-2"
-                                :class="selectedServices.includes(service) ? 'bg-deep-purple-accent-2 text-white' : ''"
-                                :variant="selectedServices.includes(service) ? 'flat' : 'outlined'" label size="large"
-                                @click="toggleService(service)">
-                                {{ service }}
-                                <v-icon icon="mdi-close-circle" size="small" class="ml-2 remove-service-icon" @click.stop="removeService(service)"></v-icon>
-                            </v-chip>
-                            
-                            <!-- Custom Service Input -->
-                            <div class="custom-chip d-flex align-center px-0 service-input">
-                                <input
-                                    v-model="newService"
-                                    type="text"
-                                    placeholder="+ Add Custom"
-                                    class="w-100 h-100 px-4 text-body-2"
-                                    style="outline: none;"
-                                    @keydown.enter.prevent="addCustomService"
-                                    @blur="addCustomService" 
-                                />
+                                <!-- Remove Button -->
+                                <v-btn v-if="profilePhoto" icon="mdi-close" size="x-small" color="error" variant="flat"
+                                    class="position-absolute" style="top: 0; right: 0;"
+                                    @click="removeProfilePhoto"></v-btn>
                             </div>
                         </div>
+                        <div v-if="profileError" class="text-center text-caption text-red mt-2">{{ profileError }}</div>
                     </div>
+
+                    <!-- Content Container -->
+                    <v-container class="px-4 px-md-8">
+
+                        <!-- Basic Setup Card -->
+                        <v-card flat class="rounded-lg pa-6 mb-6 border" style="border-color: #EEE !important;">
+                            <div class="d-flex align-center mb-6">
+                                <v-avatar color="blue-lighten-5" size="40" class="mr-3">
+                                    <v-icon icon="mdi-text-box-edit-outline" color="blue" size="24"></v-icon>
+                                </v-avatar>
+                                <div>
+                                    <h3 class="text-body-1 font-weight-bold text-grey-darken-3">Basic Information</h3>
+                                    <p class="text-caption text-grey">Main details about your profile</p>
+                                </div>
+                            </div>
+
+                            <v-row>
+                                <v-col cols="12" md="6">
+                                    <v-text-field v-model="title" label="Microsite Title"
+                                        placeholder="e.g. My Professional Portfolio" variant="outlined"
+                                        density="default" class="bg-white" hide-details="auto"
+                                        :error-messages="titleError"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <v-text-field v-model="subTitle" label="Subtitle (Optional)"
+                                        placeholder="e.g. Design & Development" variant="outlined" density="default"
+                                        class="bg-white" hide-details="auto"
+                                        :error-messages="subTitleError"></v-text-field>
+                                </v-col>
+
+                                <v-col cols="12">
+                                    <v-divider class="my-2"></v-divider>
+                                </v-col>
+
+                                <v-col cols="12" md="4">
+                                    <v-text-field v-model="fullName" label="Full Name" placeholder="Your Name"
+                                        variant="outlined" density="default" class="bg-white" hide-details="auto"
+                                        :error-messages="fullNameError"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-text-field v-model="businessName" label="Business Name"
+                                        placeholder="Company / Brand" variant="outlined" density="default"
+                                        class="bg-white" hide-details="auto"
+                                        :error-messages="businessNameError"></v-text-field>
+                                </v-col>
+                                <v-col cols="12" md="4">
+                                    <v-text-field v-model="businessLocation" label="Location"
+                                        placeholder="City, Country" variant="outlined" density="default"
+                                        class="bg-white" hide-details="auto"
+                                        :error-messages="businessLocationError"></v-text-field>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-textarea v-model="professionalNote" label="About You / Professional Note"
+                                        variant="outlined" rows="3" class="bg-white" hide-details="auto"
+                                        :error-messages="professionalNoteError"></v-textarea>
+                                </v-col>
+                            </v-row>
+                        </v-card>
+
+                        <!-- Services Setup Card -->
+                        <v-card flat class="rounded-lg pa-6 mb-6 border" style="border-color: #EEE !important;">
+                            <div class="d-flex align-center mb-6">
+                                <v-avatar color="purple-lighten-5" size="40" class="mr-3">
+                                    <v-icon icon="mdi-briefcase-check-outline" color="purple" size="24"></v-icon>
+                                </v-avatar>
+                                <div>
+                                    <h3 class="text-body-1 font-weight-bold text-grey-darken-3">Services</h3>
+                                    <p class="text-caption text-grey">What you offer (Select or add custom)</p>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-3">
+                                <v-chip v-for="service in availableServices" :key="service" class="custom-chip pr-2"
+                                    :class="selectedServices.includes(service) ? 'bg-deep-purple-accent-2 text-white' : ''"
+                                    :variant="selectedServices.includes(service) ? 'flat' : 'outlined'" label
+                                    size="large" @click="toggleService(service)">
+                                    {{ service }}
+                                    <v-icon icon="mdi-close-circle" size="small" class="ml-2 remove-service-icon"
+                                        @click.stop="removeService(service)"></v-icon>
+                                </v-chip>
+
+                                <!-- Custom Service Input -->
+                                <div class="custom-chip d-flex align-center px-0 service-input">
+                                    <input v-model="newService" type="text" placeholder="+ Add Custom"
+                                        class="w-100 h-100 px-4 text-body-2" style="outline: none;"
+                                        @keydown.enter.prevent="addCustomService" @blur="addCustomService" />
+                                </div>
+                            </div>
+                            <div v-if="servicesError" class="text-caption text-red mt-2 d-flex align-center">
+                                <v-icon icon="mdi-alert-circle-outline" size="small" class="mr-1"></v-icon>
+                                {{ servicesError }}
+                            </div>
+                        </v-card>
+
+                        <!-- Social Links Card -->
+                        <v-card flat class="rounded-lg pa-6 border" style="border-color: #EEE !important;">
+                            <div class="d-flex align-center mb-6">
+                                <v-avatar color="teal-lighten-5" size="40" class="mr-3">
+                                    <v-icon icon="mdi-share-variant-outline" color="teal" size="24"></v-icon>
+                                </v-avatar>
+                                <div>
+                                    <h3 class="text-body-1 font-weight-bold text-grey-darken-3">Social Connections</h3>
+                                    <p class="text-caption text-grey">Where people can find you</p>
+                                </div>
+                            </div>
+
+                            <v-row class="mt-0">
+                                <v-col cols="12" md="6" v-for="(item, index) in socialLinks" :key="index" class="py-2">
+                                    <div class="d-flex align-center">
+                                        <v-menu width="200" max-height="300">
+                                            <template v-slot:activator="{ props }">
+                                                <div v-bind="props"
+                                                    class="d-flex align-center justify-center bg-grey-lighten-4 rounded-s-lg px-2 flex-shrink-0"
+                                                    style="height: 58px; width: 56px; border: 1px solid #E0E0E0; border-right: none; cursor: pointer;">
+                                                    <v-icon :icon="item.platform.icon" :color="item.platform.color"
+                                                        size="40"></v-icon>
+                                                </div>
+                                            </template>
+                                            <v-list density="compact" class="py-0">
+                                                <v-list-item v-for="social in socialPlatforms" :key="social.name"
+                                                    @click="item.platform = social" active-color="primary">
+                                                    <template v-slot:prepend>
+                                                        <v-icon :icon="social.icon" :color="social.color" size="20"
+                                                            class="mr-2"></v-icon>
+                                                    </template>
+                                                    <v-list-item-title class="text-caption">{{ social.name
+                                                    }}</v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-menu>
+
+                                        <v-text-field v-model="item.url" :placeholder="item.platform.placeholder"
+                                            variant="outlined" hide-details="auto"
+                                            class="bg-white rounded-0 rounded-e-lg" density="default"
+                                            style="border-top-left-radius: 0; border-bottom-left-radius: 0;">
+                                            <template v-slot:append-inner>
+                                                <v-btn icon="mdi-minus-circle-outline" variant="text" color="red"
+                                                    size="small" density="compact" @click="removeSocialLink(index)"
+                                                    v-if="socialLinks.length > 1">
+                                                </v-btn>
+                                            </template>
+                                        </v-text-field>
+                                    </div>
+                                </v-col>
+                            </v-row>
+
+                            <div class="d-flex align-center mt-4">
+                                <v-btn variant="tonal" class="text-capitalize px-4" prepend-icon="mdi-plus" size="small"
+                                    color="primary" :ripple="false" @click="addSocialLink">
+                                    Add Another Link
+                                </v-btn>
+                            </div>
+                            <div v-if="socialError" class="text-caption text-red mt-2">{{ socialError }}</div>
+                        </v-card>
+
+                    </v-container>
 
                     <!-- Footer Actions -->
                     <v-row class="mt-8" justify="center">
@@ -205,20 +248,22 @@
                         </v-col>
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
                             <v-btn class="btn-primary text-white text-capitalize"
-                                prepend-icon="mdi-content-save-outline" height="44" flat
-                                @click="handleSave">
+                                prepend-icon="mdi-content-save-outline" height="44" flat @click="handleSave"
+                                elevation="2">
                                 Save and Continue
                             </v-btn>
                         </v-col>
                     </v-row>
-
                 </v-card>
-        </app-layout>
+            </v-container>
+        </v-card>
+    </app-layout>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import api from '@/api'
 
 import { useField, useForm } from 'vee-validate'
 
@@ -226,10 +271,16 @@ const router = useRouter()
 const { validate } = useForm()
 
 const { value: title, errorMessage: titleError } = useField('title', 'required')
+const { value: subTitle, errorMessage: subTitleError } = useField('subTitle') // Optional
 const { value: fullName, errorMessage: fullNameError } = useField('fullName', 'required')
 const { value: businessName, errorMessage: businessNameError } = useField('businessName', 'required')
 const { value: businessLocation, errorMessage: businessLocationError } = useField('businessLocation', 'required')
-const { value: professionalNote } = useField('professionalNote')
+const { value: professionalNote, errorMessage: professionalNoteError } = useField('professionalNote', 'required')
+
+// Error messages for manual validation
+const profileError = ref('')
+const servicesError = ref('')
+const socialError = ref('')
 
 // Image Upload Logic
 const profileInputRef = ref(null)
@@ -238,22 +289,39 @@ const profilePhoto = ref(null)
 const bannerPhoto = ref(null)
 const profileFile = ref(null)
 const bannerFile = ref(null)
+const profileBase64 = ref('')
+const bannerBase64 = ref('')
 const bannerError = ref('')
+
+const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = error => reject(error);
+    });
+};
 
 const triggerProfileUpload = () => {
     profileInputRef.value.click()
+    profileError.value = ''
 }
-
 
 const triggerBannerUpload = () => {
     bannerInputRef.value.click()
+    bannerError.value = '' // Clear banner error on trigger
 }
 
-const onProfileChange = (e) => {
+const onProfileChange = async (e) => {
     const file = e.target.files[0]
     if (file) {
         profileFile.value = file
         profilePhoto.value = URL.createObjectURL(file)
+        try {
+            profileBase64.value = await convertToBase64(file);
+        } catch (error) {
+            console.error("Error converting profile to base64:", error);
+        }
     }
 }
 
@@ -262,16 +330,22 @@ const onBannerChange = (e) => {
     if (file) {
         const img = new Image()
         img.src = URL.createObjectURL(file)
-        img.onload = () => {
+        img.onload = async () => {
             if (img.width < 400 || img.height < 400) {
                 bannerError.value = 'Banner dimensions must be at least 400x400 pixels.'
                 bannerFile.value = null
                 bannerPhoto.value = null
+                bannerBase64.value = ''
                 if (bannerInputRef.value) bannerInputRef.value.value = ''
             } else {
                 bannerError.value = ''
                 bannerFile.value = file
                 bannerPhoto.value = img.src
+                try {
+                    bannerBase64.value = await convertToBase64(file);
+                } catch (error) {
+                    console.error("Error converting banner to base64:", error);
+                }
             }
         }
     }
@@ -280,12 +354,14 @@ const onBannerChange = (e) => {
 const removeProfilePhoto = () => {
     profilePhoto.value = null
     profileFile.value = null
+    profileBase64.value = ''
     if (profileInputRef.value) profileInputRef.value.value = ''
 }
 
 const removeBannerPhoto = () => {
     bannerPhoto.value = null
     bannerFile.value = null
+    bannerBase64.value = ''
     bannerError.value = ''
     if (bannerInputRef.value) bannerInputRef.value.value = ''
 }
@@ -363,8 +439,8 @@ const removeSocialLink = (index) => {
     if (socialLinks.value.length > 1) {
         socialLinks.value.splice(index, 1)
     } else {
-         socialLinks.value[0].url = ''
-         socialLinks.value[0].platform = socialPlatforms.value[0]
+        socialLinks.value[0].url = ''
+        socialLinks.value[0].platform = socialPlatforms.value[0]
     }
 }
 
@@ -378,6 +454,10 @@ const toggleService = (service) => {
         selectedServices.value.splice(index, 1);
     } else {
         selectedServices.value.push(service);
+    }
+    // Clear error if service is selected
+    if (selectedServices.value.length > 0) {
+        servicesError.value = ''
     }
 }
 
@@ -399,7 +479,7 @@ const removeService = (service) => {
     if (availableIndex > -1) {
         availableServices.value.splice(availableIndex, 1);
     }
-    
+
     const selectedIndex = selectedServices.value.indexOf(service)
     if (selectedIndex > -1) {
         selectedServices.value.splice(selectedIndex, 1);
@@ -411,23 +491,64 @@ const goBack = () => {
 }
 
 const handleSave = async () => {
+    // Reset manual errors
+    profileError.value = ''
+    bannerError.value = '' // Assuming bannerError is already defined for dimensions, we reuse or add logic
+
+    servicesError.value = ''
+    socialError.value = ''
+
     const { valid } = await validate()
 
-    if (valid) {
+    let manualValid = true
+
+    if (!profilePhoto.value) {
+        profileError.value = 'Profile photo is required'
+        manualValid = false
+    }
+
+    if (!bannerPhoto.value) {
+        bannerError.value = 'Banner photo is required'
+        manualValid = false
+    }
+
+    if (selectedServices.value.length === 0) {
+        servicesError.value = 'At least one service is required'
+        manualValid = false
+    }
+
+    const validSocialLinks = socialLinks.value.filter(link => link.url && link.url.trim() !== '')
+    if (validSocialLinks.length === 0) {
+        socialError.value = 'At least one social link is required'
+        manualValid = false
+    }
+
+    if (valid && manualValid) {
         // Proceed with save
-        const formData = {
-            title: title.value,
-            fullName: fullName.value,
-            businessName: businessName.value,
-            businessLocation: businessLocation.value,
-            professionalNote: professionalNote.value,
-            socialLinks: socialLinks.value.map(link => ({
-                platform: link.platform.name,
-                url: link.url
-            }))
+        try {
+            const formData = {
+                title: title.value,
+                sub_title: subTitle.value,
+                full_name: fullName.value,
+                description: professionalNote.value,
+                banner_image: bannerBase64.value,
+                avatar_icon: profileBase64.value,
+                services_name: selectedServices.value.map(service => ({ name: service })),
+                social_link: socialLinks.value
+                    .filter(link => link.url && link.url.trim() !== '')
+                    .map(link => ({
+                        type: link.platform.name,
+                        url: link.url
+                    }))
+            };
+
+            await api.post('/microsite/create', formData);
+            // On success
+            router.push('/microsite-profile');
+        } catch (error) {
+            console.error('Error creating microsite:', error);
+            // Handle error (e.g., show notification)
         }
-        console.log('Form is valid', formData)
-        router.push('/microsite-profile')
     } else {
         // Scroll to top to show errors
         window.scrollTo({
@@ -439,41 +560,95 @@ const handleSave = async () => {
 </script>
 
 <style scoped>
-.gap-4 {
-    gap: 26px;
+.gap-2 {
+    gap: 8px;
 }
 
 .gap-3 {
     gap: 12px;
 }
 
-
-.service-btn {
-    min-width: 176px;
-    height: 52px !important;
-    border-radius: 8px;
-    font-size: 14px;
-    font-weight: 400;
-    letter-spacing: 0;
+.min-vh-100 {
+    min-height: 100vh;
 }
 
-.footer-btn {
-    width: 300px;
-    height: 52px;
-    padding: 14px 24px;
-    border-color: var(--secondary-color) !important;
+.fs-20 {
+    font-size: 20px;
 }
 
-.footer-btn .v-icon {
-    font-size: 20px !important;
+.fs-24 {
+    font-size: 24px;
 }
 
-
-
-.social-text-field {
-    max-width: 500px;
+/* Banner Styles */
+.banner-overlay {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4));
 }
 
+.banner-hover-action {
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.banner-container:hover .banner-hover-action {
+    opacity: 1;
+}
+
+/* Profile Header Styles */
+.profile-header-wrapper {
+    position: relative;
+    margin-top: -80px;
+}
+
+.profile-header-card {
+    position: relative;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border: 1px solid rgba(103, 58, 183, 0.1);
+    box-shadow: 0 8px 32px rgba(103, 58, 183, 0.12);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-gradient-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: linear-gradient(135deg, #673ab7 0%, #9c27b0 50%, #e91e63 100%);
+    opacity: 0.08;
+    border-radius: 16px 16px 0 0;
+}
+
+/* Avatar Styles */
+.avatar-wrapper {
+    animation: fadeInScale 0.6s ease-out;
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.profile-avatar {
+    border: 4px solid white;
+    box-shadow: 0 8px 24px rgba(103, 58, 183, 0.2);
+    transition: all 0.3s ease;
+}
+
+.profile-avatar:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 32px rgba(103, 58, 183, 0.3);
+}
+
+/* Service Chips */
 .custom-chip .remove-service-icon {
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
@@ -482,19 +657,29 @@ const handleSave = async () => {
 .custom-chip:hover .remove-service-icon {
     opacity: 1;
 }
+
 .service-input {
     border: 1px solid #BDBDBD;
     overflow: hidden;
     max-width: 180px;
+    border-radius: 4px;
+    /* Match chip rounded style */
+    height: 38px;
 }
 
-.image-preview-wrapper .remove-icon {
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    .profile-header-wrapper {
+        margin-top: -60px;
+    }
+
+    .profile-avatar {
+        width: 120px !important;
+        height: 120px !important;
+    }
 }
 
-.image-preview-wrapper:hover .remove-icon {
-    opacity: 1;
+.bg-black-opacity {
+    background-color: rgba(0, 0, 0, 0.4);
 }
-
 </style>

@@ -32,17 +32,13 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
-    path: '/microsite-profile/:slug',
-    name: 'MicrositeProfile',
-    component: () => import('@/views/MicrositeProfilePage.vue'),
+    path: '/create-microsite2',
+    name: 'CreateMicrosite2',
+    component: () => import('@/views/CreateMicrosite2Page.vue'),
     meta: { requiresAuth: true },
   },
-  {
-    path: '/microsite-profile2',
-    name: 'MicrositeProfile2',
-    component: () => import('@/views/MicrositeProfile2Page.vue'),
-    meta: { requiresAuth: true },
-  },
+
+
   {
     path: '/admin/login',
     name: 'AdminLogin',
@@ -64,6 +60,12 @@ const routes = [
     path: '/admin/microsite-review',
     name: 'MicrositeReview',
     component: () => import('@/views/admin/MicrositeReview.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
+    path: '/:username/:slug',
+    name: 'MicrositeProfile',
+    component: () => import('@/views/MicrositeProfilePage.vue'),
     meta: { requiresAuth: true },
   },
   {
