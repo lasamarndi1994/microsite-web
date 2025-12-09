@@ -2,8 +2,51 @@
     <v-app>
         <AppBar />
         <v-main class="bg-white">
-            <div v-if="loading" class="d-flex justify-center align-center fill-height" style="min-height: 50vh;">
-                <v-progress-circular indeterminate color="primary"></v-progress-circular>
+            <div v-if="loading">
+                <v-skeleton-loader color="grey-lighten-4" height="300" type="image"></v-skeleton-loader>
+
+                <v-container class="py-8" style="max-width: 1000px;">
+                    <!-- Profile Header Skeleton -->
+                    <div class="profile-header-wrapper mb-8">
+                        <v-card class="rounded-xl pa-8" elevation="0" border>
+                            <div class="d-flex flex-column align-center">
+                                <v-skeleton-loader type="avatar" height="140" width="140"
+                                    class="mb-6 rounded-circle"></v-skeleton-loader>
+                                <v-skeleton-loader type="heading" width="200" class="mb-4"></v-skeleton-loader>
+                                <v-skeleton-loader type="text" width="300" class="mb-6"></v-skeleton-loader>
+                                <v-skeleton-loader type="button" width="140" height="48"
+                                    class="rounded-pill"></v-skeleton-loader>
+                            </div>
+                        </v-card>
+                    </div>
+
+                    <!-- About Skeleton -->
+                    <div class="mb-8">
+                        <v-skeleton-loader type="heading" width="120" class="mb-4"></v-skeleton-loader>
+                        <v-skeleton-loader type="text@3" class="border rounded-lg pa-4"></v-skeleton-loader>
+                    </div>
+
+                    <!-- Services Skeleton -->
+                    <div class="mb-8">
+                        <v-skeleton-loader type="heading" width="120" class="mb-4"></v-skeleton-loader>
+                        <div class="d-flex gap-3">
+                            <v-skeleton-loader type="chip" width="120" v-for="n in 3" :key="n"></v-skeleton-loader>
+                        </div>
+                    </div>
+
+                    <!-- Connect Skeleton -->
+                    <div class="mb-8">
+                        <v-skeleton-loader type="heading" width="150" class="mb-6"></v-skeleton-loader>
+                        <v-row>
+                            <v-col cols="4" sm="4" md="auto" v-for="n in 4" :key="n" class="d-flex justify-center">
+                                <div class="d-flex flex-column align-center">
+                                    <v-skeleton-loader type="avatar" size="large" class="mb-2"></v-skeleton-loader>
+                                    <v-skeleton-loader type="text" width="60"></v-skeleton-loader>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </div>
+                </v-container>
             </div>
 
             <div v-else-if="microsite">
@@ -69,21 +112,22 @@
                                     <div
                                         class="profile-info d-flex flex-column flex-sm-row align-center justify-center gap-2">
                                         <!-- Assuming business info is not yet in API response based on provided context, keeping logic robust or hidden if missing -->
-                                        <!-- <div class="d-flex align-center">
+                                        <div class="d-flex align-center">
                                             <v-icon size="20" color="deep-purple-accent-2"
                                                 class="mr-2">mdi-office-building</v-icon>
                                             <span class="text-grey-darken-2"
-                                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">ABCD
-                                                Company</span>
+                                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">{{
+                                                    microsite.business_name }}
+                                            </span>
                                         </div>
                                         <span class="d-none d-sm-inline text-grey-lighten-1 mx-2">•</span>
                                         <div class="d-flex align-center">
                                             <v-icon size="20" color="deep-purple-accent-2"
                                                 class="mr-2">mdi-map-marker</v-icon>
                                             <span class="text-grey-darken-2"
-                                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">Bengaluru,
-                                                India</span>
-                                        </div> -->
+                                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">{{
+                                                microsite.location }}</span>
+                                        </div>
                                     </div>
                                 </div>
 
