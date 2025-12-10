@@ -22,7 +22,6 @@
 
                 <!-- Main Form Card -->
                 <v-card flat class="rounded-xl overflow-hidden pb-8" style="background-color: #F8F9FB;">
-
                     <!-- Hero Section (Banner & Profile) -->
                     <div class="position-relative bg-white mb-6">
                         <!-- Banner Area -->

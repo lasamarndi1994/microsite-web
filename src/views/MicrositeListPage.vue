@@ -56,27 +56,24 @@
                         <tr v-for="n in 5" :key="n">
                             <td class="py-4">
                                 <div class="d-flex align-center">
-                                    <v-skeleton-loader type="avatar" class="mr-4"></v-skeleton-loader>
+                                    <v-skeleton-loader type="avatar" width="40" class="mr-4 ma-0"></v-skeleton-loader>
                                     <div class="w-100">
-                                        <v-skeleton-loader type="text" width="60%" class="mb-1"></v-skeleton-loader>
-                                        <v-skeleton-loader type="text" width="40%"></v-skeleton-loader>
+                                        <v-skeleton-loader type="text" width="140" class="ma-0"></v-skeleton-loader>
+                                        <v-skeleton-loader type="text" width="100"
+                                            class="mt-1 ma-0"></v-skeleton-loader>
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <v-skeleton-loader type="chip"></v-skeleton-loader>
+                                <v-skeleton-loader type="chip" width="80" class="ma-0"></v-skeleton-loader>
                             </td>
                             <td>
-                                <v-skeleton-loader type="text" width="100px"></v-skeleton-loader>
+                                <v-skeleton-loader type="text" width="100" class="ma-0"></v-skeleton-loader>
                             </td>
-                            <td class="text-right">
-                                <div class="d-flex justify-end">
-                                    <v-skeleton-loader type="avatar" class="ml-2" width="30"
-                                        height="30"></v-skeleton-loader>
-                                    <v-skeleton-loader type="avatar" class="ml-2" width="30"
-                                        height="30"></v-skeleton-loader>
-                                    <v-skeleton-loader type="avatar" class="ml-2" width="30"
-                                        height="30"></v-skeleton-loader>
+                            <td class="text-start">
+                                <div class="d-flex justify-start">
+                                    <v-skeleton-loader type="avatar" width="32" class="ml-2 ma-0"></v-skeleton-loader>
+
                                 </div>
                             </td>
                         </tr>
@@ -115,15 +112,15 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                                }}
+                            }}
                             </td>
                             <td class="text-right">
                                 <v-btn icon="mdi-delete-outline" variant="text" color="grey" size="large"
-                                    @click="confirmDelete(item)"></v-btn>
-                                <v-btn v-if="item.status !== 'Pending'" icon="mdi-pencil-outline" variant="text"
+                                    v-if="item.status !== 'Active'" @click="confirmDelete(item)"></v-btn>
+                                <v-btn v-if="item.status !== 'Active'" icon="mdi-pencil-outline" variant="text"
                                     color="grey" size="large"></v-btn>
-                                <v-btn v-if="item.status !== 'Pending'" icon="mdi-eye-outline" variant="text"
-                                    color="grey" size="large" @click="openPreview(item)"></v-btn>
+                                <v-btn v-if="item.status == 'Active'" icon="mdi-eye-outline" variant="text" color="grey"
+                                    size="large" @click="openPreview(item)"></v-btn>
                             </td>
                         </tr>
                     </template>
