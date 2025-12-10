@@ -112,13 +112,13 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                            }}
+                                }}
                             </td>
                             <td class="text-right">
                                 <v-btn icon="mdi-delete-outline" variant="text" color="grey" size="large"
                                     v-if="item.status !== 'Active'" @click="confirmDelete(item)"></v-btn>
                                 <v-btn v-if="item.status !== 'Active'" icon="mdi-pencil-outline" variant="text"
-                                    color="grey" size="large"></v-btn>
+                                    @click="navigateEditProfile(item.uuid)" color="grey" size="large"></v-btn>
                                 <v-btn v-if="item.status == 'Active'" icon="mdi-eye-outline" variant="text" color="grey"
                                     size="large" @click="openPreview(item)"></v-btn>
                             </td>
@@ -181,7 +181,7 @@
                 </div>
 
                 <p class="fs-14 fw-400 text-grey mb-6">
-                    Are you sure you want to delete this post?<br> This action cannot be undone.
+                    Are you sure you want to delete this microsite?<br> This action cannot be undone.
                 </p>
 
                 <v-row class="gx-2">
@@ -207,6 +207,7 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { getImage } from '@/utils/helpers';
+import api from '@/api';
 
 const props = defineProps({
     microsites: {
@@ -243,12 +244,18 @@ const navigateToProfile = (username, slug) => {
     router.push(`/${username}/${slug}`);
 };
 
-const deleteItem = () => {
-    // access props.microsites directly if it was a local ref, but since it is a prop 
-    // we cannot mutate it directly. We should probably emit an event or just log for now as delete logic is mock.
-    // For now, let's just close the dialog.
-    showDeleteConfirm.value = false;
-    itemToDelete.value = null;
+const deleteItem = async () => {
+    if (!itemToDelete.value) return;
+
+    try {
+        await api.delete(`/microsite/delete/${itemToDelete.value.uuid}`);
+        emit('refresh', itemToDelete.value.uuid);
+        showDeleteConfirm.value = false;
+        itemToDelete.value = null;
+    } catch (error) {
+        console.error('Error deleting microsite:', error);
+        // Optionally handle error (e.g. show snackbar)
+    }
 };
 
 const getStatusColor = (status) => {
@@ -288,7 +295,7 @@ const filterOptions = ref([
     }
 ]);
 
-const emit = defineEmits(['filter-change']);
+const emit = defineEmits(['filter-change', 'refresh']);
 
 const selectFilter = (value) => {
     selectedFilter.value = value;
@@ -296,6 +303,10 @@ const selectFilter = (value) => {
     selectedFilterLabel.value = filter ? filter.label : null;
     emit('filter-change', value);
 };
+
+const navigateEditProfile = (uuid) => {
+    router.push(`/update-microsite-profile/${uuid}`);
+}
 
 const clearFilter = () => {
     selectedFilter.value = null;

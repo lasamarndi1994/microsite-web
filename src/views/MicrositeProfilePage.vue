@@ -4,7 +4,6 @@
         <v-main class="bg-white">
             <div v-if="loading">
                 <v-skeleton-loader color="grey-lighten-4" height="300" type="image"></v-skeleton-loader>
-
                 <v-container class="py-8" style="max-width: 1000px;">
                     <!-- Profile Header Skeleton -->
                     <div class="profile-header-wrapper mb-8">
@@ -48,12 +47,7 @@
                     </div>
                 </v-container>
             </div>
-
-
-
             <div v-else-if="microsite">
-
-
                 <!-- Banner Section -->
                 <div class="banner-container position-relative">
                     <v-img :src="getImage(microsite.banner_image, 'uploads/banner/')" cover height="300"
@@ -178,13 +172,13 @@
                                 v-for="(social, index) in microsite.social_links" :key="index">
                                 <div class="d-flex flex-column align-center text-center">
                                     <!-- Simple icon mapping or default -->
-                                    <v-btn :icon="getSocialIcon(social.link)" :color="getSocialColor(social.link)"
+                                    <v-btn :icon="getSocialIcon(social.name)" :color="getSocialColor(social.name)"
                                         size="x-large" variant="text" class="mb-2 social-icon" :href="social.url"
                                         target="_blank"></v-btn>
                                     <a :href="social.url" target="_blank"
                                         class="text-caption text-decoration-underline text-grey-darken-3 text-truncate"
                                         style="max-width: 120px;">
-                                        {{ social.url }} {{ social.link }}
+                                        {{ social.url }} {{ social.name }}
                                     </a>
                                 </div>
                             </v-col>
@@ -274,8 +268,6 @@ const fetchMicrosite = async () => {
         router.push('/page-not-found-404') // Ensure this route exists or use appropriate error page
         return
     }
-
-
     try {
         loading.value = true
         // Assuming API path based on user request "microsite/:slug1/:slug2" -> mapped to backend endpoint
@@ -333,11 +325,8 @@ const getSocialIcon = (type) => {
     return icons[type.toLowerCase()] || 'mdi-' + type.toLowerCase().replace(' ', '-')
 }
 
-
-
 const handleJoin = async () => {
     const { valid } = await validate()
-
     if (valid && microsite.value) {
         joinLoading.value = true
         try {
@@ -365,7 +354,6 @@ const handleJoin = async () => {
     }
 }
 </script>
-
 <style scoped>
 .gap-3 {
     gap: 12px;

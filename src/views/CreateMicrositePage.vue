@@ -7,13 +7,17 @@
                     <div>
                         <h1 class="font-weight-bold text-grey-darken-3"
                             :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">
-                            Create your microsite profile</h1>
+                            {{ isPreview ? 'Update' : 'Create' }} your microsite profile</h1>
                         <p class="text-grey-darken-1 text-body-2 mt-1">Setup your professional microsite</p>
                     </div>
                     <!-- Top Actions -->
-                    <div class="d-flex gap-3">
+                    <div class="d-flex align-center gap-3">
+                        <v-btn variant="outlined" color="grey-darken-2" size="small" class="text-capitalize"
+                            v-if="isPreview" @click="handlePreview" prepend-icon="mdi-eye-outline">
+                            Preview
+                        </v-btn>
 
-                        <v-btn variant="text" color="grey-darken-2" icon @click="goBack" class="ml-2">
+                        <v-btn variant="text" color="grey-darken-2" icon @click="goBack">
                             <v-icon>mdi-close</v-icon>
                             <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
                         </v-btn>
@@ -45,7 +49,7 @@
                             </div>
 
                             <!-- Close Banner -->
-                            <v-btn v-if="bannerPhoto" icon="mdi-close" size="small" color="error" variant="flat"
+                            <v-btn v-if="bannerPhoto" icon="mdi-close" size="small" color="primary" variant="flat"
                                 class="position-absolute remove-banner-btn" style="top: 16px; right: 16px; z-index: 2;"
                                 @click="removeBannerPhoto"></v-btn>
                         </div>
@@ -193,15 +197,16 @@
                                                 <div v-bind="props"
                                                     class="d-flex align-center justify-center bg-grey-lighten-4 rounded-s-lg px-2 flex-shrink-0"
                                                     style="height: 58px; width: 56px; border: 1px solid #E0E0E0; border-right: none; cursor: pointer;">
+
                                                     <v-icon :icon="item.platform.icon" :color="item.platform.color"
                                                         size="40"></v-icon>
                                                 </div>
                                             </template>
                                             <v-list density="compact" class="py-0">
                                                 <v-list-item v-for="social in socialPlatforms" :key="social.name"
-                                                    @click="item.platform = social" active-color="primary">
+                                                    @click="item.platform = social" color="primary">
                                                     <template v-slot:prepend>
-                                                        <v-icon :icon="social.icon" :color="social.color" size="20"
+                                                        <v-icon :icon="social.icon" :color="social.color" size="40"
                                                             class="mr-2"></v-icon>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
@@ -248,8 +253,8 @@
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
                             <v-btn class="btn-primary text-white text-capitalize"
                                 prepend-icon="mdi-content-save-outline" height="44" flat @click="handleSave"
-                                elevation="2">
-                                Save and Continue
+                                elevation="2" :loading="loading">
+                                {{ isPreview ? 'Update and Continue' : 'Save and Continue' }}
                             </v-btn>
                         </v-col>
                     </v-row>
@@ -263,13 +268,15 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import api from '@/api'
+import { getImage } from '@/utils/helpers'
 
 import { useField, useForm } from 'vee-validate'
 
 const router = useRouter()
+const route = useRoute()
 const { validate } = useForm()
 
 const { value: title, errorMessage: titleError } = useField('title', 'required')
@@ -285,6 +292,12 @@ const servicesError = ref('')
 const socialError = ref('')
 const showSuccess = ref(false)
 const successMessage = ref('')
+const loading = ref(false)
+const micrositeSlug = ref('')
+const userSlug = ref('')
+const isPreview = ref(false);
+
+
 
 // Image Upload Logic
 const profileInputRef = ref(null)
@@ -293,9 +306,12 @@ const profilePhoto = ref(null)
 const bannerPhoto = ref(null)
 const profileFile = ref(null)
 const bannerFile = ref(null)
-const profileBase64 = ref('')
-const bannerBase64 = ref('')
-const bannerError = ref('')
+const profileBase64 = ref("")
+const bannerBase64 = ref("")
+const bannerError = ref("")
+const selectedServices = ref([])
+const availableServices = ref(['Market Education', 'Account Opening Support', 'Community Group Access', 'Platform Training', 'Trading Tools & Resources'])
+const newService = ref('')
 
 const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -448,9 +464,7 @@ const removeSocialLink = (index) => {
     }
 }
 
-const selectedServices = ref(['Web development'])
-const availableServices = ref(['Web development', 'Digital marketing', 'Graphic design'])
-const newService = ref('')
+
 
 const toggleService = (service) => {
     const index = selectedServices.value.indexOf(service)
@@ -494,6 +508,12 @@ const goBack = () => {
     router.back()
 }
 
+const handlePreview = () => {
+    if (route.params.uuid && micrositeSlug.value && userSlug.value) {
+        router.push(`/${userSlug.value}/${micrositeSlug.value}`);
+    }
+}
+
 const handleSave = async () => {
     // Reset manual errors
     profileError.value = ''
@@ -529,6 +549,7 @@ const handleSave = async () => {
 
     if (valid && manualValid) {
         // Proceed with save
+        loading.value = true
         try {
             const formData = {
                 title: title.value,
@@ -537,28 +558,47 @@ const handleSave = async () => {
                 description: professionalNote.value,
                 business_name: businessName.value,
                 location: businessLocation.value,
-                banner_image: bannerBase64.value,
-                avatar_icon: profileBase64.value,
                 services_name: selectedServices.value.map(service => ({ name: service })),
                 social_link: socialLinks.value
                     .filter(link => link.url && link.url.trim() !== '')
                     .map(link => ({
-                        type: link.platform.name,
+                        name: link.platform.name,
                         url: link.url
                     }))
             };
 
-            await api.post('/microsite/create', formData);
+            if (bannerBase64.value) {
+                formData.banner_image = bannerBase64.value;
+            }
+            if (profileBase64.value) {
+                formData.avatar_icon = profileBase64.value;
+            }
+
+            if (route.params.uuid) {
+                formData.microsite_uuid = route.params.uuid;
+                await api.put('/microsite/update/' + route.params.uuid, formData);
+                successMessage.value = 'Microsite updated successfully';
+            } else {
+                // Ensure images are present for create if not handled by validation (validation checks photo ref, not base64)
+                // But if photo ref is present and it's create, base64 should be there.
+                if (!formData.banner_image) formData.banner_image = bannerBase64.value;
+                if (!formData.avatar_icon) formData.avatar_icon = profileBase64.value;
+
+                await api.post('/microsite/create', formData);
+                successMessage.value = 'Microsite created successfully';
+            }
+
             // On success
-            successMessage.value = 'Microsite created successfully';
             showSuccess.value = true;
 
-            setTimeout(() => {
-                router.push('/dashboard');
-            }, 1000);
+            // setTimeout(() => {
+            //     router.push('/dashboard');
+            // }, 1000);
         } catch (error) {
-            console.error('Error creating microsite:', error);
+            console.error('Error creating/updating microsite:', error);
             // Handle error (e.g., show notification)
+        } finally {
+            loading.value = false
         }
     } else {
         // Scroll to top to show errors
@@ -568,6 +608,65 @@ const handleSave = async () => {
         })
     }
 }
+
+const fetchMicrositeDetails = async (uuid) => {
+    try {
+        const response = await api.get(`/microsite/details/${uuid}`);
+        const data = response.data.data;
+
+        title.value = data.title;
+        subTitle.value = data.sub_title;
+        fullName.value = data.full_name;
+        businessName.value = data.business_name;
+        businessLocation.value = data.location;
+        professionalNote.value = data.description;
+        micrositeSlug.value = data.slug;
+        if (data.user) {
+            userSlug.value = data.user.slug;
+        }
+
+        if (data.banner_image) {
+            bannerPhoto.value = getImage(data.banner_image, 'uploads/banner/');
+        }
+        if (data.avatar_icon) {
+            profilePhoto.value = getImage(data.avatar_icon, 'uploads/avatar/');
+        }
+
+        if (data.services) {
+            selectedServices.value = data.services.map(s => s.name);
+            data.services.forEach(s => {
+                if (!availableServices.value.includes(s.name)) {
+                    availableServices.value.push(s.name);
+                }
+            });
+        }
+
+        if (data.social_links && data.social_links.length > 0) {
+            socialLinks.value = data.social_links.map(link => {
+                let platform = socialPlatforms.value.find(p => {
+                    const pName = p.name.toLowerCase();
+                    const lName = (link.name).toLowerCase();
+                    return pName === lName ||
+                        (pName.includes('twitter') && lName.includes('twitter')) ||
+                        (pName.includes('twitter') && lName === 'x');
+                });
+                return {
+                    platform: platform || socialPlatforms.value[0],
+                    url: link.url
+                };
+            });
+        }
+    } catch (error) {
+        console.error('Error fetching microsite details:', error);
+    }
+};
+
+onMounted(() => {
+    if (route.params.uuid) {
+        isPreview.value = true;
+        fetchMicrositeDetails(route.params.uuid);
+    }
+})
 </script>
 
 <style scoped>

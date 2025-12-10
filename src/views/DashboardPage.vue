@@ -145,11 +145,6 @@
                         <v-img :src="getImage(site.banner_image, 'uploads/banner/')"
                             :lazy-src="getImage(site.banner_image, 'uploads/banner/')" height="200" cover
                             :class="site.bgColor" transition="fade-transition">
-                            <template v-slot:placeholder>
-                                <div class="d-flex align-center justify-center fill-height">
-                                    <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
-                                </div>
-                            </template>
                             <div class="d-flex justify-end pa-2">
                                 <v-chip :color="getStatusColor(site.status)"
                                     class="text-uppercase font-weight-bold text-white" size="small" label variant="flat"
@@ -173,8 +168,8 @@
                 </v-col>
             </v-row>
 
-            <MicrositeListPage v-else :microsites="microsites" :loading="isLoading"
-                @filter-change="handleFilterChange" />
+            <MicrositeListPage v-else :microsites="microsites" :loading="isLoading" @filter-change="handleFilterChange"
+                @refresh="refresh" />
         </v-card>
     </app-layout>
 </template>
@@ -257,6 +252,16 @@ const getStatusColor = (status) => {
         case 'Pending': return 'warning';
         case 'Approved': return 'info';
         default: return 'grey';
+    }
+};
+const refresh = (uuid) => {
+    if (uuid) {
+        const index = microsites.value.findIndex(item => item.uuid === uuid);
+        if (index !== -1) {
+            microsites.value.splice(index, 1);
+        }
+    } else {
+        fetchMicrosites();
     }
 };
 
