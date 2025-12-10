@@ -13,10 +13,10 @@
       <v-col cols="12" class="text-center d-flex flex-column justify-center align-center pa-4"
         style="min-height: 75vh;">
         <h1 class="font-weight-bold mb-2" :class="$vuetify.display.smAndDown ? 'text-h5' : 'text-h4'">
-          Welcome to microsite Platform
+          Welcome to Fincommunity Platform
         </h1>
         <p class="mb-4 mb-md-8" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-18'">
-          Create your professional microsite in minutes
+          Create your professional Fincommunity in minutes
         </p>
 
         <slot name="card"></slot>

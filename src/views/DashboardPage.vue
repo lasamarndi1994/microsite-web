@@ -132,11 +132,18 @@
             </div>
 
             <!-- Microsites Grid -->
-            <v-row v-if="activeTab === 'my-microsites'">
+            <v-row v-if="isLoading && activeTab === 'my-microsites'">
+                <v-col cols="12" md="4" v-for="n in 6" :key="n">
+                    <v-skeleton-loader class="mx-auto border rounded-lg" max-width="100%"
+                        type="image, article"></v-skeleton-loader>
+                </v-col>
+            </v-row>
+            <v-row v-else-if="activeTab === 'my-microsites'">
                 <v-col cols="12" md="4" v-for="(site, index) in microsites" :key="index">
                     <v-card flat border class="rounded-lg overflow-hidden microsite-card cursor-pointer" height="100%"
-                        @click="navigateToProfile(site.slug)">
-                        <v-img :src="site.banner_image" :lazy-src="site.banner_image" height="200" cover
+                        @click="navigateToProfile(site.user.slug, site.slug)">
+                        <v-img :src="getImage(site.banner_image, 'uploads/banner/')"
+                            :lazy-src="getImage(site.banner_image, 'uploads/banner/')" height="200" cover
                             :class="site.bgColor" transition="fade-transition">
                             <template v-slot:placeholder>
                                 <div class="d-flex align-center justify-center fill-height">
@@ -166,7 +173,8 @@
                 </v-col>
             </v-row>
 
-            <MicrositeListPage v-else :microsites="microsites" @filter-change="handleFilterChange" />
+            <MicrositeListPage v-else :microsites="microsites" :loading="isLoading"
+                @filter-change="handleFilterChange" />
         </v-card>
     </app-layout>
 </template>
@@ -175,6 +183,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from "vue-router";
 import api from "@/api";
+import { getImage } from '@/utils/helpers'
 
 import MicrositeListPage from "@/views/MicrositeListPage.vue";
 
@@ -183,6 +192,7 @@ const router = useRouter();
 const activeTab = ref('my-microsites');
 const selectedFilter = ref(null);
 const selectedFilterLabel = ref(null);
+const isLoading = ref(false);
 
 const createMicrosite = () => {
     router.push("/create-microsite");
@@ -192,13 +202,15 @@ const DraftMicrosite = () => {
     router.push("/drafts-microsite");
 };
 
-const navigateToProfile = (slug) => {
-    router.push(`/microsite-profile/${slug}`);
+const navigateToProfile = (username, slug) => {
+    console.log(username, slug);
+    router.push(`/${username}/${slug}`);
 };
 
 const microsites = ref([]);
 
 const fetchMicrosites = async (status = null) => {
+    isLoading.value = true;
     try {
         let url = '/microsite/lists?page=1&limit=18';
         if (status) {
@@ -214,6 +226,8 @@ const fetchMicrosites = async (status = null) => {
         })) : [];
     } catch (error) {
         console.error('Error fetching microsites:', error);
+    } finally {
+        isLoading.value = false;
     }
 };
 
@@ -247,6 +261,8 @@ const getStatusColor = (status) => {
 };
 
 
+
+
 </script>
 
 <style scoped>
@@ -262,7 +278,7 @@ const getStatusColor = (status) => {
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
-    border-color: #7f56da !important;
+    border-color: var(--primary-color) !important;
 }
 
 .transition-colors {
@@ -270,6 +286,6 @@ const getStatusColor = (status) => {
 }
 
 .microsite-card:hover .hover-text-primary {
-    color: #7f56da !important;
+    color: var(--primary-color) !important;
 }
 </style>

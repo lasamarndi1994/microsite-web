@@ -2,203 +2,210 @@
     <v-app>
         <AppBar />
         <v-main class="bg-white">
-            <!-- Banner Section -->
-            <div class="banner-container position-relative">
-                <v-img src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" cover height="300"
-                    class="align-center">
-                    <div class="d-flex fill-height align-center justify-center">
-                        <div class="text-center text-white px-4" style="max-width: 800px;">
-                            <h2 class="font-weight-regular mb-2" style="line-height: 1.4;"
-                                :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
-                                A passionate digital creator helping brands grow through web development, design, and
-                                strategic digital marketing.
-                            </h2>
-                            <p class="font-weight-light"
-                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
-                                With 6+ years of experience, I build modern, conversion-focused digital experiences
-                            </p>
+            <div v-if="loading">
+                <v-skeleton-loader color="grey-lighten-4" height="300" type="image"></v-skeleton-loader>
+
+                <v-container class="py-8" style="max-width: 1000px;">
+                    <!-- Profile Header Skeleton -->
+                    <div class="profile-header-wrapper mb-8">
+                        <v-card class="rounded-xl pa-8" elevation="0" border>
+                            <div class="d-flex flex-column align-center">
+                                <v-skeleton-loader type="avatar" height="140" width="140"
+                                    class="mb-6 rounded-circle"></v-skeleton-loader>
+                                <v-skeleton-loader type="heading" width="200" class="mb-4"></v-skeleton-loader>
+                                <v-skeleton-loader type="text" width="300" class="mb-6"></v-skeleton-loader>
+                                <v-skeleton-loader type="button" width="140" height="48"
+                                    class="rounded-pill"></v-skeleton-loader>
+                            </div>
+                        </v-card>
+                    </div>
+
+                    <!-- About Skeleton -->
+                    <div class="mb-8">
+                        <v-skeleton-loader type="heading" width="120" class="mb-4"></v-skeleton-loader>
+                        <v-skeleton-loader type="text@3" class="border rounded-lg pa-4"></v-skeleton-loader>
+                    </div>
+
+                    <!-- Services Skeleton -->
+                    <div class="mb-8">
+                        <v-skeleton-loader type="heading" width="120" class="mb-4"></v-skeleton-loader>
+                        <div class="d-flex gap-3">
+                            <v-skeleton-loader type="chip" width="120" v-for="n in 3" :key="n"></v-skeleton-loader>
                         </div>
                     </div>
-                    <!-- Overlay for better text readability if needed -->
-                    <div class="position-absolute top-0 left-0 w-100 h-100"
-                        style="background: rgba(0, 0, 0, 0.4); z-index: 0;"></div>
-                    <!-- Content needs higher z-index -->
-                    <div class="position-absolute top-0 left-0 w-100 h-100 d-flex align-center justify-center"
-                        style="z-index: 1;">
-                        <div class="text-center text-white px-4" style="max-width: 800px;">
-                            <h2 class="font-weight-medium mb-2" style="line-height: 1.4;"
-                                :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
-                                A passionate digital creator helping brands grow through web development, design, and
-                                strategic digital marketing.
-                            </h2>
-                            <p class="font-weight-regular"
-                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
-                                With 6+ years of experience, I build modern, conversion-focused digital experiences
-                            </p>
-                        </div>
+
+                    <!-- Connect Skeleton -->
+                    <div class="mb-8">
+                        <v-skeleton-loader type="heading" width="150" class="mb-6"></v-skeleton-loader>
+                        <v-row>
+                            <v-col cols="4" sm="4" md="auto" v-for="n in 4" :key="n" class="d-flex justify-center">
+                                <div class="d-flex flex-column align-center">
+                                    <v-skeleton-loader type="avatar" size="large" class="mb-2"></v-skeleton-loader>
+                                    <v-skeleton-loader type="text" width="60"></v-skeleton-loader>
+                                </div>
+                            </v-col>
+                        </v-row>
                     </div>
-                </v-img>
+                </v-container>
             </div>
 
-            <v-container class="py-8" style="max-width: 1000px;">
-                <!-- Profile Header -->
-                <div class="profile-header-wrapper mb-8">
-                    <v-card class="profile-header-card rounded-xl overflow-visible" elevation="0">
-                        <div class="profile-gradient-bg"></div>
-                        <div class="profile-content pa-6 pa-md-8">
-                            <!-- Avatar Section -->
-                            <div class="text-center mb-6">
-                                <div class="avatar-wrapper d-inline-block position-relative">
-                                    <v-avatar size="140" class="profile-avatar elevation-8">
-                                        <v-img src="https://randomuser.me/api/portraits/men/5.jpg" cover></v-img>
-                                    </v-avatar>
-                                    <div class="avatar-ring"></div>
-                                </div>
-                            </div>
 
-                            <!-- Name & Info Section -->
-                            <div class="text-center mb-6">
-                                <h1 class="profile-name font-weight-bold mb-3"
-                                    :class="$vuetify.display.smAndDown ? 'text-h5' : 'text-h4'">Lasa Marndi</h1>
-                                <div
-                                    class="profile-info d-flex flex-column flex-sm-row align-center justify-center gap-2">
-                                    <div class="d-flex align-center">
-                                        <v-icon size="20" color="deep-purple-accent-2"
-                                            class="mr-2">mdi-office-building</v-icon>
-                                        <span class="text-grey-darken-2"
-                                            :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">ABCD
-                                            Company</span>
-                                    </div>
-                                    <span class="d-none d-sm-inline text-grey-lighten-1 mx-2">•</span>
-                                    <div class="d-flex align-center">
-                                        <v-icon size="20" color="deep-purple-accent-2"
-                                            class="mr-2">mdi-map-marker</v-icon>
-                                        <span class="text-grey-darken-2"
-                                            :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">Bengaluru,
-                                            India</span>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <!-- Action Button -->
-                            <div class="text-center">
-                                <v-btn color="deep-purple-accent-2"
-                                    class="join-btn text-capitalize text-white px-8 elevation-4" height="50"
-                                    rounded="pill" flat @click="showJoinDialog = true">
-                                    <template v-slot:prepend>
-                                        <v-icon size="24">mdi-handshake-outline</v-icon>
-                                    </template>
-                                    Join me
-                                </v-btn>
+            <div v-else-if="microsite">
+
+
+                <!-- Banner Section -->
+                <div class="banner-container position-relative">
+                    <v-img :src="getImage(microsite.banner_image, 'uploads/banner/')" cover height="300"
+                        class="align-center">
+                        <div class="d-flex fill-height align-center justify-center">
+                            <div class="text-center text-white px-4" style="max-width: 800px;">
+                                <h2 class="font-weight-regular mb-2" style="line-height: 1.4;"
+                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
+                                    {{ microsite.title }}
+                                </h2>
+                                <p class="font-weight-light"
+                                    :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
+                                    {{ microsite.sub_title }}
+                                </p>
                             </div>
                         </div>
-                    </v-card>
+                        <!-- Overlay for better text readability -->
+                        <div class="position-absolute top-0 left-0 w-100 h-100"
+                            style="background: rgba(0, 0, 0, 0.4); z-index: 0;"></div>
+                        <!-- Content needs higher z-index -->
+                        <div class="position-absolute top-0 left-0 w-100 h-100 d-flex align-center justify-center"
+                            style="z-index: 1;">
+                            <div class="text-center text-white px-4" style="max-width: 800px;">
+                                <h2 class="font-weight-medium mb-2" style="line-height: 1.4;"
+                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
+                                    {{ microsite.title }}
+                                </h2>
+                                <p class="font-weight-regular"
+                                    :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
+                                    {{ microsite.sub_title }}
+                                </p>
+                            </div>
+                        </div>
+                    </v-img>
                 </div>
 
-                <!-- About Section -->
-                <div class="mb-8">
-                    <h2 class="text-h6 font-weight-bold mb-4">About</h2>
-                    <div class="border rounded-lg pa-6 text-grey-darken-3"
-                        :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
-                        A passionate digital creator helping brands grow through web development, design, and strategic
-                        digital marketing. With 6+ years of experience, I build modern, conversion-focused digital
-                        experiences.
+                <v-container class="py-8" style="max-width: 1000px;">
+                    <!-- Profile Header -->
+                    <div class="profile-header-wrapper mb-8">
+                        <v-card class="profile-header-card rounded-xl overflow-visible" elevation="0">
+                            <div class="profile-gradient-bg"></div>
+                            <div class="profile-content pa-6 pa-md-8">
+                                <!-- Avatar Section -->
+                                <div class="text-center mb-6">
+                                    <div class="avatar-wrapper d-inline-block position-relative">
+                                        <v-avatar size="140" class="profile-avatar elevation-8">
+                                            <v-img
+                                                :src="getImage(microsite.avatar_icon, 'uploads/avatar/') || 'https://randomuser.me/api/portraits/men/5.jpg'"
+                                                cover></v-img>
+                                        </v-avatar>
+                                        <div class="avatar-ring"></div>
+                                    </div>
+                                </div>
+
+                                <!-- Name & Info Section -->
+                                <div class="text-center mb-6">
+                                    <h1 class="profile-name font-weight-bold mb-3"
+                                        :class="$vuetify.display.smAndDown ? 'text-h5' : 'text-h4'">{{
+                                            microsite.full_name }}</h1>
+                                    <div
+                                        class="profile-info d-flex flex-column flex-sm-row align-center justify-center gap-2">
+                                        <!-- Assuming business info is not yet in API response based on provided context, keeping logic robust or hidden if missing -->
+                                        <div class="d-flex align-center">
+                                            <v-icon size="20" color="deep-purple-accent-2"
+                                                class="mr-2">mdi-office-building</v-icon>
+                                            <span class="text-grey-darken-2"
+                                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">{{
+                                                    microsite.business_name }}
+                                            </span>
+                                        </div>
+                                        <span class="d-none d-sm-inline text-grey-lighten-1 mx-2">•</span>
+                                        <div class="d-flex align-center">
+                                            <v-icon size="20" color="deep-purple-accent-2"
+                                                class="mr-2">mdi-map-marker</v-icon>
+                                            <span class="text-grey-darken-2"
+                                                :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">{{
+                                                    microsite.location }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Action Button -->
+                                <div class="text-center">
+                                    <v-btn color="deep-purple-accent-2"
+                                        class="join-btn text-capitalize text-white px-8 elevation-4" height="50"
+                                        rounded="pill" flat @click="showJoinDialog = true">
+                                        <template v-slot:prepend>
+                                            <v-icon size="24">mdi-handshake-outline</v-icon>
+                                        </template>
+                                        Join me
+                                    </v-btn>
+                                </div>
+                            </div>
+                        </v-card>
                     </div>
-                </div>
 
-                <!-- Services Section -->
-                <div class="mb-8">
-                    <h2 class="text-h6 font-weight-bold mb-4">Services</h2>
-                    <div class="d-flex flex-wrap gap-3">
-                        <v-chip class="custom-chip bg-deep-purple-accent-2 text-white" label size="large">
-                            Web development
-                        </v-chip>
-                        <v-chip class="custom-chip bg-deep-purple-accent-2 text-white" label size="large">
-                            Digital marketing
-                        </v-chip>
-                        <v-chip class="custom-chip bg-deep-purple-accent-2 text-white" label size="large">
-                            Graphic design
-                        </v-chip>
+                    <!-- About Section -->
+                    <div class="mb-8">
+                        <h2 class="text-h6 font-weight-bold mb-4">About</h2>
+                        <div class="border rounded-lg pa-6 text-grey-darken-3"
+                            :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
+                            {{ microsite.description }}
+                        </div>
                     </div>
-                </div>
 
-                <!-- Connect with me Section -->
-                <div class="mb-8">
-                    <h2 class="text-h6 font-weight-bold mb-6">Connect with me</h2>
-                    <v-row>
-                        <!-- LinkedIn -->
-                        <v-col cols="4" sm="4" md="auto" class="d-flex justify-center">
-                            <div class="d-flex flex-column align-center text-center">
-                                <v-btn icon="mdi-linkedin" color="#0A66C2" size="x-large" variant="text"
-                                    class="mb-2 social-icon"></v-btn>
-                                <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
-                                    https://linkedn-<br>Mehta Creative Studio
-                                </a>
-                            </div>
-                        </v-col>
+                    <!-- Services Section -->
+                    <div class="mb-8" v-if="microsite.services && microsite.services.length">
+                        <h2 class="text-h6 font-weight-bold mb-4">Services</h2>
+                        <div class="d-flex flex-wrap gap-3">
+                            <v-chip v-for="(service, index) in microsite.services" :key="index"
+                                class="custom-chip bg-deep-purple-accent-2 text-white" label size="large">
+                                {{ service.name }}
+                            </v-chip>
+                        </div>
+                    </div>
 
-                        <!-- X (Twitter) -->
-                        <v-col cols="4" sm="4" md="auto" class="d-flex justify-center">
-                            <div class="d-flex flex-column align-center text-center">
-                                <v-btn icon="mdi-alpha-x-circle" color="#000000" size="x-large" variant="text"
-                                    class="mb-2 social-icon"></v-btn>
-                                <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
-                                    https://X-<br>Mehta Creative Studio
-                                </a>
-                            </div>
-                        </v-col>
-
-                        <!-- Instagram -->
-                        <v-col cols="4" sm="4" md="auto" class="d-flex justify-center">
-                            <div class="d-flex flex-column align-center text-center">
-                                <v-btn icon="mdi-instagram" color="#E4405F" size="x-large" variant="text"
-                                    class="mb-2 social-icon"></v-btn>
-                                <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
-                                    https://Instgram-<br>Mehta Creative Studio
-                                </a>
-                            </div>
-                        </v-col>
-
-                        <!-- Telegram -->
-                        <v-col cols="4" sm="4" md="auto" class="d-flex justify-center">
-                            <div class="d-flex flex-column align-center text-center">
-                                <v-btn icon="mdi-send-circle" color="#0088cc" size="x-large" variant="text"
-                                    class="mb-2 social-icon"></v-btn>
-                                <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
-                                    https://Telegram-<br>Mehta Creative Studio
-                                </a>
-                            </div>
-                        </v-col>
-
-                        <!-- Facebook -->
-                        <v-col cols="4" sm="4" md="auto" class="d-flex justify-center">
-                            <div class="d-flex flex-column align-center text-center">
-                                <v-btn icon="mdi-facebook" color="#1877F2" size="x-large" variant="text"
-                                    class="mb-2 social-icon"></v-btn>
-                                <a href="#" class="text-caption text-decoration-underline text-grey-darken-3">
-                                    https://Facebook-<br>Mehta Creative Studio
-                                </a>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </div>
-            </v-container>
-
-
+                    <!-- Connect with me Section -->
+                    <div class="mb-8" v-if="microsite.social_links && microsite.social_links.length">
+                        <h2 class="text-h6 font-weight-bold mb-6">Connect with me</h2>
+                        <v-row>
+                            <v-col cols="4" sm="4" md="auto" class="d-flex justify-center"
+                                v-for="(social, index) in microsite.social_links" :key="index">
+                                <div class="d-flex flex-column align-center text-center">
+                                    <!-- Simple icon mapping or default -->
+                                    <v-btn :icon="getSocialIcon(social.link)" :color="getSocialColor(social.link)"
+                                        size="x-large" variant="text" class="mb-2 social-icon" :href="social.url"
+                                        target="_blank"></v-btn>
+                                    <a :href="social.url" target="_blank"
+                                        class="text-caption text-decoration-underline text-grey-darken-3 text-truncate"
+                                        style="max-width: 120px;">
+                                        {{ social.url }} {{ social.link }}
+                                    </a>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </div>
+                </v-container>
+            </div>
         </v-main>
         <!-- Join Me Dialog -->
         <v-dialog v-model="showJoinDialog" max-width="600" location="center">
             <v-card class="rounded-lg pa-0 overflow-hidden">
                 <!-- Banner & Avatar Section -->
                 <div class="position-relative mb-12">
-                    <v-img src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" cover height="100"
+                    <v-img :src="getImage(microsite.banner_image, 'uploads/banner/')" cover height="100"
                         class="align-start justify-end pa-2">
                         <v-btn icon="mdi-close" variant="text" color="white" density="compact"
                             @click="showJoinDialog = false"></v-btn>
                     </v-img>
                     <div class="position-absolute" style="bottom: -40px; left: 24px;">
                         <v-avatar size="80" class="border-2 border-white">
-                            <v-img src="https://randomuser.me/api/portraits/men/5.jpg" cover></v-img>
+                            <v-img :src="getImage(microsite.avatar_icon, 'uploads/avatar/')" cover></v-img>
                         </v-avatar>
                     </div>
                 </div>
@@ -212,46 +219,149 @@
                         <v-text-field v-model="name" label="Name" variant="outlined" density="comfortable"
                             hide-details="auto" class="mb-5" :error-messages="nameError"></v-text-field>
 
-                        <v-text-field v-model="mobile" label="Mobile Number" variant="outlined"
-                            density="comfortable" hide-details="auto" class="mb-5" :error-messages="mobileError"></v-text-field>
+                        <v-text-field v-model="mobile" label="Mobile Number" variant="outlined" density="comfortable"
+                            hide-details="auto" class="mb-5" :error-messages="mobileError"></v-text-field>
 
                         <v-text-field v-model="email" label="E-mail Address" placeholder="Ex : ajru@gmail.com"
-                            variant="outlined" density="comfortable" hide-details="auto" class="mb-5" :error-messages="emailError"></v-text-field>
+                            variant="outlined" density="comfortable" hide-details="auto" class="mb-5"
+                            :error-messages="emailError"></v-text-field>
                     </div>
 
                     <v-btn block color="deep-purple-accent-2" size="large"
-                        class="text-capitalize text-white rounded-lg mb-6" flat height="48"
-                        @click="handleJoin">
+                        class="text-capitalize text-white rounded-lg mb-6" flat height="48" @click="handleJoin"
+                        :loading="joinLoading">
                         Join Now
                     </v-btn>
                 </div>
             </v-card>
         </v-dialog>
+        <v-snackbar v-model="showSuccess" color="success" timeout="3000" location="bottom center">
+            {{ successMessage }}
+        </v-snackbar>
     </v-app>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import AppBar from '@/components/AppBar.vue'
 import { useField, useForm } from 'vee-validate'
+import api from '@/api'
+import { getImage } from '@/utils/helpers'
 
+const route = useRoute()
+const router = useRouter()
 const showJoinDialog = ref(false)
-const { validate } = useForm()
+const joinLoading = ref(false)
+const showSuccess = ref(false)
+const successMessage = ref('')
+const { validate, resetForm } = useForm()
 
 const { value: name, errorMessage: nameError } = useField('name', 'required')
 const { value: mobile, errorMessage: mobileError } = useField('mobile', 'required|numeric|min:10')
 const { value: email, errorMessage: emailError } = useField('email', 'required|email')
 
 // Initialize values
-name.value = 'Lasa Marndi'
-mobile.value = '9786453125'
+
+
+// Microsite Data
+const microsite = ref(null)
+const loading = ref(true)
+
+const fetchMicrosite = async () => {
+    const { username, slug } = route.params
+    if (!username || !slug) {
+        router.push('/page-not-found-404') // Ensure this route exists or use appropriate error page
+        return
+    }
+
+
+    try {
+        loading.value = true
+        // Assuming API path based on user request "microsite/:slug1/:slug2" -> mapped to backend endpoint
+        const response = await api.get(`/microsite/view/${username}/${slug}`)
+
+        if (response.data && response.data.data) {
+            console.log(response.data.data)
+            microsite.value = response.data.data
+        } else {
+            // Redirect if no data found
+            router.push('/page-not-found-404')
+        }
+    } catch (error) {
+        console.error("Error fetching microsite details:", error)
+        router.push('/page-not-found-404')
+    } finally {
+        loading.value = false
+    }
+}
+
+onMounted(() => {
+    fetchMicrosite()
+})
+
+const getSocialColor = (type) => {
+    const colors = {
+        'facebook': '#1877F2',
+        'instagram': '#E4405F',
+        'twitter': '#1DA1F2',
+        'x': '#000000',
+        'linkedin': '#0A66C2',
+        'youtube': '#FF0000',
+        'tiktok': '#000000',
+        'whatsapp': '#25D366',
+        'github': '#181717',
+        'telegram': '#0088cc',
+        'website': 'grey-darken-2'
+    }
+    return colors[type.toLowerCase()] || 'grey-darken-2'
+}
+
+const getSocialIcon = (type) => {
+    const icons = {
+        'website': 'mdi-web',
+        'tiktok': 'mdi-music-note',
+        'twitter/x': 'mdi-twitter',
+        'facebook': 'mdi-facebook',
+        'instagram': 'mdi-instagram',
+        'linkedin': 'mdi-linkedin',
+        'youtube': 'mdi-youtube',
+        'whatsapp': 'mdi-whatsapp',
+        'github': 'mdi-github',
+        'telegram': 'mdi-telegram'
+    }
+    return icons[type.toLowerCase()] || 'mdi-' + type.toLowerCase().replace(' ', '-')
+}
+
+
 
 const handleJoin = async () => {
     const { valid } = await validate()
 
-    if (valid) {
-        console.log('Join form valid', { name: name.value, mobile: mobile.value, email: email.value })
-        showJoinDialog.value = false
+    if (valid && microsite.value) {
+        joinLoading.value = true
+        try {
+            const payload = {
+                name: name.value,
+                email: email.value,
+                mobile_number: mobile.value.toString(),
+                microsite_id: microsite.value.id
+            }
+
+            const response = await api.post('/lead/create', payload)
+
+            if (response.data && response.data.status) {
+                showJoinDialog.value = false
+                successMessage.value = response.data.message || 'Joined successfully!'
+                showSuccess.value = true
+                resetForm()
+            }
+        } catch (error) {
+            console.error('Error joining microsite:', error)
+            // Ideally handle error feedback here too
+        } finally {
+            joinLoading.value = false
+        }
     }
 }
 </script>
