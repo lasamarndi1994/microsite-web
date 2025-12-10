@@ -80,8 +80,6 @@
                         </div>
                         <div v-if="profileError" class="text-center text-caption text-red mt-2">{{ profileError }}</div>
                     </div>
-                    </div>
-                    </div>
 
                     <!-- Content Container -->
                     <v-container class="px-4 px-md-8">
@@ -208,7 +206,7 @@
                                                             class="mr-2"></v-icon>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                        }}</v-list-item-title>
+                                                    }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
