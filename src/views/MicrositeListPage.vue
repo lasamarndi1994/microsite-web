@@ -88,8 +88,10 @@
                                 <div class="d-flex align-center">
                                     <v-avatar color="blue-lighten-5" rounded="lg" size="40" class="mr-4">
                                         <!-- Use item.image if available, else default icon -->
-                                        <v-img v-if="item.banner_image" :src="item.banner_image"
-                                            :lazy-src="item.banner_image" cover transition="fade-transition">
+                                        <v-img v-if="item.banner_image"
+                                            :src="getImage(item.banner_image, 'uploads/banner/')"
+                                            :lazy-src="getImage(item.banner_image, 'uploads/banner/')" cover
+                                            transition="fade-transition">
                                             <template v-slot:placeholder>
                                                 <div class="d-flex align-center justify-center fill-height">
                                                     <v-progress-circular color="grey-lighten-4" indeterminate
@@ -206,6 +208,7 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { getImage } from '@/utils/helpers';
 
 const props = defineProps({
     microsites: {

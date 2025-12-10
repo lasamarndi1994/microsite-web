@@ -49,11 +49,15 @@
                 </v-container>
             </div>
 
+
+
             <div v-else-if="microsite">
+
+
                 <!-- Banner Section -->
                 <div class="banner-container position-relative">
-                    <v-img :src="microsite.banner_image || 'https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg'"
-                        cover height="300" class="align-center">
+                    <v-img :src="getImage(microsite.banner_image, 'uploads/banner/')" cover height="300"
+                        class="align-center">
                         <div class="d-flex fill-height align-center justify-center">
                             <div class="text-center text-white px-4" style="max-width: 800px;">
                                 <h2 class="font-weight-regular mb-2" style="line-height: 1.4;"
@@ -97,7 +101,7 @@
                                     <div class="avatar-wrapper d-inline-block position-relative">
                                         <v-avatar size="140" class="profile-avatar elevation-8">
                                             <v-img
-                                                :src="microsite.avatar_icon || 'https://randomuser.me/api/portraits/men/5.jpg'"
+                                                :src="getImage(microsite.avatar_icon, 'uploads/avatar/') || 'https://randomuser.me/api/portraits/men/5.jpg'"
                                                 cover></v-img>
                                         </v-avatar>
                                         <div class="avatar-ring"></div>
@@ -126,7 +130,7 @@
                                                 class="mr-2">mdi-map-marker</v-icon>
                                             <span class="text-grey-darken-2"
                                                 :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">{{
-                                                microsite.location }}</span>
+                                                    microsite.location }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -174,13 +178,13 @@
                                 v-for="(social, index) in microsite.social_links" :key="index">
                                 <div class="d-flex flex-column align-center text-center">
                                     <!-- Simple icon mapping or default -->
-                                    <v-btn :icon="'mdi-' + social.link.toLowerCase().replace(' ', '-') || 'mdi-web'"
-                                        :color="getSocialColor(social.link)" size="x-large" variant="text"
-                                        class="mb-2 social-icon" :href="social.url" target="_blank"></v-btn>
+                                    <v-btn :icon="getSocialIcon(social.link)" :color="getSocialColor(social.link)"
+                                        size="x-large" variant="text" class="mb-2 social-icon" :href="social.url"
+                                        target="_blank"></v-btn>
                                     <a :href="social.url" target="_blank"
                                         class="text-caption text-decoration-underline text-grey-darken-3 text-truncate"
                                         style="max-width: 120px;">
-                                        {{ social.url }}
+                                        {{ social.url }} {{ social.link }}
                                     </a>
                                 </div>
                             </v-col>
@@ -194,14 +198,14 @@
             <v-card class="rounded-lg pa-0 overflow-hidden">
                 <!-- Banner & Avatar Section -->
                 <div class="position-relative mb-12">
-                    <v-img src="https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg" cover height="100"
+                    <v-img :src="getImage(microsite.banner_image, 'uploads/banner/')" cover height="100"
                         class="align-start justify-end pa-2">
                         <v-btn icon="mdi-close" variant="text" color="white" density="compact"
                             @click="showJoinDialog = false"></v-btn>
                     </v-img>
                     <div class="position-absolute" style="bottom: -40px; left: 24px;">
                         <v-avatar size="80" class="border-2 border-white">
-                            <v-img src="https://randomuser.me/api/portraits/men/5.jpg" cover></v-img>
+                            <v-img :src="getImage(microsite.avatar_icon, 'uploads/avatar/')" cover></v-img>
                         </v-avatar>
                     </div>
                 </div>
@@ -224,12 +228,16 @@
                     </div>
 
                     <v-btn block color="deep-purple-accent-2" size="large"
-                        class="text-capitalize text-white rounded-lg mb-6" flat height="48" @click="handleJoin">
+                        class="text-capitalize text-white rounded-lg mb-6" flat height="48" @click="handleJoin"
+                        :loading="joinLoading">
                         Join Now
                     </v-btn>
                 </div>
             </v-card>
         </v-dialog>
+        <v-snackbar v-model="showSuccess" color="success" timeout="3000" location="bottom center">
+            {{ successMessage }}
+        </v-snackbar>
     </v-app>
 </template>
 
@@ -239,11 +247,15 @@ import { useRoute, useRouter } from 'vue-router'
 import AppBar from '@/components/AppBar.vue'
 import { useField, useForm } from 'vee-validate'
 import api from '@/api'
+import { getImage } from '@/utils/helpers'
 
 const route = useRoute()
 const router = useRouter()
 const showJoinDialog = ref(false)
-const { validate } = useForm()
+const joinLoading = ref(false)
+const showSuccess = ref(false)
+const successMessage = ref('')
+const { validate, resetForm } = useForm()
 
 const { value: name, errorMessage: nameError } = useField('name', 'required')
 const { value: mobile, errorMessage: mobileError } = useField('mobile', 'required|numeric|min:10')
@@ -259,9 +271,10 @@ const loading = ref(true)
 const fetchMicrosite = async () => {
     const { username, slug } = route.params
     if (!username || !slug) {
-        router.push('/404') // Ensure this route exists or use appropriate error page
+        router.push('/page-not-found-404') // Ensure this route exists or use appropriate error page
         return
     }
+
 
     try {
         loading.value = true
@@ -269,14 +282,15 @@ const fetchMicrosite = async () => {
         const response = await api.get(`/microsite/view/${username}/${slug}`)
 
         if (response.data && response.data.data) {
+            console.log(response.data.data)
             microsite.value = response.data.data
         } else {
             // Redirect if no data found
-            router.push('/404')
+            router.push('/page-not-found-404')
         }
     } catch (error) {
         console.error("Error fetching microsite details:", error)
-        router.push('/404')
+        router.push('/page-not-found-404')
     } finally {
         loading.value = false
     }
@@ -303,12 +317,51 @@ const getSocialColor = (type) => {
     return colors[type.toLowerCase()] || 'grey-darken-2'
 }
 
+const getSocialIcon = (type) => {
+    const icons = {
+        'website': 'mdi-web',
+        'tiktok': 'mdi-music-note',
+        'twitter/x': 'mdi-twitter',
+        'facebook': 'mdi-facebook',
+        'instagram': 'mdi-instagram',
+        'linkedin': 'mdi-linkedin',
+        'youtube': 'mdi-youtube',
+        'whatsapp': 'mdi-whatsapp',
+        'github': 'mdi-github',
+        'telegram': 'mdi-telegram'
+    }
+    return icons[type.toLowerCase()] || 'mdi-' + type.toLowerCase().replace(' ', '-')
+}
+
+
+
 const handleJoin = async () => {
     const { valid } = await validate()
 
-    if (valid) {
-        console.log('Join form valid', { name: name.value, mobile: mobile.value, email: email.value })
-        showJoinDialog.value = false
+    if (valid && microsite.value) {
+        joinLoading.value = true
+        try {
+            const payload = {
+                name: name.value,
+                email: email.value,
+                mobile_number: mobile.value.toString(),
+                microsite_id: microsite.value.id
+            }
+
+            const response = await api.post('/lead/create', payload)
+
+            if (response.data && response.data.status) {
+                showJoinDialog.value = false
+                successMessage.value = response.data.message || 'Joined successfully!'
+                showSuccess.value = true
+                resetForm()
+            }
+        } catch (error) {
+            console.error('Error joining microsite:', error)
+            // Ideally handle error feedback here too
+        } finally {
+            joinLoading.value = false
+        }
     }
 }
 </script>

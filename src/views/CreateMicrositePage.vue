@@ -37,7 +37,7 @@
                                 style="top: 0; left: 0; transition: all 0.3s;">
                                 <v-btn variant="flat" color="white" class="text-capitalize" prepend-icon="mdi-camera"
                                     @click="triggerBannerUpload">
-                                    {{ bannerPhoto ? 'Change Cover' : 'Add Cover Photo' }}
+                                    {{ bannerPhoto ? 'Change Banner' : 'Add Banner Image' }}
                                 </v-btn>
                                 <input type="file" ref="bannerInputRef" accept="image/*" class="d-none"
                                     @change="onBannerChange" />
@@ -47,7 +47,7 @@
 
                             <!-- Close Banner -->
                             <v-btn v-if="bannerPhoto" icon="mdi-close" size="small" color="error" variant="flat"
-                                class="position-absolute" style="top: 16px; right: 16px; z-index: 2;"
+                                class="position-absolute remove-banner-btn" style="top: 16px; right: 16px; z-index: 2;"
                                 @click="removeBannerPhoto"></v-btn>
                         </div>
 
@@ -74,7 +74,7 @@
 
                                 <!-- Remove Button -->
                                 <v-btn v-if="profilePhoto" icon="mdi-close" size="x-small" color="error" variant="flat"
-                                    class="position-absolute" style="top: 0; right: 0;"
+                                    class="position-absolute remove-profile-btn" style="top: 0; right: 0;"
                                     @click="removeProfilePhoto"></v-btn>
                             </div>
                         </div>
@@ -258,6 +258,9 @@
             </v-container>
         </v-card>
     </app-layout>
+    <v-snackbar v-model="showSuccess" color="success" timeout="3000" location="bottom center">
+        {{ successMessage }}
+    </v-snackbar>
 </template>
 
 <script setup>
@@ -281,6 +284,8 @@ const { value: professionalNote, errorMessage: professionalNoteError } = useFiel
 const profileError = ref('')
 const servicesError = ref('')
 const socialError = ref('')
+const showSuccess = ref(false)
+const successMessage = ref('')
 
 // Image Upload Logic
 const profileInputRef = ref(null)
@@ -531,6 +536,8 @@ const handleSave = async () => {
                 sub_title: subTitle.value,
                 full_name: fullName.value,
                 description: professionalNote.value,
+                business_name: businessName.value,
+                location: businessLocation.value,
                 banner_image: bannerBase64.value,
                 avatar_icon: profileBase64.value,
                 services_name: selectedServices.value.map(service => ({ name: service })),
@@ -544,7 +551,12 @@ const handleSave = async () => {
 
             await api.post('/microsite/create', formData);
             // On success
-            router.push('/microsite-profile');
+            successMessage.value = 'Microsite created successfully';
+            showSuccess.value = true;
+
+            setTimeout(() => {
+                router.push('/dashboard');
+            }, 1000);
         } catch (error) {
             console.error('Error creating microsite:', error);
             // Handle error (e.g., show notification)
@@ -681,5 +693,17 @@ const handleSave = async () => {
 
 .bg-black-opacity {
     background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Remove Button Hover Effects */
+.remove-banner-btn,
+.remove-profile-btn {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.banner-upload-area:hover .remove-banner-btn,
+.profile-upload-wrapper:hover .remove-profile-btn {
+    opacity: 1;
 }
 </style>
