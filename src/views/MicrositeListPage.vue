@@ -101,9 +101,10 @@
                                         </v-img>
                                         <v-icon v-else color="blue">mdi-web</v-icon>
                                     </v-avatar>
-                                    <div>
+                                    {{ item }}
+                                    <div class="cursor-pointer" @click="navigateToProfile(item.user.slug, item.slug)">
                                         <div class="text-subtitle-2 font-weight-bold">{{ item.title }}</div>
-                                        <div class="text-caption text-grey">{{ item.description }}</div>
+                                        <div class="text-caption text-grey">{{ item.sub_title }}</div>
                                     </div>
                                 </div>
                             </td>
@@ -114,7 +115,7 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                                }}
+                            }}
                             </td>
                             <td class="text-right">
                                 <v-btn icon="mdi-delete-outline" variant="text" color="grey" size="large"
@@ -237,6 +238,11 @@ const openPreview = (item) => {
 const confirmDelete = (item) => {
     itemToDelete.value = item;
     showDeleteConfirm.value = true;
+};
+
+const navigateToProfile = (username, slug) => {
+    alert(username, slug)
+    router.push(`/${username}/${slug}`);
 };
 
 const deleteItem = () => {
