@@ -132,42 +132,9 @@
             </div>
 
             <!-- Microsites Grid -->
-            <v-row v-if="isLoading && activeTab === 'my-microsites'">
-                <v-col cols="12" md="4" v-for="n in 6" :key="n">
-                    <v-skeleton-loader class="mx-auto border rounded-lg" max-width="100%"
-                        type="image, article"></v-skeleton-loader>
-                </v-col>
-            </v-row>
-            <v-row v-else-if="activeTab === 'my-microsites'">
-                <v-col cols="12" md="4" v-for="(site, index) in microsites" :key="index">
-                    <v-card flat border class="rounded-lg overflow-hidden microsite-card cursor-pointer" height="100%"
-                        @click="navigateToProfile(site.user.slug, site.slug)">
-                        <v-img :src="getImage(site.banner_image, 'uploads/banner/')"
-                            :lazy-src="getImage(site.banner_image, 'uploads/banner/')" height="200" cover
-                            :class="site.bgColor" transition="fade-transition">
-                            <div class="d-flex justify-end pa-2">
-                                <v-chip :color="getStatusColor(site.status)"
-                                    class="text-uppercase font-weight-bold text-white" size="small" label variant="flat"
-                                    elevation="2" style="border: 1px solid white;">
-                                    {{ site.status }}
-                                </v-chip>
-                            </div>
-                        </v-img>
-                        <v-card-text class="pa-4">
-                            <div class="d-flex align-center justify-space-between">
-                                <h3 class="fs-22 font-weight-bold hover-text-primary transition-colors">{{ site.title }}
-                                </h3>
-                                <v-icon :class="{ 'font-weight-bold': index === 0 }"
-                                    class="hover-text-primary transition-colors">mdi-arrow-top-right</v-icon>
-                            </div>
-                            <p class="text-caption text-grey-darken-1 mt-2 mb-0 fs-14 font-weight-medium">
-                                {{ site.description }}
-                            </p>
-                        </v-card-text>
-                    </v-card>
-                </v-col>
-            </v-row>
 
+            <MyMicrositeGridPage v-if="activeTab === 'my-microsites'" :microsites="microsites" :loading="isLoading" />
+            <!-- Microsites List -->
             <MicrositeListPage v-else :microsites="microsites" :loading="isLoading" @filter-change="handleFilterChange"
                 @refresh="refresh" />
         </v-card>
@@ -176,17 +143,18 @@
 
 <script setup>
 import { ref, onMounted } from 'vue'
-import { useRouter } from "vue-router";
+import { useRouter, useRoute } from "vue-router";
 import api from "@/api";
-import { getImage } from '@/utils/helpers'
 
-import MicrositeListPage from "@/views/MicrositeListPage.vue";
+
+import MicrositeListPage from "@/views/microsite/ListPage.vue";
+
+import MyMicrositeGridPage from "@/views/microsite/GridPage.vue";
 
 
 const router = useRouter();
+const route = useRoute();
 const activeTab = ref('my-microsites');
-const selectedFilter = ref(null);
-const selectedFilterLabel = ref(null);
 const isLoading = ref(false);
 
 const createMicrosite = () => {
@@ -197,10 +165,6 @@ const DraftMicrosite = () => {
     router.push("/drafts-microsite");
 };
 
-const navigateToProfile = (username, slug) => {
-    console.log(username, slug);
-    router.push(`/${username}/${slug}`);
-};
 
 const microsites = ref([]);
 
@@ -234,26 +198,29 @@ const handleFilterChange = (status) => {
 };
 
 const updateActiveTab = (tab) => {
+    if (activeTab.value === tab) return;
     activeTab.value = tab;
+    router.replace({ query: { ...route.query, tab } });
     if (tab === 'my-microsites') {
-        fetchMicrosites();
+        fetchMicrosites('Approved');
     } else if (tab === 'pending') {
         fetchMicrosites('Pending');
     }
 };
 
 onMounted(() => {
-    fetchMicrosites();
+    const tab = route.query.tab;
+    if (tab && (tab === 'my-microsites' || tab === 'pending')) {
+        activeTab.value = tab;
+    }
+
+    if (activeTab.value === 'pending') {
+        fetchMicrosites('Pending');
+    } else {
+        fetchMicrosites('Approved');
+    }
 });
 
-const getStatusColor = (status) => {
-    switch (status) {
-        case 'Active': return 'success';
-        case 'Pending': return 'warning';
-        case 'Approved': return 'info';
-        default: return 'grey';
-    }
-};
 const refresh = (uuid) => {
     if (uuid) {
         const index = microsites.value.findIndex(item => item.uuid === uuid);
@@ -284,13 +251,5 @@ const refresh = (uuid) => {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
     border-color: var(--primary-color) !important;
-}
-
-.transition-colors {
-    transition: color 0.3s ease-in-out;
-}
-
-.microsite-card:hover .hover-text-primary {
-    color: var(--primary-color) !important;
 }
 </style>

@@ -1,6 +1,6 @@
 <template>
     <v-app>
-        <AppBar />
+        <AppBar :isAuthenticated="store.isAuthenticated" />
         <v-main class="bg-white">
             <div v-if="loading">
                 <v-skeleton-loader color="grey-lighten-4" height="300" type="image"></v-skeleton-loader>
@@ -221,7 +221,7 @@
                             :error-messages="emailError"></v-text-field>
                     </div>
 
-                    <v-btn block color="deep-purple-accent-2" size="large"
+                    <v-btn block color="deep-purple-accent-2" size="large" :disabled="!isSiteActive"
                         class="text-capitalize text-white rounded-lg mb-6" flat height="48" @click="handleJoin"
                         :loading="joinLoading">
                         Join Now
@@ -242,6 +242,9 @@ import AppBar from '@/components/AppBar.vue'
 import { useField, useForm } from 'vee-validate'
 import api from '@/api'
 import { getImage } from '@/utils/helpers'
+import { useAuthStore } from '@/stores/authStore'
+
+const store = useAuthStore()
 
 const route = useRoute()
 const router = useRouter()
@@ -261,27 +264,26 @@ const { value: email, errorMessage: emailError } = useField('email', 'required|e
 // Microsite Data
 const microsite = ref(null)
 const loading = ref(true)
-
+const isSiteActive = ref(false)
 const fetchMicrosite = async () => {
     const { username, slug } = route.params
     if (!username || !slug) {
-        router.push('/page-not-found-404') // Ensure this route exists or use appropriate error page
+        router.push('/page-not-found-404')
         return
     }
     try {
         loading.value = true
-        // Assuming API path based on user request "microsite/:slug1/:slug2" -> mapped to backend endpoint
         const response = await api.get(`/microsite/view/${username}/${slug}`)
-
-        if (response.data && response.data.data) {
-            console.log(response.data.data)
-            microsite.value = response.data.data
+        if (response.data.data && response.data.data.status === 'Approved' || store.isAuthenticated) {
+            if (response.data.data.status === 'Approved') {
+                isSiteActive.value = true;
+            }
+            microsite.value = response.data.data;
         } else {
-            // Redirect if no data found
+            isSiteActive.value = false;
             router.push('/page-not-found-404')
         }
     } catch (error) {
-        console.error("Error fetching microsite details:", error)
         router.push('/page-not-found-404')
     } finally {
         loading.value = false
@@ -326,6 +328,9 @@ const getSocialIcon = (type) => {
 }
 
 const handleJoin = async () => {
+    if (store.isAuthenticated) {
+        return;
+    }
     const { valid } = await validate()
     if (valid && microsite.value) {
         joinLoading.value = true

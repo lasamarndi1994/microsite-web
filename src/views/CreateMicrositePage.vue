@@ -42,6 +42,10 @@
                                     @click="triggerBannerUpload">
                                     {{ bannerPhoto ? 'Change Banner' : 'Add Banner Image' }}
                                 </v-btn>
+                                <div class="text-caption text-grey mt-1 text-center font-weight-medium">
+                                    Recommended: 1200x400px <span class="mx-1">•</span> Min: 400x400px
+                                    Max size: 5MB <span class="mx-1">•</span> JPG, PNG
+                                </div>
                                 <input type="file" ref="bannerInputRef" accept="image/*" class="d-none"
                                     @change="onBannerChange" />
                                 <div v-if="bannerError" class="text-caption text-red mt-2 bg-white px-2 rounded">{{
@@ -210,7 +214,7 @@
                                                             class="mr-2"></v-icon>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                    }}</v-list-item-title>
+                                                        }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
@@ -590,10 +594,9 @@ const handleSave = async () => {
 
             // On success
             showSuccess.value = true;
-
-            // setTimeout(() => {
-            //     router.push('/dashboard');
-            // }, 1000);
+            setTimeout(() => {
+                router.push('/dashboard?tab=pending');
+            }, 1000);
         } catch (error) {
             console.error('Error creating/updating microsite:', error);
             // Handle error (e.g., show notification)

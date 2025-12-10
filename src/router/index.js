@@ -64,7 +64,6 @@ const routes = [
     path: '/:username/:slug',
     name: 'MicrositeProfile',
     component: () => import('@/views/MicrositeProfilePage.vue'),
-    meta: { requiresAuth: true },
   },
   {
     path: '/:pathMatch(.*)*',

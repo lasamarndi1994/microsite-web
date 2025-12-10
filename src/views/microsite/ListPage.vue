@@ -2,8 +2,10 @@
     <div>
         <v-row class="mb-6" align="center">
             <v-col>
-                <v-text-field density="compact" variant="outlined" label="Search" prepend-inner-icon="mdi-magnify"
-                    hide-details single-line class="bg-white rounded-lg search-input" max-width="450px"></v-text-field>
+                <v-text-field v-model="searchQuery" density="compact" variant="outlined" label="Search"
+                    prepend-inner-icon="mdi-magnify" hide-details single-line class="bg-white rounded-lg search-input"
+                    max-width="450px" @update:model-value="debouncedSearch" clearable
+                    @click:clear="onClear"></v-text-field>
             </v-col>
             <v-col cols="auto">
                 <v-btn variant="outlined" prepend-icon="mdi-filter-variant" class="ml-4 text-capitalize" height="48"
@@ -41,14 +43,15 @@
         </v-row>
 
         <!-- Microsites List -->
-        <v-card flat border class="rounded-lg">
+        <EmptyState v-if="!loading && localMicrosites.length === 0" @create="createMicrosite" />
+        <v-card v-else flat border class="rounded-lg">
             <v-table>
                 <thead>
                     <tr>
                         <th class="text-left text-caption text-grey">Microsites</th>
                         <th class="text-left text-caption text-grey">Status</th>
                         <th class="text-left text-caption text-grey">Last Update</th>
-                        <th class="text-right text-caption text-grey"></th>
+                        <th class="text-center   text-caption text-grey"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -56,23 +59,27 @@
                         <tr v-for="n in 5" :key="n">
                             <td class="py-4">
                                 <div class="d-flex align-center">
-                                    <v-skeleton-loader type="avatar" width="40" class="mr-4 ma-0"></v-skeleton-loader>
+                                    <v-skeleton-loader type="avatar" width="40" height="40"
+                                        class="mr-4 ma-0"></v-skeleton-loader>
                                     <div class="w-100">
-                                        <v-skeleton-loader type="text" width="140" class="ma-0"></v-skeleton-loader>
-                                        <v-skeleton-loader type="text" width="100"
-                                            class="mt-1 ma-0"></v-skeleton-loader>
+                                        <v-skeleton-loader type="text" width="60%" class="ma-0 ml-2"
+                                            height="14"></v-skeleton-loader>
+
                                     </div>
                                 </div>
                             </td>
                             <td>
-                                <v-skeleton-loader type="chip" width="80" class="ma-0"></v-skeleton-loader>
+                                <v-skeleton-loader type="text" width="60" height="80" class="ma-0"></v-skeleton-loader>
                             </td>
                             <td>
                                 <v-skeleton-loader type="text" width="100" class="ma-0"></v-skeleton-loader>
                             </td>
-                            <td class="text-start">
-                                <div class="d-flex justify-start">
-                                    <v-skeleton-loader type="avatar" width="32" class="ml-2 ma-0"></v-skeleton-loader>
+                            <td class="text-center">
+                                <div class="d-flex justify-center">
+                                    <v-skeleton-loader type="chip" width="0" height="0"
+                                        class="ml-2 ma-0"></v-skeleton-loader>
+                                    <v-skeleton-loader type="chip" width="0" height="0"
+                                        class="ml-2 ma-0"></v-skeleton-loader>
 
                                 </div>
                             </td>
@@ -80,7 +87,7 @@
                     </template>
                     <template v-else>
 
-                        <tr v-for="(item, index) in microsites" :key="index">
+                        <tr v-for="(item, index) in localMicrosites" :key="index">
                             <td class="py-4">
                                 <div class="d-flex align-center">
                                     <v-avatar color="blue-lighten-5" rounded="lg" size="40" class="mr-4">
@@ -115,12 +122,18 @@
                                 }}
                             </td>
                             <td class="text-right">
+
                                 <v-btn icon="mdi-delete-outline" variant="text" color="grey" size="large"
-                                    v-if="item.status !== 'Active'" @click="confirmDelete(item)"></v-btn>
-                                <v-btn v-if="item.status !== 'Active'" icon="mdi-pencil-outline" variant="text"
-                                    @click="navigateEditProfile(item.uuid)" color="grey" size="large"></v-btn>
-                                <v-btn v-if="item.status == 'Active'" icon="mdi-eye-outline" variant="text" color="grey"
-                                    size="large" @click="openPreview(item)"></v-btn>
+                                    @click="confirmDelete(item)"></v-btn>
+                                <v-btn icon="mdi-pencil-outline" variant="text" @click="navigateEditProfile(item.uuid)"
+                                    color="grey" size="large"></v-btn>
+                                <v-btn icon="mdi-eye-outline" variant="text" color="grey" size="large"
+                                    v-if="item.status === 'Rejected'" @click="openPreview(item)"></v-btn>
+                                <v-btn v-if="item.status === 'Approved'" icon="mdi-content-copy" variant="text"
+                                    color="grey" size="large" @click="copyUrl(item)">
+                                    <v-icon>mdi-content-copy</v-icon>
+                                    <v-tooltip activator="parent" location="top">Copy URL</v-tooltip>
+                                </v-btn>
                             </td>
                         </tr>
                     </template>
@@ -151,15 +164,14 @@
                     </v-col>
                     <v-col cols="4">
                         <div class="text-caption text-grey mb-1">Last Updated</div>
-                        <div class="font-weight-bold">{{ formatDate(selectedMicrosite.updated_at) }}</div>
+                        <div class="fs-14">{{ formatDate(selectedMicrosite.updated_at) }}</div>
                     </v-col>
                 </v-row>
 
                 <div v-if="selectedMicrosite?.rejection_reason" class="mb-6">
                     <div class="text-caption text-grey mb-2">Reason from Admin</div>
                     <div class="bg-grey-lighten-5 pa-4 rounded-lg border text-body-2">
-                        {{ selectedMicrosite.rejection_reason || "Lorem ipsum is a dummy or placeholder text commonly "
-                        }}
+                        {{ selectedMicrosite.rejection_reason }}
                     </div>
                 </div>
 
@@ -200,14 +212,18 @@
                 </v-row>
             </v-card>
         </v-dialog>
+        <v-snackbar v-model="snackbar" color="success" timeout="2000" location="bottom center">
+            {{ snackbarText }}
+        </v-snackbar>
     </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import { getImage } from '@/utils/helpers';
+import { getImage, formatDate } from '@/utils/helpers';
 import api from '@/api';
+import EmptyState from '@/components/EmptyState.vue';
 
 const props = defineProps({
     microsites: {
@@ -229,6 +245,63 @@ const showPreview = ref(false);
 const selectedMicrosite = ref(null);
 const showDeleteConfirm = ref(false);
 const itemToDelete = ref(null);
+const snackbar = ref(false);
+const snackbarText = ref('');
+const searchQuery = ref('');
+const localMicrosites = ref([]);
+
+// Sync local microsites with props initially and when props change
+watch(() => props.microsites, (newVal) => {
+    if (!searchQuery.value) {
+        localMicrosites.value = newVal;
+    }
+}, { immediate: true });
+
+const debounce = (fn, delay) => {
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn(...args), delay);
+    };
+};
+
+const performSearch = async () => {
+    if (!searchQuery.value) {
+        localMicrosites.value = props.microsites;
+        return;
+    }
+
+    try {
+        const response = await api.get(`/microsite/search?name=${searchQuery.value}`);
+        if (response.data && response.data.data) {
+            localMicrosites.value = response.data.data;
+        } else {
+            localMicrosites.value = [];
+        }
+    } catch (error) {
+        console.error("Search error:", error);
+        localMicrosites.value = [];
+    }
+};
+
+const debouncedSearch = debounce(performSearch, 500);
+
+const onClear = () => {
+    searchQuery.value = '';
+    localMicrosites.value = props.microsites;
+};
+
+const copyUrl = (item) => {
+    const url = `${window.location.origin}/${item.user.slug}/${item.slug}`;
+    navigator.clipboard.writeText(url).then(() => {
+        snackbarText.value = "Successfully copied URL";
+        snackbar.value = true;
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        snackbarText.value = "Failed to copy URL";
+        snackbar.value = true;
+    });
+};
 
 const openPreview = (item) => {
     selectedMicrosite.value = item;
@@ -242,6 +315,10 @@ const confirmDelete = (item) => {
 
 const navigateToProfile = (username, slug) => {
     router.push(`/${username}/${slug}`);
+};
+
+const createMicrosite = () => {
+    router.push('/create-microsite');
 };
 
 const deleteItem = async () => {
@@ -260,7 +337,7 @@ const deleteItem = async () => {
 
 const getStatusColor = (status) => {
     switch (status) {
-        case 'Active': return 'success';
+        case 'Approved': return 'success';
         case 'Pending': return 'warning';
         case 'Rejected': return 'error';
         case 'Approved': return 'info';
@@ -268,16 +345,12 @@ const getStatusColor = (status) => {
     }
 };
 
-const formatDate = (dateString) => {
-    if (!dateString) return 'N/A';
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-};
+
 
 const filterOptions = ref([
     {
-        label: 'Active',
-        value: 'active',
+        label: 'Approved',
+        value: 'approved',
         color: 'green-lighten-4 text-green-darken-4',
         icon: 'mdi-check-circle'
     },
