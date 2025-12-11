@@ -47,24 +47,25 @@ const routes = [
     path: '/admin/login',
     name: 'AdminLogin',
     component: () => import('@/views/auth/AdminLoginPage.vue'),
+    meta: { guest: true },
   },
   {
     path: '/admin/dashboard',
     name: 'AdminDashboard',
     component: () => import('@/views/admin/AdminDashboard.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAdmin: true },
   },
   {
     path: '/admin/partner-details',
     name: 'PartnerDetails',
     component: () => import('@/views/admin/PartnerDetails.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAdmin: true },
   },
   {
     path: '/admin/microsite-review',
     name: 'MicrositeReview',
     component: () => import('@/views/admin/MicrositeReview.vue'),
-    meta: { requiresAuth: true },
+    meta: { requiresAdmin: true },
   },
   {
     path: '/:username/:slug',
@@ -90,12 +91,15 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore();
 
-  if (to.meta.requiresAuth && !authStore.isAuthenticated) {
+  if (to.meta.requiresAdmin && !authStore.isAdminAuthenticated) {
+    next('/admin/login');
+  } else if (to.meta.requiresAuth && !authStore.isAuthenticated) {
     next('/auth/login');
   }
   else if (to.meta.guest && authStore.isAuthenticated) {
     next('/dashboard');
   }
+
   else {
     next();
   }

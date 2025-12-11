@@ -87,7 +87,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(item, index) in partners" :key="index">
+              <tr v-for="(item, index) in paginatedPartners" :key="index">
                 <td class="py-4">
                   <div class="d-flex align-center">
                     <v-avatar size="40" class="mr-4">
@@ -117,31 +117,25 @@
         </div>
 
         <!-- Pagination -->
-        <v-row class="px-6 py-4 border-t" align="center">
+        <v-row class="px-6 py-4 border-t" align="center" v-if="totalPages > 1">
           <v-col cols="12" xs="4" sm="4" class="d-flex justify-start">
             <v-btn variant="outlined" color="grey-darken-1" class="text-capitalize px-4 px-sm-6"
-              prepend-icon="mdi-arrow-left" size="small" :size="$vuetify.display.xs ? 'small' : 'default'">
+              prepend-icon="mdi-arrow-left" size="small" :size="$vuetify.display.xs ? 'small' : 'default'"
+              @click="prevPage" :disabled="currentPage === 1">
               Previous
             </v-btn>
           </v-col>
           <v-col cols="12" xs="4" sm="4" class="d-flex justify-center">
             <div class="d-flex align-center gap-1 gap-sm-2 flex-wrap">
-              <v-btn v-for="n in 3" :key="n" variant="text" :color="n === 1 ? 'secondary-color' : 'grey-darken-1'"
-                :class="{ 'bg-purple-lighten-5': n === 1 }" class="min-width-32 min-width-sm-40 px-0"
-                :height="$vuetify.display.xs ? 32 : 40" :width="$vuetify.display.xs ? 32 : 40">
-                {{ n }}
-              </v-btn>
-              <span class="text-grey-darken-1 mx-1 mx-sm-2">...</span>
-              <v-btn v-for="n in [8, 9, 10]" :key="n" variant="text" color="grey-darken-1"
-                class="min-width-32 min-width-sm-40 px-0" :height="$vuetify.display.xs ? 32 : 40"
-                :width="$vuetify.display.xs ? 32 : 40">
-                {{ n }}
-              </v-btn>
+              <!-- Simple Logic: Show all pages if <= 7, else show simplified range (or full for now if easier) -->
+              <!-- For simplicity, just showing current page and total for now, or a simple loop -->
+              <span class="text-grey-darken-1 text-body-2">Page {{ currentPage }} of {{ totalPages }}</span>
             </div>
           </v-col>
           <v-col cols="12" xs="4" sm="4" class="d-flex justify-end">
             <v-btn variant="outlined" color="grey-darken-1" class="text-capitalize px-4 px-sm-6"
-              append-icon="mdi-arrow-right" size="small" :size="$vuetify.display.xs ? 'small' : 'default'">
+              append-icon="mdi-arrow-right" size="small" :size="$vuetify.display.xs ? 'small' : 'default'"
+              @click="nextPage" :disabled="currentPage === totalPages">
               Next
             </v-btn>
           </v-col>
@@ -152,14 +146,20 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
+import api from '@/api';
 
 const router = useRouter();
 
 const search = ref('');
 const selectedFilter = ref(null);
 const selectedFilterLabel = ref(null);
+const loading = ref(false);
+
+// Pagination
+const currentPage = ref(1);
+const itemsPerPage = ref(10); // Display 10 items per page
 
 const filterOptions = ref([
   {
@@ -182,48 +182,71 @@ const filterOptions = ref([
   }
 ]);
 
-const partners = ref([
-  {
-    name: 'Lasa Marndi',
-    email: 'Arjun.Mehta@example.com',
-    mobile: '98765 43210',
-    lastUpdate: '20 NOV 2025',
-    status: 'Action Required',
-    avatar: 'https://randomuser.me/api/portraits/men/1.jpg'
-  },
-  {
-    name: 'Nisha Reddy',
-    email: 'nisha.reddy@example.com',
-    mobile: '90908 77654',
-    lastUpdate: '20 NOV 2025',
-    status: 'Action Required',
-    avatar: 'https://randomuser.me/api/portraits/women/2.jpg'
-  },
-  {
-    name: 'Rohan Iyer',
-    email: 'rohan.iyer@example.com',
-    mobile: '98123 55678',
-    lastUpdate: '20 NOV 2025',
-    status: 'Action Required',
-    avatar: 'https://randomuser.me/api/portraits/men/3.jpg'
-  },
-  {
-    name: 'Priya Malhotra',
-    email: 'priya.malhotra@example.com',
-    mobile: '91234 66778',
-    lastUpdate: '18 NOV 2025',
-    status: 'Accepted',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg'
-  },
-  {
-    name: 'Kunal Verma',
-    email: 'kunal.verma@example.com',
-    mobile: '98989 44321',
-    lastUpdate: '17 NOV 2025',
-    status: 'Accepted',
-    avatar: 'https://randomuser.me/api/portraits/men/5.jpg'
+const partners = ref([]);
+
+const filteredPartners = computed(() => {
+  let result = partners.value;
+
+  // Filter by status
+  if (selectedFilter.value) {
+    result = result.filter(p => p.status.toLowerCase() === selectedFilter.value.toLowerCase());
   }
-]);
+
+  // Filter by search
+  if (search.value) {
+    const query = search.value.toLowerCase();
+    result = result.filter(p =>
+      p.name.toLowerCase().includes(query) ||
+      p.email.toLowerCase().includes(query) ||
+      p.mobile.includes(query)
+    );
+  }
+
+  return result;
+});
+
+const totalPages = computed(() => {
+  return Math.ceil(filteredPartners.value.length / itemsPerPage.value);
+});
+
+const paginatedPartners = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage.value;
+  const end = start + itemsPerPage.value;
+  return filteredPartners.value.slice(start, end);
+});
+
+// Reset page when filter changes
+watch([selectedFilter, search], () => {
+  currentPage.value = 1;
+});
+
+const fetchUsers = () => {
+  loading.value = true;
+  api.get('/admin/users')
+    .then((response) => {
+      if (response.data.status) {
+        partners.value = response.data.data.map(user => ({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          mobile: user.mobile_number,
+          lastUpdate: user.created_at, // You might want to format this date
+          status: user.status || 'Pending', // Default status if not provided
+          avatar: user.profile_image || 'https://avatar.iran.liara.run/public/48' // Default avatar or from API
+        }));
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching users:", error);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
+
+onMounted(() => {
+  fetchUsers();
+});
 
 const selectFilter = (value) => {
   selectedFilter.value = value;
@@ -244,6 +267,13 @@ const viewPartner = (partner) => {
 
 const getStatusColor = (status) => {
   return status === 'Accepted' ? 'green-lighten-4 text-green-darken-4' : 'orange-lighten-4 text-orange-darken-4';
+};
+const nextPage = () => {
+  if (currentPage.value < totalPages.value) currentPage.value++;
+};
+
+const prevPage = () => {
+  if (currentPage.value > 1) currentPage.value--;
 };
 </script>
 
