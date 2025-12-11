@@ -177,7 +177,7 @@
                                 </div>
                             </div>
                             <div v-if="servicesError" class="text-caption text-red mt-2 d-flex align-center">
-                                <v-icon icon="mdi-alert-circle-outline" size="small" class="mr-1"></v-icon>
+
                                 {{ servicesError }}
                             </div>
                         </v-card>
@@ -613,7 +613,7 @@ const handleSaveAndUpdate = async (status = 'Pending') => {
     } else {
         // Scroll to top to show errors
         window.scrollTo({
-            top: 0,
+            top: 50,
             behavior: 'smooth'
         })
     }
@@ -671,10 +671,47 @@ const fetchMicrositeDetails = async (uuid) => {
     }
 };
 
-onMounted(() => {
+
+
+const fetchAuthUser = async () => {
+    try {
+        const response = await api.get('/auth/user');
+        const user = response.data.data; // Adjust based on API response structure
+        if (user) {
+            fullName.value = user.user_name || '';
+            businessName.value = user.business_name || '';
+            businessLocation.value = user.business_location || '';
+            if (user.user_avatar) {
+                profilePhoto.value = getImage(user.user_avatar, 'uploads/avatar/');
+
+                try {
+                    const imgUrl = getImage(user.user_avatar, 'uploads/avatar/');
+                    const res = await fetch(imgUrl);
+                    const blob = await res.blob();
+                    const reader = new FileReader();
+                    reader.onloadend = () => {
+                        profileBase64.value = reader.result;
+                    };
+                    reader.readAsDataURL(blob);
+                } catch (e) {
+                    console.error('Failed to convert prefilled avatar to base64', e);
+                }
+            }
+        }
+    } catch (error) {
+        console.error('Error fetching user details:', error);
+    }
+}
+
+onMounted(async () => {
     if (route.params.uuid) {
         isPreview.value = true;
-        fetchMicrositeDetails(route.params.uuid);
+        await fetchMicrositeDetails(route.params.uuid);
+    }
+    else {
+        // Prefill user data for new microsite
+        await fetchAuthUser()
+
     }
 
 })
