@@ -9,9 +9,9 @@
     <img src="@/assets/images/bg1.svg" class="auth-bg-img left" />
     <img src="@/assets/images/23bg1.svg" class="auth-bg-img right" />
 
-    <v-row no-gutters class="mt-10">
+    <v-row no-gutters>
       <v-col cols="12" class="text-center d-flex flex-column justify-center align-center pa-4"
-        style="min-height: 75vh;">
+        style="min-height: 60vh;">
         <h1 class="font-weight-bold mb-2" :class="$vuetify.display.smAndDown ? 'text-h5' : 'text-h4'">
           Welcome to Fincommunity Platform
         </h1>

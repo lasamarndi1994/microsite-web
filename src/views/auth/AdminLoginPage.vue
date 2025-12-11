@@ -3,13 +3,13 @@
     <template #card>
       <AuthCard>
         <form @submit.prevent="handleLogin">
-          <h3 class="text-start fw-500 mb-6 mt-0 text-center responsive-heading" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-20'">
+          <h3 class="text-start fw-500 mb-6 mt-0 text-center responsive-heading"
+            :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-20'">
             Admin Login
           </h3>
 
           <v-text-field v-model="username" label="Username" variant="outlined" density="default"
-            prepend-inner-icon="mdi-account-outline" :error-messages="usernameError"
-            class="mb-2 text-start" />
+            prepend-inner-icon="mdi-account-outline" :error-messages="usernameError" class="mb-2 text-start" />
 
           <v-text-field v-model="password" label="Password" variant="outlined" density="default"
             :type="showPassword ? 'text' : 'password'" prepend-inner-icon="mdi-lock-outline"
@@ -17,22 +17,10 @@
             @click:append-inner="showPassword = !showPassword" :error-messages="passwordError"
             class="mb-2 text-start" />
 
-
-
-         
-          <v-btn
-        :disabled="loading"
-        :loading="loading"
-         height="44"
-        class="text-none mb-4 btn-primary text-white "
-        size="large"
-      
-        type="submit"
-        block
-       
-      >
-        Login
-      </v-btn>
+          <v-btn :disabled="loading" :loading="loading" height="44" class="text-none mb-4 btn-primary text-white "
+            size="large" type="submit" block>
+            Login
+          </v-btn>
 
           <p class="mt-2 text-center text-grey-darken-1" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-14'">
             Access restricted to authorized administrators only
@@ -65,7 +53,7 @@ const handleLogin = async () => {
 
   if (valid) {
     loading.value = true;
-   
+
     router.push("/admin/dashboard");
   }
 };
