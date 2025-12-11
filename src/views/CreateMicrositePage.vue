@@ -215,7 +215,7 @@
                                                             class="mr-2"></v-icon>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                        }}</v-list-item-title>
+                                                    }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
@@ -683,7 +683,6 @@ const fetchAuthUser = async () => {
             businessLocation.value = user.business_location || '';
             if (user.user_avatar) {
                 profilePhoto.value = getImage(user.user_avatar, 'uploads/avatar/');
-
                 try {
                     const imgUrl = getImage(user.user_avatar, 'uploads/avatar/');
                     const res = await fetch(imgUrl);
