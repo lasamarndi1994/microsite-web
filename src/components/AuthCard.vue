@@ -1,12 +1,8 @@
 <template>
-  <v-card
-    :elevation="$vuetify.display.smAndDown ? 0 : elevation"
-    class="mx-auto my-5"
+  <v-card :elevation="$vuetify.display.smAndDown ? 0 : elevation" class="mx-auto my-5"
     :class="$vuetify.display.smAndDown ? 'pa-4 bg-transparent' : 'pa-16'"
-    :width="$vuetify.display.smAndDown ? '100%' : width"
-    :height="$vuetify.display.smAndDown ? 'auto' : height"
-  >
-    <slot />
+    :width="$vuetify.display.smAndDown ? '100%' : width" :min-height="$vuetify.display.smAndDown ? 'auto' : height">
+    <slot></slot>
   </v-card>
 </template>
 
@@ -18,5 +14,4 @@ defineProps({
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

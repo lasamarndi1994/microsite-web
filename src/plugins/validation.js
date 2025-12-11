@@ -9,6 +9,12 @@ defineRule('email', email);
 defineRule('min', min);
 defineRule('numeric', numeric);
 defineRule('url', url);
+defineRule('special_char', (value) => {
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(value)) {
+        return 'The field must contain at least one special character';
+    }
+    return true;
+});
 
 // Configure localization
 configure({
