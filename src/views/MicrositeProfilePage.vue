@@ -243,6 +243,8 @@ import { useField, useForm } from 'vee-validate'
 import api from '@/api'
 import { getImage } from '@/utils/helpers'
 import { useAuthStore } from '@/stores/authStore'
+import { useHead } from '@unhead/vue'
+import { computed } from 'vue'
 
 const store = useAuthStore()
 
@@ -263,6 +265,41 @@ const { value: email, errorMessage: emailError } = useField('email', 'required|e
 
 // Microsite Data
 const microsite = ref(null)
+
+// Dynamic Meta Tags
+useHead({
+    title: computed(() => microsite.value?.title || 'Fincommunity'),
+    meta: [
+        {
+            property: 'og:title',
+            content: computed(() => microsite.value?.title || 'Fincommunity')
+        },
+        {
+            property: 'og:description',
+            content: computed(() => microsite.value?.sub_title || 'Check out my professional microsite')
+        },
+        {
+            property: 'og:image',
+            content: computed(() => microsite.value?.banner_image ? getImage(microsite.value.banner_image, 'uploads/banner/') : '')
+        },
+        {
+            name: 'twitter:card',
+            content: 'summary_large_image'
+        },
+        {
+            name: 'twitter:title',
+            content: computed(() => microsite.value?.title || 'Fincommunity')
+        },
+        {
+            name: 'twitter:description',
+            content: computed(() => microsite.value?.sub_title || 'Check out my professional microsite')
+        },
+        {
+            name: 'twitter:image',
+            content: computed(() => microsite.value?.banner_image ? getImage(microsite.value.banner_image, 'uploads/banner/') : '')
+        }
+    ]
+})
 const loading = ref(true)
 const isSiteActive = ref(false)
 const fetchMicrosite = async () => {

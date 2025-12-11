@@ -215,7 +215,7 @@
                                                             class="mr-2"></v-icon>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                    }}</v-list-item-title>
+                                                        }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
@@ -251,8 +251,7 @@
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
                             <v-btn variant="outlined" class="text-capitalize" height="44"
                                 style="border-color: var(--secondary-color); color: var(--secondary-color);"
-                                prepend-icon="mdi-file-document-outline" @click="handleSaveAndUpdate('Draft')"
-                                :loading="loading">
+                                prepend-icon="mdi-file-document-outline" @click="handleSaveAndUpdate('Draft')">
                                 Save in Draft
                             </v-btn>
                         </v-col>
@@ -603,7 +602,7 @@ const handleSaveAndUpdate = async (status = 'Pending') => {
                 } else {
                     router.push('/dashboard?tab=pending');
                 }
-            }, 1000);
+            }, 600);
         } catch (error) {
             console.error('Error creating/updating microsite:', error);
             // Handle error (e.g., show notification)
