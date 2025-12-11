@@ -283,6 +283,30 @@ useHead({
             content: computed(() => microsite.value?.banner_image ? getImage(microsite.value.banner_image, 'uploads/banner/') : '')
         },
         {
+            property: 'og:type',
+            content: 'profile'
+        },
+        {
+            property: 'og:url',
+            content: computed(() => window.location.href)
+        },
+        {
+            property: 'og:site_name',
+            content: 'Fincommunity'
+        },
+        {
+            property: 'og:image:width',
+            content: '1200'
+        },
+        {
+            property: 'og:image:height',
+            content: '630'
+        },
+        {
+            property: 'og:image:alt',
+            content: computed(() => microsite.value?.title || 'Microsite Banner')
+        },
+        {
             name: 'twitter:card',
             content: 'summary_large_image'
         },
