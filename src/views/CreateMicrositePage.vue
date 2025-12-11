@@ -42,7 +42,8 @@
                                     @click="triggerBannerUpload">
                                     {{ bannerPhoto ? 'Change Banner' : 'Add Banner Image' }}
                                 </v-btn>
-                                <div class="text-caption text-grey mt-1 text-center font-weight-medium">
+                                <div class="text-caption text-grey mt-1 text-center font-weight-medium"
+                                    v-if="!bannerPhoto">
                                     Recommended: 1200x400px <span class="mx-1">•</span> Min: 400x400px
                                     Max size: 5MB <span class="mx-1">•</span> JPG, PNG
                                 </div>
@@ -250,14 +251,15 @@
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
                             <v-btn variant="outlined" class="text-capitalize" height="44"
                                 style="border-color: var(--secondary-color); color: var(--secondary-color);"
-                                prepend-icon="mdi-file-document-outline">
+                                prepend-icon="mdi-file-document-outline" @click="handleSaveAndUpdate('Draft')"
+                                :loading="loading">
                                 Save in Draft
                             </v-btn>
                         </v-col>
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
                             <v-btn class="btn-primary text-white text-capitalize"
-                                prepend-icon="mdi-content-save-outline" height="44" flat @click="handleSave"
-                                elevation="2" :loading="loading">
+                                prepend-icon="mdi-content-save-outline" height="44" flat
+                                @click="handleSaveAndUpdate('Pending')" elevation="2" :loading="loading">
                                 {{ isPreview ? 'Update and Continue' : 'Save and Continue' }}
                             </v-btn>
                         </v-col>
@@ -518,7 +520,7 @@ const handlePreview = () => {
     }
 }
 
-const handleSave = async () => {
+const handleSaveAndUpdate = async (status = 'Pending') => {
     // Reset manual errors
     profileError.value = ''
     bannerError.value = '' // Assuming bannerError is already defined for dimensions, we reuse or add logic
@@ -562,6 +564,7 @@ const handleSave = async () => {
                 description: professionalNote.value,
                 business_name: businessName.value,
                 location: businessLocation.value,
+                request_type: status,
                 services_name: selectedServices.value.map(service => ({ name: service })),
                 social_link: socialLinks.value
                     .filter(link => link.url && link.url.trim() !== '')
@@ -595,7 +598,11 @@ const handleSave = async () => {
             // On success
             showSuccess.value = true;
             setTimeout(() => {
-                router.push('/dashboard?tab=pending');
+                if (status === 'Draft') {
+                    router.push('/drafts-microsite');
+                } else {
+                    router.push('/dashboard?tab=pending');
+                }
             }, 1000);
         } catch (error) {
             console.error('Error creating/updating microsite:', error);
@@ -669,6 +676,7 @@ onMounted(() => {
         isPreview.value = true;
         fetchMicrositeDetails(route.params.uuid);
     }
+
 })
 </script>
 

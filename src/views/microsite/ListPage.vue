@@ -96,12 +96,7 @@
                                             :src="getImage(item.banner_image, 'uploads/banner/')"
                                             :lazy-src="getImage(item.banner_image, 'uploads/banner/')" cover
                                             transition="fade-transition">
-                                            <template v-slot:placeholder>
-                                                <div class="d-flex align-center justify-center fill-height">
-                                                    <v-progress-circular color="grey-lighten-4" indeterminate
-                                                        size="20"></v-progress-circular>
-                                                </div>
-                                            </template>
+
                                         </v-img>
                                         <v-icon v-else color="blue">mdi-web</v-icon>
                                     </v-avatar>
@@ -119,7 +114,7 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                                }}
+                            }}
                             </td>
                             <td class="text-right">
 
