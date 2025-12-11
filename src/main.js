@@ -9,7 +9,7 @@ import '@mdi/font/css/materialdesignicons.css';
 import '@/scss/style.scss';
 import AppLayout from '@/views/layout/AppLayout.vue'
 
-import { createHead } from '@unhead/vue';
+import { createHead } from '@unhead/vue/client';
 
 const app = createApp(App);
 const pinia = createPinia()
