@@ -120,7 +120,6 @@ const performLogin = async () => {
     })
     .catch((error) => {
       loading.value = false;
-      console.log(error.response.data.message);
       if (error.response && error.response.data.message) {
         setPasswordErrors(error.response.data.message);
       }

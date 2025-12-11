@@ -287,9 +287,9 @@ const { validate } = useForm()
 
 const { value: title, errorMessage: titleError } = useField('title', 'required')
 const { value: subTitle, errorMessage: subTitleError } = useField('subTitle') // Optional
-const { value: fullName, errorMessage: fullNameError } = useField('fullName', 'required')
-const { value: businessName, errorMessage: businessNameError } = useField('businessName', 'required')
-const { value: businessLocation, errorMessage: businessLocationError } = useField('businessLocation', 'required')
+const { value: fullName, errorMessage: fullNameError, resetField: resetFullName } = useField('fullName', 'required')
+const { value: businessName, errorMessage: businessNameError, resetField: resetBusinessName } = useField('businessName', 'required')
+const { value: businessLocation, errorMessage: businessLocationError, resetField: resetBusinessLocation } = useField('businessLocation', 'required')
 const { value: professionalNote, errorMessage: professionalNoteError } = useField('professionalNote', 'required')
 
 // Error messages for manual validation
@@ -678,9 +678,9 @@ const fetchAuthUser = async () => {
         const response = await api.get('/auth/user');
         const user = response.data.data; // Adjust based on API response structure
         if (user) {
-            fullName.value = user.user_name || '';
-            businessName.value = user.business_name || '';
-            businessLocation.value = user.business_location || '';
+            resetFullName({ value: user.user_name || '' });
+            resetBusinessName({ value: user.business_name || '' });
+            resetBusinessLocation({ value: user.business_location || '' });
             if (user.user_avatar) {
                 profilePhoto.value = getImage(user.user_avatar, 'uploads/avatar/');
                 try {
