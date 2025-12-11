@@ -271,12 +271,21 @@ useHead({
     title: computed(() => microsite.value?.title || 'Fincommunity'),
     meta: [
         {
+            name: 'title',
+            content: computed(() => microsite.value?.title || 'Fincommunity')
+        },
+        {
+            name: 'description',
+            content: computed(() => microsite.value?.description || 'Check out my professional microsite')
+        },
+
+        {
             property: 'og:title',
             content: computed(() => microsite.value?.title || 'Fincommunity')
         },
         {
             property: 'og:description',
-            content: computed(() => microsite.value?.sub_title || 'Check out my professional microsite')
+            content: computed(() => microsite.value?.description || 'Check out my professional microsite')
         },
         {
             property: 'og:image',
@@ -316,7 +325,7 @@ useHead({
         },
         {
             name: 'twitter:description',
-            content: computed(() => microsite.value?.sub_title || 'Check out my professional microsite')
+            content: computed(() => microsite.value?.description || 'Check out my professional microsite')
         },
         {
             name: 'twitter:image',
