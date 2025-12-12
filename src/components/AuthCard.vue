@@ -34,7 +34,7 @@ defineProps({
     padding: 50px 24px 24px !important;
     /* increased vertical padding again */
     width: 100% !important;
-    max-width: 480px !important;
+    max-width: 650px !important;
     margin-top: 4px !important;
     margin-bottom: 8px !important;
     min-height: auto !important;
