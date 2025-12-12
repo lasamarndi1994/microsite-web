@@ -26,6 +26,7 @@ body {
   font-family: "Poppins", sans-serif;
   margin: 0 !important;
   padding: 0 !important;
+  overflow: auto;
 }
 
 .text-primary-color {
@@ -85,7 +86,6 @@ body {
   font-size: 24px;
 }
 
-
 .progress-bar {
   background: #00000033;
   position: absolute;
@@ -133,7 +133,7 @@ body {
     max-width: 365px;
     max-height: 290px;
     left: 10%;
-    top: 62%;
+    top: 60%;
   }
 
   &.right {

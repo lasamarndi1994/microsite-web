@@ -39,7 +39,6 @@ import AuthLayout from "@/components/AuthLayout.vue";
 import AuthCard from "@/components/AuthCard.vue";
 import { useAuthStore } from "@/stores/authStore";
 import api from "@/api";
-import { email } from "@vee-validate/rules";
 const loading = ref(false);
 
 const router = useRouter();
