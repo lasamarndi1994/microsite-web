@@ -192,11 +192,7 @@ const filterOptions = ref([
 
 const partnerInfo = ref({});
 
-const stats = ref({
-  totalMicrosites: 12,
-  pendingReview: 5,
-  approved: 7
-});
+
 
 const microsites = ref([]);
 
@@ -259,7 +255,7 @@ const goBack = () => {
 };
 
 const reviewMicrosite = (microsite) => {
-  router.push({ name: 'MicrositeReview', params: { id: microsite.uuid } });
+  router.push({ name: 'MicrositeReview', params: { id: partnerInfo.value.uuid, uuid: microsite.uuid } });
 };
 
 const getStatusColor = (status) => {

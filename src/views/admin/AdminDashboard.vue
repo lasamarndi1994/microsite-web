@@ -1,42 +1,45 @@
 <template>
-  <app-layout>
-    <v-card flat class="card-padding rounded-xl" min-height="80vh">
-      <!-- Header Section -->
-      <v-row class="mb-6">
-        <v-col cols="12">
-          <div class="d-flex align-center mb-1 flex-wrap">
-            <h1 class="font-weight-bold text-grey-darken-3 mb-1"
-              :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Admin Dashboard</h1>
+    <app-layout>
+        <v-card flat class="card-padding rounded-xl" min-height="80vh">
+            <!-- Header Section -->
+            <v-row class="mb-6">
+                <v-col cols="12">
+                    <div class="d-flex align-center mb-1 flex-wrap">
+                        <h1 class="font-weight-bold text-grey-darken-3 mb-1"
+                            :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Admin Dashboard</h1>
 
-            <v-chip class="ml-4 custom-chip bg-purple-lighten-5 text-secondary-color" label size="small">
-              <span class="font-weight-bold">{{ totalRecords }} Partner</span>
-            </v-chip>
-          </div>
-          <p class="text-grey-darken-1" :class="$vuetify.display.smAndDown ? 'text-subtitle-2' : 'text-subtitle-1'">
-            Manage and review microsite submissions efficiently
-          </p>
-        </v-col>
-      </v-row>
+                        <v-chip class="ml-4 custom-chip bg-purple-lighten-5 text-secondary-color" label size="small">
+                            <span class="font-weight-bold">{{ totalRecords }} Partner</span>
+                        </v-chip>
+                    </div>
+                    <p class="text-grey-darken-1"
+                        :class="$vuetify.display.smAndDown ? 'text-subtitle-2' : 'text-subtitle-1'">
+                        Manage and review microsite submissions efficiently
+                    </p>
+                </v-col>
+            </v-row>
 
-      <!-- Filters Section -->
-      <v-row class="mb-6">
-        <v-col cols="12" md="3">
-          <v-text-field v-model="search" placeholder="Search" prepend-inner-icon="mdi-magnify" variant="outlined"
-            density="comfortable" hide-details bg-color="white" class="rounded-lg"></v-text-field>
-        </v-col>
-        <v-col cols="12" md="9">
-          <v-row align="center" class="flex-wrap">
-
-            <v-col cols="12" sm="9" class="d-flex justify-end">
-              <div class="d-flex align-center">
-                <v-text-field v-model="fromDate" type="date" variant="outlined" density="comfortable" hide-details
-                  bg-color="white" class="date-input" placeholder="DD/MM/YYYY"></v-text-field>
-                <span class="text-grey-darken-1 mx-2">to</span>
-                <v-text-field v-model="toDate" type="date" variant="outlined" density="comfortable" hide-details
-                  bg-color="white" class="date-input" placeholder="DD/MM/YYYY"></v-text-field>
-              </div>
-            </v-col>
-            <!-- 
+            <!-- Filters Section -->
+            <v-row class="mb-6">
+                <v-col cols="12" md="3">
+                    <v-text-field v-model="search" placeholder="Search" prepend-inner-icon="mdi-magnify"
+                        variant="outlined" density="comfortable" hide-details bg-color="white"
+                        class="rounded-lg"></v-text-field>
+                </v-col>
+                <v-col cols="12" md="9">
+                    <v-row align="center" class="flex-wrap">
+                        <v-col cols="12" sm="9" class="d-flex justify-end">
+                            <div class="d-flex align-center">
+                                <v-text-field v-model="fromDate" type="date" variant="outlined" density="comfortable"
+                                    hide-details bg-color="white" class="date-input"
+                                    placeholder="DD/MM/YYYY"></v-text-field>
+                                <span class="text-grey-darken-1 mx-2">to</span>
+                                <v-text-field v-model="toDate" type="date" variant="outlined" density="comfortable"
+                                    hide-details bg-color="white" class="date-input"
+                                    placeholder="DD/MM/YYYY"></v-text-field>
+                            </div>
+                        </v-col>
+                        <!-- 
             <v-col cols="12" sm="3" class="d-flex justify-end">
               <v-btn variant="outlined" prepend-icon="mdi-filter-variant" class="text-capitalize" height="48"
                 color="grey-darken-3" style="border-color: #7f56da; color: #7f56da">
@@ -58,7 +61,7 @@
 </v-list-item>
 <v-divider class="my-2"></v-divider>
 <v-list-item class="filter-item rounded-lg" @click="clearFilter">
-  <template v-slot:default>
+    <template v-slot:default>
                         <div class="d-flex align-center">
                           <v-icon icon="mdi-close-circle-outline" size="18" class="mr-2 text-grey"></v-icon>
                           <span class="text-body-2 text-grey-darken-2">Clear Filter</span>
@@ -69,66 +72,67 @@
 </v-menu>
 </v-btn>
 </v-col> -->
-          </v-row>
-        </v-col>
-      </v-row>
+                    </v-row>
+                </v-col>
+            </v-row>
 
-      <!-- Table Section -->
-      <v-card flat border class="rounded-lg">
-        <div class="table-responsive">
-          <v-table>
-            <thead>
-              <tr>
-                <th class="text-left text-caption text-grey">Partner</th>
-                <th class="text-left text-caption text-grey">Mobile no</th>
-                <th class="text-left text-caption text-grey">Last update</th>
-                <th class="text-left text-caption text-grey">Status</th>
-                <th class="text-right text-caption text-grey"></th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="(item, index) in partners" :key="index">
-                <td class="py-4">
-                  <div class="d-flex align-center">
-                    <v-avatar size="40" class="mr-4" color="primary">
-                      <span class="text-h5">{{ item.user_name?.charAt(0).toUpperCase() }}</span>
-                    </v-avatar>
-                    <div>
-                      <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
-                      <div class="text-caption text-grey">{{ item.email }}</div>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-body-2 text-grey-darken-1">{{ item.mobile_number }}</td>
-                <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
-                <td>
-                  <v-chip :color="getStatusColor(item.status)" size="small" variant="flat" class="px-2">
-                    <span class="text-capitalize">{{ item.status }}</span>
-                  </v-chip>
-                </td>
-                <td class="text-right">
-                  <v-btn variant="text" color="grey" size="large" @click="viewPartner(item)"
-                    class="fs-14 fw-500 text-secondary-color text-decoration-underline"
-                    style="text-transform: none;">View</v-btn>
-                </td>
-              </tr>
-            </tbody>
-          </v-table>
-        </div>
+            <!-- Table Section -->
+            <v-card flat border class="rounded-lg">
+                <div class="table-responsive">
+                    <v-table>
+                        <thead>
+                            <tr>
+                                <th class="text-left text-caption text-grey">Partner</th>
+                                <th class="text-left text-caption text-grey">Mobile no</th>
+                                <th class="text-left text-caption text-grey">Last update</th>
+                                <th class="text-left text-caption text-grey">Status</th>
+                                <th class="text-right text-caption text-grey"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="(item, index) in partners" :key="index">
+                                <td class="py-4">
+                                    <div class="d-flex align-center">
+                                        <v-avatar size="40" class="mr-4" color="primary">
+                                            <span class="text-h5">{{ item.user_name?.charAt(0).toUpperCase() }}</span>
+                                        </v-avatar>
+                                        <div>
+                                            <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
+                                            <div class="text-caption text-grey">{{ item.email }}</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-body-2 text-grey-darken-1">{{ item.mobile_number }}</td>
+                                <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
+                                <td>
+                                    <v-chip :color="getStatusColor(item.status)" size="small" variant="flat"
+                                        class="px-2">
+                                        <span class="text-capitalize">{{ item.status }}</span>
+                                    </v-chip>
+                                </td>
+                                <td class="text-right">
+                                    <v-btn variant="text" color="grey" size="large" @click="viewPartner(item)"
+                                        class="fs-14 fw-500 text-secondary-color text-decoration-underline"
+                                        style="text-transform: none;">View</v-btn>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </v-table>
+                </div>
 
-        <!-- Pagination -->
-        <v-row class="d-flex justify-center mt-4">
-          <v-col cols="12">
-            <div class="d-flex justify-center w-100">
-              <v-pagination v-model="page" :length="totalPages" :total-visible="7"
-                @update:model-value="fetchUsers"></v-pagination>
-            </div>
-          </v-col>
-        </v-row>
+                <!-- Pagination -->
+                <v-row class="d-flex justify-center mt-4">
+                    <v-col cols="12">
+                        <div class="d-flex justify-center w-100">
+                            <v-pagination v-model="page" :length="totalPages" :total-visible="7"
+                                @update:model-value="fetchUsers"></v-pagination>
+                        </div>
+                    </v-col>
+                </v-row>
 
-      </v-card>
-    </v-card>
-  </app-layout>
+            </v-card>
+        </v-card>
+    </app-layout>
 </template>
 
 <script setup>
@@ -151,24 +155,24 @@ const totalPages = ref(1);
 const itemsPerPage = ref(20); // Display 10 items per page
 
 const filterOptions = ref([
-  {
-    label: 'Approved',
-    value: 'approved',
-    color: 'green-lighten-4 text-green-darken-4',
-    icon: 'mdi-check-circle'
-  },
-  {
-    label: 'Rejected',
-    value: 'rejected',
-    color: 'red-lighten-4 text-red-darken-4',
-    icon: 'mdi-close-circle'
-  },
-  {
-    label: 'Pending',
-    value: 'pending',
-    color: 'orange-lighten-4 text-orange-darken-4',
-    icon: 'mdi-clock-outline'
-  }
+    {
+        label: 'Approved',
+        value: 'approved',
+        color: 'green-lighten-4 text-green-darken-4',
+        icon: 'mdi-check-circle'
+    },
+    {
+        label: 'Rejected',
+        value: 'rejected',
+        color: 'red-lighten-4 text-red-darken-4',
+        icon: 'mdi-close-circle'
+    },
+    {
+        label: 'Pending',
+        value: 'pending',
+        color: 'orange-lighten-4 text-orange-darken-4',
+        icon: 'mdi-clock-outline'
+    }
 ]);
 
 const totalRecords = ref(0);
@@ -177,191 +181,191 @@ const partners = ref([]);
 
 // Debounce function
 const debounce = (fn, delay) => {
-  let timeoutId;
-  return (...args) => {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn(...args), delay);
-  };
+    let timeoutId;
+    return (...args) => {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn(...args), delay);
+    };
 };
 
 // Watch for search or filter changes to reset page and fetch
 watch([selectedFilter, fromDate, toDate], () => {
-  page.value = 1;
-  fetchUsers();
+    page.value = 1;
+    fetchUsers();
 });
 
 // Debounced watch for search
 watch(search, debounce(() => {
-  page.value = 1;
-  fetchUsers();
+    page.value = 1;
+    fetchUsers();
 }, 500));
 
 const fetchUsers = () => {
-  loading.value = true;
-  const params = {
-    page: page.value,
-    limit: itemsPerPage.value,
-    search: search.value,
-    status: selectedFilter.value,
-    from_date: fromDate.value,
-    to_date: toDate.value
-  };
+    loading.value = true;
+    const params = {
+        page: page.value,
+        limit: itemsPerPage.value,
+        search: search.value,
+        status: selectedFilter.value,
+        from_date: fromDate.value,
+        to_date: toDate.value
+    };
 
-  api.get('/admin/users', { params })
-    .then((response) => {
-      if (response.data.status) {
-        partners.value = response.data.data;
+    api.get('/admin/users', { params })
+        .then((response) => {
+            if (response.data.status) {
+                partners.value = response.data.data;
 
-        // Handle pagination meta
-        if (response.data.pagination) {
-          totalPages.value = response.data.pagination.total_pages;
-          totalRecords.value = response.data.pagination.total_records;
-        } else {
-          // Fallback
-          totalPages.value = 1;
-        }
-      }
-    })
-    .catch((error) => {
-      console.error("Error fetching users:", error);
-    })
-    .finally(() => {
-      loading.value = false;
-    });
+                // Handle pagination meta
+                if (response.data.pagination) {
+                    totalPages.value = response.data.pagination.total_pages;
+                    totalRecords.value = response.data.pagination.total_records;
+                } else {
+                    // Fallback
+                    totalPages.value = 1;
+                }
+            }
+        })
+        .catch((error) => {
+            console.error("Error fetching users:", error);
+        })
+        .finally(() => {
+            loading.value = false;
+        });
 };
 
 onMounted(() => {
-  fetchUsers();
+    fetchUsers();
 });
 
 const selectFilter = (value) => {
-  selectedFilter.value = value;
-  const filter = filterOptions.value.find(f => f.value === value);
-  selectedFilterLabel.value = filter ? filter.label : null;
+    selectedFilter.value = value;
+    const filter = filterOptions.value.find(f => f.value === value);
+    selectedFilterLabel.value = filter ? filter.label : null;
 
 };
 
 const clearFilter = () => {
-  selectedFilter.value = null;
-  selectedFilterLabel.value = null;
+    selectedFilter.value = null;
+    selectedFilterLabel.value = null;
 };
 
 const viewPartner = (partner) => {
-  router.push({ name: 'PartnerDetails', params: { id: partner.uuid } });
+    router.push({ name: 'PartnerDetails', params: { id: partner.uuid } });
 };
 
 const getStatusColor = (status) => {
-  return status === 'Accepted' ? 'green-lighten-4 text-green-darken-4' : 'orange-lighten-4 text-orange-darken-4';
+    return status === 'Accepted' ? 'green-lighten-4 text-green-darken-4' : 'orange-lighten-4 text-orange-darken-4';
 };
 
 </script>
 
 <style scoped>
 .bg-grey-lighten-5 {
-  background-color: #F9FAFB !important;
+    background-color: #F9FAFB !important;
 }
 
 .bg-purple-lighten-5 {
-  background-color: #F3F0FF !important;
+    background-color: #F3F0FF !important;
 }
 
 .bg-green-lighten-5 {
-  background-color: #ECFDF3 !important;
+    background-color: #ECFDF3 !important;
 }
 
 .bg-orange-lighten-5 {
-  background-color: #FFFAEB !important;
+    background-color: #FFFAEB !important;
 }
 
 .bg-red-lighten-5 {
-  background-color: #FEF2F2 !important;
+    background-color: #FEF2F2 !important;
 }
 
 .text-secondary-color {
-  color: var(--primary-color) !important;
+    color: var(--primary-color) !important;
 }
 
 .gap-4 {
-  gap: 16px;
+    gap: 16px;
 }
 
 .gap-2 {
-  gap: 8px;
+    gap: 8px;
 }
 
 .gap-1 {
-  gap: 4px;
+    gap: 4px;
 }
 
 .filter-item {
-  cursor: pointer;
-  transition: all 0.2s ease;
+    cursor: pointer;
+    transition: all 0.2s ease;
 }
 
 .filter-item:hover {
-  background-color: #F9FAFB;
+    background-color: #F9FAFB;
 }
 
 .admin-table :deep(th) {
-  font-size: 13px !important;
-  text-transform: none !important;
-  letter-spacing: normal !important;
-  border-bottom: 1px solid #EAECF0 !important;
+    font-size: 13px !important;
+    text-transform: none !important;
+    letter-spacing: normal !important;
+    border-bottom: 1px solid #EAECF0 !important;
 }
 
 .admin-table :deep(td) {
-  border-bottom: 1px solid #EAECF0 !important;
+    border-bottom: 1px solid #EAECF0 !important;
 }
 
 .hover-row:hover {
-  background-color: #F9FAFB;
+    background-color: #F9FAFB;
 }
 
 .date-input :deep(.v-field__input) {
-  min-height: 48px;
-  padding-top: 0;
-  padding-bottom: 0;
+    min-height: 48px;
+    padding-top: 0;
+    padding-bottom: 0;
 }
 
 .date-input :deep(.v-field__input):deep(.v-field--variant-outlined.v-field--density-compact) {
-  min-height: 40px;
+    min-height: 40px;
 }
 
 :deep(.v-field__outline) {
-  --v-field-border-opacity: 0.15;
+    --v-field-border-opacity: 0.15;
 }
 
 .card-padding {
-  padding: 32px;
+    padding: 32px;
 }
 
 .table-responsive {
-  overflow-x: auto;
+    overflow-x: auto;
 }
 
 .flex-wrap {
-  flex-wrap: wrap;
+    flex-wrap: wrap;
 }
 
 .min-width-32 {
-  min-width: 32px;
+    min-width: 32px;
 }
 
 .min-width-40 {
-  min-width: 40px;
+    min-width: 40px;
 }
 
 .min-width-sm-40 {
-  min-width: 40px;
+    min-width: 40px;
 }
 
 @media (max-width: 600px) {
-  .min-width-32 {
-    min-width: 32px;
-  }
+    .min-width-32 {
+        min-width: 32px;
+    }
 
-  .min-width-sm-40 {
-    min-width: 32px;
-  }
+    .min-width-sm-40 {
+        min-width: 32px;
+    }
 }
 </style>

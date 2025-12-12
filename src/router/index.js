@@ -62,7 +62,7 @@ const routes = [
     meta: { requiresAdmin: true },
   },
   {
-    path: '/admin/:id/microsite-review',
+    path: '/admin/:id/microsite-review/:uuid',
     name: 'MicrositeReview',
     component: () => import('@/views/admin/MicrositeReview.vue'),
     meta: { requiresAdmin: true },
