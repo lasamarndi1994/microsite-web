@@ -12,7 +12,7 @@
     <v-row no-gutters>
       <v-col cols="12" class="text-center d-flex flex-column justify-center align-center pa-4"
         style="min-height: 60vh;">
-        <h1 class="font-weight-bold mb-2" :class="$vuetify.display.smAndDown ? 'text-h5' : 'text-h4'">
+        <h1 class="font-weight-bold mb-2" :class="$vuetify.display.smAndDown ? 'text-h5' : 'text-h5'">
           Welcome to Fincommunity Platform
         </h1>
         <p class="mb-4 mb-md-8" :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-14'">
