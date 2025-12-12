@@ -119,7 +119,7 @@
               </td>
               <td class="text-right">
                 <v-btn class="btn-primary text-white text-capitalize rounded-lg" height="34" flat
-                  @click="reviewMicrosite(item)">Review</v-btn>
+                  @click="reviewMicrosite(item)">{{ item.status == 'Pending' ? 'Review' : 'View' }}</v-btn>
               </td>
             </tr>
           </tbody>

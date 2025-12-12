@@ -90,14 +90,6 @@
         <v-card flat class="rounded-lg overflow-hidden" elevation="0">
           <v-img :src="getImage(microsite?.banner_image, 'uploads/banner/')"
             :lazy-src="getImage(microsite?.banner_image, 'uploads/banner/')" cover height="300" class="banner-image">
-            <div class="d-flex fill-height align-center justify-center banner-overlay">
-              <div class="text-center text-white px-6">
-                <h2 class="text-h4 font-weight-bold mb-3">{{ microsite?.business_name }}</h2>
-                <p class="text-body-1">
-                  {{ microsite?.description }}
-                </p>
-              </div>
-            </div>
           </v-img>
         </v-card>
       </div>
