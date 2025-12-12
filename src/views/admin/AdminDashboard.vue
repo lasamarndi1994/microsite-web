@@ -9,7 +9,7 @@
               :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Admin Dashboard</h1>
 
             <v-chip class="ml-4 custom-chip bg-purple-lighten-5 text-secondary-color" label size="small">
-              <span class="font-weight-bold">240 Partner</span>
+              <span class="font-weight-bold">{{ totalRecords }} Partner</span>
             </v-chip>
           </div>
           <p class="text-grey-darken-1" :class="$vuetify.display.smAndDown ? 'text-subtitle-2' : 'text-subtitle-1'">
@@ -29,14 +29,14 @@
 
             <v-col cols="12" sm="9" class="d-flex justify-end">
               <div class="d-flex align-center">
-                <v-text-field type="date" variant="outlined" density="comfortable" hide-details bg-color="white"
-                  class="date-input" placeholder="DD/MM/YYYY"></v-text-field>
+                <v-text-field v-model="fromDate" type="date" variant="outlined" density="comfortable" hide-details
+                  bg-color="white" class="date-input" placeholder="DD/MM/YYYY"></v-text-field>
                 <span class="text-grey-darken-1 mx-2">to</span>
-                <v-text-field type="date" variant="outlined" density="comfortable" hide-details bg-color="white"
-                  class="date-input" placeholder="DD/MM/YYYY"></v-text-field>
+                <v-text-field v-model="toDate" type="date" variant="outlined" density="comfortable" hide-details
+                  bg-color="white" class="date-input" placeholder="DD/MM/YYYY"></v-text-field>
               </div>
             </v-col>
-
+            <!-- 
             <v-col cols="12" sm="3" class="d-flex justify-end">
               <v-btn variant="outlined" prepend-icon="mdi-filter-variant" class="text-capitalize" height="48"
                 color="grey-darken-3" style="border-color: #7f56da; color: #7f56da">
@@ -55,20 +55,20 @@
                             size="20"></v-icon>
                         </div>
                       </template>
-                    </v-list-item>
-                    <v-divider class="my-2"></v-divider>
-                    <v-list-item class="filter-item rounded-lg" @click="clearFilter">
-                      <template v-slot:default>
+</v-list-item>
+<v-divider class="my-2"></v-divider>
+<v-list-item class="filter-item rounded-lg" @click="clearFilter">
+  <template v-slot:default>
                         <div class="d-flex align-center">
                           <v-icon icon="mdi-close-circle-outline" size="18" class="mr-2 text-grey"></v-icon>
                           <span class="text-body-2 text-grey-darken-2">Clear Filter</span>
                         </div>
                       </template>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-              </v-btn>
-            </v-col>
+</v-list-item>
+</v-list>
+</v-menu>
+</v-btn>
+</v-col> -->
           </v-row>
         </v-col>
       </v-row>
@@ -90,17 +90,17 @@
               <tr v-for="(item, index) in partners" :key="index">
                 <td class="py-4">
                   <div class="d-flex align-center">
-                    <v-avatar size="40" class="mr-4">
-                      <v-img :src="item.avatar" cover></v-img>
+                    <v-avatar size="40" class="mr-4" color="primary">
+                      <span class="text-h5">{{ item.user_name?.charAt(0).toUpperCase() }}</span>
                     </v-avatar>
                     <div>
-                      <div class="text-subtitle-2 font-weight-bold">{{ item.name }}</div>
+                      <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
                       <div class="text-caption text-grey">{{ item.email }}</div>
                     </div>
                   </div>
                 </td>
-                <td class="text-body-2 text-grey-darken-1">{{ item.mobile }}</td>
-                <td class="text-body-2 text-grey-darken-1">{{ item.lastUpdate }}</td>
+                <td class="text-body-2 text-grey-darken-1">{{ item.mobile_number }}</td>
+                <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
                 <td>
                   <v-chip :color="getStatusColor(item.status)" size="small" variant="flat" class="px-2">
                     <span class="text-capitalize">{{ item.status }}</span>
@@ -117,49 +117,38 @@
         </div>
 
         <!-- Pagination -->
-        <v-row class="px-6 py-4 border-t" align="center">
-          <v-col cols="12" xs="4" sm="4" class="d-flex justify-start">
-            <v-btn variant="outlined" color="grey-darken-1" class="text-capitalize px-4 px-sm-6"
-              prepend-icon="mdi-arrow-left" size="small" :size="$vuetify.display.xs ? 'small' : 'default'">
-              Previous
-            </v-btn>
-          </v-col>
-          <v-col cols="12" xs="4" sm="4" class="d-flex justify-center">
-            <div class="d-flex align-center gap-1 gap-sm-2 flex-wrap">
-              <v-btn v-for="n in 3" :key="n" variant="text" :color="n === 1 ? 'secondary-color' : 'grey-darken-1'"
-                :class="{ 'bg-purple-lighten-5': n === 1 }" class="min-width-32 min-width-sm-40 px-0"
-                :height="$vuetify.display.xs ? 32 : 40" :width="$vuetify.display.xs ? 32 : 40">
-                {{ n }}
-              </v-btn>
-              <span class="text-grey-darken-1 mx-1 mx-sm-2">...</span>
-              <v-btn v-for="n in [8, 9, 10]" :key="n" variant="text" color="grey-darken-1"
-                class="min-width-32 min-width-sm-40 px-0" :height="$vuetify.display.xs ? 32 : 40"
-                :width="$vuetify.display.xs ? 32 : 40">
-                {{ n }}
-              </v-btn>
+        <v-row class="d-flex justify-center mt-4">
+          <v-col cols="12">
+            <div class="d-flex justify-center w-100">
+              <v-pagination v-model="page" :length="totalPages" :total-visible="7"
+                @update:model-value="fetchUsers"></v-pagination>
             </div>
           </v-col>
-          <v-col cols="12" xs="4" sm="4" class="d-flex justify-end">
-            <v-btn variant="outlined" color="grey-darken-1" class="text-capitalize px-4 px-sm-6"
-              append-icon="mdi-arrow-right" size="small" :size="$vuetify.display.xs ? 'small' : 'default'">
-              Next
-            </v-btn>
-          </v-col>
         </v-row>
+
       </v-card>
     </v-card>
   </app-layout>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
-
+import api from '@/api';
+import { formatDate } from '@/utils/helpers';
 const router = useRouter();
 
 const search = ref('');
+const fromDate = ref('');
+const toDate = ref('');
 const selectedFilter = ref(null);
 const selectedFilterLabel = ref(null);
+const loading = ref(false);
+const page = ref(1);
+const totalPages = ref(1);
+
+// Pagination
+const itemsPerPage = ref(20); // Display 10 items per page
 
 const filterOptions = ref([
   {
@@ -182,69 +171,89 @@ const filterOptions = ref([
   }
 ]);
 
-const partners = ref([
-  {
-    name: 'Lasa Marndi',
-    email: 'Arjun.Mehta@example.com',
-    mobile: '98765 43210',
-    lastUpdate: '20 NOV 2025',
-    status: 'Action Required',
-    avatar: 'https://randomuser.me/api/portraits/men/1.jpg'
-  },
-  {
-    name: 'Nisha Reddy',
-    email: 'nisha.reddy@example.com',
-    mobile: '90908 77654',
-    lastUpdate: '20 NOV 2025',
-    status: 'Action Required',
-    avatar: 'https://randomuser.me/api/portraits/women/2.jpg'
-  },
-  {
-    name: 'Rohan Iyer',
-    email: 'rohan.iyer@example.com',
-    mobile: '98123 55678',
-    lastUpdate: '20 NOV 2025',
-    status: 'Action Required',
-    avatar: 'https://randomuser.me/api/portraits/men/3.jpg'
-  },
-  {
-    name: 'Priya Malhotra',
-    email: 'priya.malhotra@example.com',
-    mobile: '91234 66778',
-    lastUpdate: '18 NOV 2025',
-    status: 'Accepted',
-    avatar: 'https://randomuser.me/api/portraits/women/4.jpg'
-  },
-  {
-    name: 'Kunal Verma',
-    email: 'kunal.verma@example.com',
-    mobile: '98989 44321',
-    lastUpdate: '17 NOV 2025',
-    status: 'Accepted',
-    avatar: 'https://randomuser.me/api/portraits/men/5.jpg'
-  }
-]);
+const totalRecords = ref(0);
+
+const partners = ref([]);
+
+// Debounce function
+const debounce = (fn, delay) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), delay);
+  };
+};
+
+// Watch for search or filter changes to reset page and fetch
+watch([selectedFilter, fromDate, toDate], () => {
+  page.value = 1;
+  fetchUsers();
+});
+
+// Debounced watch for search
+watch(search, debounce(() => {
+  page.value = 1;
+  fetchUsers();
+}, 500));
+
+const fetchUsers = () => {
+  loading.value = true;
+  const params = {
+    page: page.value,
+    limit: itemsPerPage.value,
+    search: search.value,
+    status: selectedFilter.value,
+    from_date: fromDate.value,
+    to_date: toDate.value
+  };
+
+  api.get('/admin/users', { params })
+    .then((response) => {
+      if (response.data.status) {
+        partners.value = response.data.data;
+
+        // Handle pagination meta
+        if (response.data.pagination) {
+          totalPages.value = response.data.pagination.total_pages;
+          totalRecords.value = response.data.pagination.total_records;
+        } else {
+          // Fallback
+          totalPages.value = 1;
+        }
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching users:", error);
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
+
+onMounted(() => {
+  fetchUsers();
+});
 
 const selectFilter = (value) => {
   selectedFilter.value = value;
   const filter = filterOptions.value.find(f => f.value === value);
   selectedFilterLabel.value = filter ? filter.label : null;
-  console.log('Filter selected:', value);
+
 };
 
 const clearFilter = () => {
   selectedFilter.value = null;
   selectedFilterLabel.value = null;
-  console.log('Filter cleared');
 };
 
 const viewPartner = (partner) => {
-  router.push({ name: 'PartnerDetails', params: { id: partner.id } });
+  router.push({ name: 'PartnerDetails', params: { id: partner.uuid } });
 };
 
 const getStatusColor = (status) => {
   return status === 'Accepted' ? 'green-lighten-4 text-green-darken-4' : 'orange-lighten-4 text-orange-darken-4';
 };
+
 </script>
 
 <style scoped>
