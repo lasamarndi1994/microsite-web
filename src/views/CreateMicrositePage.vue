@@ -215,7 +215,7 @@
                                                             class="mr-2"></v-icon>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                    }}</v-list-item-title>
+                                                        }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
@@ -249,7 +249,7 @@
                     <!-- Footer Actions -->
                     <v-row class="mt-8" justify="center">
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
-                            <v-btn variant="outlined" class="text-capitalize" height="44"
+                            <v-btn variant="outlined" class="text-capitalize" height="48"
                                 style="border-color: var(--secondary-color); color: var(--secondary-color);"
                                 prepend-icon="mdi-file-document-outline" @click="handleSaveAndUpdate('Draft')">
                                 Save in Draft
@@ -257,7 +257,7 @@
                         </v-col>
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
                             <v-btn class="btn-primary text-white text-capitalize"
-                                prepend-icon="mdi-content-save-outline" height="44" flat
+                                prepend-icon="mdi-content-save-outline" height="48" flat
                                 @click="handleSaveAndUpdate('Pending')" elevation="2" :loading="loading">
                                 {{ isPreview ? 'Update and Continue' : 'Save and Continue' }}
                             </v-btn>
