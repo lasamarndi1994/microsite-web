@@ -56,13 +56,13 @@ const routes = [
     meta: { requiresAdmin: true },
   },
   {
-    path: '/admin/partner-details',
+    path: '/admin/:id/partner-details',
     name: 'PartnerDetails',
     component: () => import('@/views/admin/PartnerDetails.vue'),
     meta: { requiresAdmin: true },
   },
   {
-    path: '/admin/microsite-review',
+    path: '/admin/:id/microsite-review',
     name: 'MicrositeReview',
     component: () => import('@/views/admin/MicrositeReview.vue'),
     meta: { requiresAdmin: true },
@@ -98,6 +98,9 @@ router.beforeEach((to, from, next) => {
   }
   else if (to.meta.guest && authStore.isAuthenticated) {
     next('/dashboard');
+  }
+  else if (to.meta.guest && authStore.isAdminAuthenticated) {
+    next('/admin/dashboard');
   }
 
   else {
