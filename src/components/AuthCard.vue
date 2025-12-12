@@ -6,11 +6,7 @@
 </template>
 
 <script setup>
-// defineProps({
-//   width: { type: String, default: "650px" },
-//   height: { type: String, default: "380px" },
-//   elevation: { type: Number, default: 5 },
-// });
+
 </script>
 
 <style scoped>
@@ -18,28 +14,10 @@
   width: 650px !important;
 }
 
-/* Standard Laptop (960px - 1400px) */
-/* @media (min-width: 960px) and (max-width: 1400px) {
-    width: 500px !important;
-    min-height: auto !important;
-  } */
-
-/* Short Vertical Screens (Max Height 850px) */
-/* @media (max-height: 850px) and (min-width: 960px) {
-    width: 500px !important;
-    min-height: auto !important;
-  } */
-
 /* Ultra-Short Screens (Max Height 600px) e.g. 1265x551 */
 @media (max-width: 767px) {
   .auth-card {
-    /* padding: 50px 24px 24px !important; */
-    /* increased vertical padding again */
     width: 100% !important;
-    /* max-width: 650px !important;
-    margin-top: 4px !important;
-    margin-bottom: 8px !important;
-    min-height: auto !important; */
   }
 }
 
