@@ -43,11 +43,12 @@
                             </v-avatar>
                             <div>
                                 <div class="fs-11 text-grey">Visitors</div>
-                                <div class="fs-21 font-weight-bold">1,234</div>
+                                <div class="fs-21 font-weight-bold">{{ analytics?.total_views || 0 }}</div>
                             </div>
                             <v-spacer></v-spacer>
                             <v-chip color="success" size="small" variant="tonal" class="px-2">
-                                + 36% <v-icon end icon="mdi-arrow-up" size="small"></v-icon>
+                                +{{ analytics?.total_views / 2 || 0 }}% <v-icon end icon="mdi-arrow-up"
+                                    size="small"></v-icon>
                             </v-chip>
                         </div>
                     </v-card>
@@ -61,11 +62,12 @@
                             </v-avatar>
                             <div>
                                 <div class="fs-11 text-grey">Engagement</div>
-                                <div class="fs-21 font-weight-bold">1,234</div>
+                                <div class="fs-21 font-weight-bold">{{ analytics?.total_engagement || 0 }}</div>
                             </div>
                             <v-spacer></v-spacer>
                             <v-chip color="success" size="small" variant="tonal" class="px-2">
-                                + 36% <v-icon end icon="mdi-arrow-up" size="small"></v-icon>
+                                +{{ analytics?.total_engagement / 2 || 0 }}% <v-icon end icon="mdi-arrow-up"
+                                    size="small"></v-icon>
                             </v-chip>
                         </div>
                     </v-card>
@@ -79,11 +81,12 @@
                             </v-avatar>
                             <div>
                                 <div class="fs-11 text-grey">Conversions</div>
-                                <div class="fs-21 font-weight-bold">1,234</div>
+                                <div class="fs-21 font-weight-bold">{{ analytics?.total_leads || 0 }}</div>
                             </div>
                             <v-spacer></v-spacer>
                             <v-chip color="success" size="small" variant="tonal" class="px-2">
-                                + 36% <v-icon end icon="mdi-arrow-up" size="small"></v-icon>
+                                + {{ analytics?.total_leads / 2 || 0 }}% <v-icon end icon="mdi-arrow-up"
+                                    size="small"></v-icon>
                             </v-chip>
                         </div>
                     </v-card>
@@ -142,6 +145,7 @@ const isLoading = ref(false);
 
 const micrositeContainer = ref(null);
 const containerMinHeight = ref('80vh');
+const analytics = ref(null);
 
 const { showLimitDialog, fetchUserLimit, checkLimit } = useMicrositeLimit();
 
@@ -221,6 +225,11 @@ onMounted(() => {
     } else {
         fetchMicrosites('Approved');
     }
+
+    api.get('/analytics').then(response => {
+        analytics.value = response.data.data;
+
+    });
 });
 
 const refresh = (uuid) => {

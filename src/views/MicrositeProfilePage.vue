@@ -133,7 +133,7 @@
                                 <div class="text-center">
                                     <v-btn color="deep-purple-accent-2"
                                         class="join-btn text-capitalize text-white px-8 elevation-4" height="50"
-                                        rounded="pill" flat @click="showJoinDialog = true">
+                                        rounded="pill" flat @click="clickButton">
                                         <template v-slot:prepend>
                                             <v-icon size="24">mdi-handshake-outline</v-icon>
                                         </template>
@@ -328,6 +328,12 @@ const fetchMicrosite = async () => {
     } finally {
         loading.value = false
     }
+}
+
+
+const clickButton = () => {
+    showJoinDialog.value = true;
+    api.post(`/microsite/engagement/${route.params.slug}`)
 }
 
 onMounted(() => {
