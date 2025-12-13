@@ -37,6 +37,7 @@
             and {{ isMobileVerified ? (isPasswordSet ? 'login' : 'create account') : 'login the process' }}
           </p>
 
+
           <!-- <p class="mt-3 text-center" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">We’ll send a verification
             code to your E-mail</p> -->
         </form>
