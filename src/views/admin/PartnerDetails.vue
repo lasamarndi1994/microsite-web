@@ -118,8 +118,12 @@
                 </v-chip>
               </td>
               <td class="text-right">
-                <v-btn class="btn-primary text-white text-capitalize rounded-lg" height="34" flat
-                  @click="reviewMicrosite(item)">{{ item.status == 'Pending' ? 'Review' : 'View' }}</v-btn>
+                <v-btn class="text-capitalize rounded-lg"
+                  :class="item.status == 'Pending' ? 'btn-primary text-white' : ''"
+                  :variant="item.status == 'Pending' ? 'flat' : 'outlined'"
+                  :color="item.status == 'Pending' ? undefined : 'primary'" height="34"
+                  @click="reviewMicrosite(item)">{{
+                    item.status == 'Pending' ? 'Review' : 'View' }}</v-btn>
               </td>
             </tr>
           </tbody>

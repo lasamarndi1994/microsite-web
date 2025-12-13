@@ -227,19 +227,6 @@ const getStatusColor = (status) => {
   return colors[status?.toLowerCase()] || 'grey'
 }
 
-const getStatusIcon = (status) => {
-  const icons = {
-    'approved': 'mdi-check-decagram',
-    'pending': 'mdi-clock-outline',
-    'rejected': 'mdi-alert-circle-outline',
-    'draft': 'mdi-file-document-edit-outline'
-  }
-  return icons[status?.toLowerCase()] || 'mdi-help-circle-outline'
-}
-
-
-
-
 
 const fetchMicrosite = async () => {
   loading.value = true;
