@@ -333,7 +333,10 @@ const fetchMicrosite = async () => {
 
 const clickButton = () => {
     showJoinDialog.value = true;
-    api.post(`/microsite/engagement/${route.params.slug}`)
+    if (!store.isAuthenticated) {
+        api.post(`/microsite/engagement/${route.params.slug}`)
+    }
+
 }
 
 onMounted(() => {

@@ -7,11 +7,8 @@ export function useMicrositeLimit() {
 
     const fetchUserLimit = async () => {
         try {
-            console.log('useMicrositeLimit: fetching /auth/user');
             const response = await api.get('/auth/user');
             const data = response.data.data;
-
-            // Using the exact property name found in DashboardPage.vue investigation
             if (data && data.microsite_count !== undefined) {
                 micrositeCount.value = data.microsite_count;
 
@@ -22,7 +19,7 @@ export function useMicrositeLimit() {
     };
 
     const checkLimit = (onAllowed) => {
-        console.log('useMicrositeLimit: checking limit. Count:', micrositeCount.value);
+
         if (micrositeCount.value >= 3) {
 
             showLimitDialog.value = true;
