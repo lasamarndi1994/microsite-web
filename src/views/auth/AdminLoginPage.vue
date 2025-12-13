@@ -3,7 +3,7 @@
         <template #card>
             <AuthCard>
                 <form @submit.prevent="handleLogin">
-                    <h3 class="text-start fw-500 mb-6 mt-0 text-center responsive-heading"
+                    <h3 class="text-start fw-500 mb-6 mt-0 text-center"
                         :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-20'">
                         Admin Login
                     </h3>

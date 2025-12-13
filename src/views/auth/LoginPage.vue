@@ -2,8 +2,7 @@
   <AuthLayout>
     <template #card>
       <AuthCard>
-        <h3 class="font-weight-medium mb-6 mt-0 text-center responsive-heading"
-          :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-18'">
+        <h3 class="font-weight-medium mb-6 mt-0 text-center" :class="$vuetify.display.smAndDown ? 'fs-16' : 'fs - 18'">
           Login with Mobile Number
         </h3>
         <form @submit.prevent="handleLogin">

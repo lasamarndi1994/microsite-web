@@ -1,15 +1,16 @@
 <template>
     <div>
         <v-row class="mb-6" align="center">
-            <v-col>
+            <v-col cols="12" md>
                 <v-text-field v-model="searchQuery" density="compact" variant="outlined" label="Search"
                     prepend-inner-icon="mdi-magnify" hide-details single-line class="bg-white rounded-lg search-input"
                     max-width="450px" @update:model-value="debouncedSearch" clearable
                     @click:clear="onClear"></v-text-field>
             </v-col>
-            <v-col cols="auto">
-                <v-btn variant="outlined" prepend-icon="mdi-filter-variant" class="ml-4 text-capitalize" height="48"
-                    color="grey-darken-3" style="border-color: #7f56da; color: #7f56da">
+            <v-col cols="12" md="auto">
+                <v-btn variant="outlined" prepend-icon="mdi-filter-variant"
+                    class="ml-md-4 text-capitalize w-100 w-md-auto" height="48" color="grey-darken-3"
+                    style="border-color: #7f56da; color: #7f56da">
                     {{ selectedFilterLabel || 'Filters' }}
                     <v-menu activator="parent">
                         <v-list class="py-3 px-2" min-width="220">
@@ -114,20 +115,31 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                            }}
+                                }}
                             </td>
                             <td class="text-right">
 
                                 <v-btn icon="mdi-delete-outline" variant="text" color="grey" size="large"
-                                    @click="confirmDelete(item)"></v-btn>
+                                    @click="confirmDelete(item)">
+                                    <v-icon>mdi-delete-outline</v-icon>
+                                    <v-tooltip activator="parent" location="bottom">Delete</v-tooltip>
+                                </v-btn>
                                 <v-btn icon="mdi-pencil-outline" variant="text" @click="navigateEditProfile(item.uuid)"
-                                    color="grey" size="large"></v-btn>
+                                    color="grey" size="large">
+                                    <v-icon>mdi-pencil-outline</v-icon>
+                                    <v-tooltip activator="parent" location="bottom">Edit</v-tooltip>
+                                </v-btn>
+
                                 <v-btn icon="mdi-eye-outline" variant="text" color="grey" size="large"
-                                    v-if="item.status === 'Rejected'" @click="openPreview(item)"></v-btn>
+                                    @click="openPreview(item)">
+                                    <v-icon>mdi-eye-outline</v-icon>
+                                    <v-tooltip activator="parent" location="bottom">Preview</v-tooltip>
+                                </v-btn>
+
                                 <v-btn v-if="item.status === 'Approved'" icon="mdi-content-copy" variant="text"
                                     color="grey" size="large" @click="copyUrl(item)">
                                     <v-icon>mdi-content-copy</v-icon>
-                                    <v-tooltip activator="parent" location="top">Copy URL</v-tooltip>
+                                    <v-tooltip activator="parent" location="bottom">Copy URL</v-tooltip>
                                 </v-btn>
                             </td>
                         </tr>
@@ -137,7 +149,7 @@
         </v-card>
 
         <!-- Preview Dialog -->
-        <v-dialog v-model="showPreview" max-width="600">
+        <v-dialog v-model="showPreview" max-width="600" scroll-strategy="none">
             <v-card class="rounded-xl pa-6">
                 <div class="d-flex justify-space-between align-center mb-6">
                     <h3 class="text-h6 font-weight-bold">
@@ -299,8 +311,16 @@ const copyUrl = (item) => {
 };
 
 const openPreview = (item) => {
-    selectedMicrosite.value = item;
-    showPreview.value = true;
+    if (item.status == 'Rejected') {
+        selectedMicrosite.value = item;
+        showPreview.value = true;
+
+    }
+    else {
+        router.push(`/${item.user.slug}/${item.slug}`);
+
+    }
+
 };
 
 const confirmDelete = (item) => {

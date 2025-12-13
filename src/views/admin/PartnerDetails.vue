@@ -125,23 +125,7 @@
           </tbody>
         </v-table>
 
-        <!-- Pagination -->
-        <!-- <div class="d-flex align-center justify-space-between px-6 py-4 border-t">
-          <v-btn variant="outlined" color="grey-darken-1" class="text-capitalize px-6" prepend-icon="mdi-arrow-left">
-            Previous
-          </v-btn>
 
-          <div class="d-flex align-center gap-2">
-            <v-btn v-for="n in 3" :key="n" variant="text" :color="n === 1 ? 'secondary-color' : 'grey-darken-1'"
-              :class="{ 'bg-purple-lighten-5': n === 1 }" class="min-width-40 px-0" height="40" width="40">
-              {{ n }}
-            </v-btn>
-          </div>
-
-          <v-btn variant="outlined" color="grey-darken-1" class="text-capitalize px-6" append-icon="mdi-arrow-right">
-            Next
-          </v-btn>
-        </div> -->
       </v-card>
     </v-card>
   </app-layout>

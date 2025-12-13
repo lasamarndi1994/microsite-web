@@ -215,7 +215,7 @@
                                                             class="mr-2"></v-icon>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                        }}</v-list-item-title>
+                                                    }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
@@ -286,8 +286,18 @@ const { validate } = useForm()
 
 const { value: title, errorMessage: titleError } = useField('title', 'required')
 const { value: subTitle, errorMessage: subTitleError } = useField('subTitle') // Optional
-const { value: fullName, errorMessage: fullNameError, resetField: resetFullName } = useField('fullName', 'required')
-const { value: businessName, errorMessage: businessNameError, resetField: resetBusinessName } = useField('businessName', 'required')
+const { value: fullName, errorMessage: fullNameError, resetField: resetFullName } = useField('fullName', (value) => {
+    if (!value) return 'Full Name is required';
+    const regex = /^[a-zA-Z\s]+$/;
+    if (!regex.test(value)) return 'Special characters are not allowed';
+    return true;
+})
+const { value: businessName, errorMessage: businessNameError, resetField: resetBusinessName } = useField('businessName', (value) => {
+    if (!value) return 'Business Name is required';
+    const regex = /^[a-zA-Z0-9\s]+$/;
+    if (!regex.test(value)) return 'Special characters are not allowed';
+    return true;
+})
 const { value: businessLocation, errorMessage: businessLocationError, resetField: resetBusinessLocation } = useField('businessLocation', 'required')
 const { value: professionalNote, errorMessage: professionalNoteError } = useField('professionalNote', 'required')
 
@@ -526,6 +536,22 @@ const handleSaveAndUpdate = async (status = 'Pending') => {
     if (validSocialLinks.length === 0) {
         socialError.value = 'At least one social link is required'
         manualValid = false
+    }
+
+    // URL Validation
+    const urlPattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+        '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
+
+    for (const link of validSocialLinks) {
+        if (!urlPattern.test(link.url)) {
+            socialError.value = 'Please enter valid URLs for social links'
+            manualValid = false
+            break;
+        }
     }
 
     if (valid && manualValid) {

@@ -2,7 +2,7 @@
     <app-layout>
         <v-card flat class="card-padding rounded-xl" min-height="80vh">
             <!-- Header Section -->
-            <div class="d-flex align-center justify-space-between mb-6">
+            <div class="d-flex align-center justify-space-between mb-6 flex-wrap gap-2">
                 <div class="d-flex align-center">
                     <v-btn icon="mdi-arrow-left" variant="text" class="mr-2" @click="router.back()"></v-btn>
                     <h1 class="font-weight-bold text-grey-darken-3 fs-24">Drafts microsite</h1>
@@ -20,11 +20,11 @@
 
             <!-- Search Section -->
             <v-row class="mb-6">
-                <v-col cols="12" md="6">
+                <v-col cols="12" md="4">
                     <v-text-field v-model="searchQuery" density="compact" variant="outlined" label="Search"
                         prepend-inner-icon="mdi-magnify" hide-details single-line
-                        class="bg-white rounded-lg search-input" max-width="60%" @update:model-value="debouncedSearch"
-                        clearable @click:clear="onClear"></v-text-field>
+                        class="bg-white rounded-lg search-input" @update:model-value="debouncedSearch" clearable
+                        @click:clear="onClear"></v-text-field>
                 </v-col>
             </v-row>
 
@@ -81,7 +81,8 @@
 
                                         <div class="cursor-pointer" @click="navigateEditProfile(item.uuid)">
                                             <div class="text-subtitle-2 font-weight-bold">{{ item.title }}</div>
-                                            <div class="text-caption text-grey">{{ item.sub_title || item.user?.web_url
+                                            <div class="text-caption text-grey">{{ item.sub_title ||
+                                                item.user?.web_url
                                                 }}</div>
                                         </div>
                                     </div>
@@ -90,9 +91,15 @@
                                     item.created_at) }}</td>
                                 <td class="text-right pr-6">
                                     <v-btn icon="mdi-delete-outline" variant="text" color="grey" size="default"
-                                        @click="confirmDelete(item)"></v-btn>
+                                        @click="confirmDelete(item)">
+                                        <v-icon>mdi-delete-outline</v-icon>
+                                        <v-tooltip activator="parent" location="bottom">Delete</v-tooltip>
+                                    </v-btn>
                                     <v-btn icon="mdi-pencil-outline" variant="text"
-                                        @click="navigateEditProfile(item.uuid)" color="grey" size="default"></v-btn>
+                                        @click="navigateEditProfile(item.uuid)" color="grey" size="default">
+                                        <v-icon>mdi-pencil-outline</v-icon>
+                                        <v-tooltip activator="parent" location="bottom">Edit</v-tooltip>
+                                    </v-btn>
                                 </td>
                             </tr>
                         </template>
@@ -101,7 +108,7 @@
             </v-card>
 
             <!-- Delete Confirmation Dialog -->
-            <v-dialog v-model="showDeleteConfirm" max-width="400">
+            <v-dialog v-model="showDeleteConfirm" max-width="400" scroll-strategy="none">
                 <v-card class="rounded-xl pa-6">
                     <div class="d-flex justify-space-between align-center mb-6">
                         <h3 class="fs-18 fw-500 mb-0">Delete Microsite?</h3>
@@ -149,6 +156,9 @@ const searchQuery = ref('');
 const showDeleteConfirm = ref(false);
 const itemToDelete = ref(null);
 const deleteLoading = ref(false);
+const snackbar = ref(false);
+const snackbarText = ref('');
+const snackbarColor = ref('');
 
 
 const createMicrosite = () => {
@@ -164,8 +174,7 @@ const fetchDrafts = async () => {
     try {
         let url = '/microsite/lists?status=Draft'; // Assuming backend supports this status
         const response = await api.get(url);
-        const data = response.data.data || response.data;
-        microsites.value = Array.isArray(data) ? data : [];
+        microsites.value = response.data.data || [];
         if (searchQuery.value) {
             // Client side filtering if needed or API search
             microsites.value = microsites.value.filter(site =>
@@ -179,28 +188,7 @@ const fetchDrafts = async () => {
     }
 };
 
-const performSearch = async () => {
-    // If backend has search endpoint
-    if (!searchQuery.value) {
-        fetchDrafts();
-        return;
-    }
 
-    // Simplistic search implementation - ideally backend search
-    loading.value = true;
-    try {
-        const response = await api.get(`/microsite/search?name=${searchQuery.value}`);
-        if (response.data && response.data.data) {
-            fetchDrafts();
-        } else {
-            microsites.value = [];
-        }
-    } catch (error) {
-        console.error("Search error:", error);
-    } finally {
-        loading.value = false;
-    }
-};
 
 const debounce = (fn, delay) => {
     let timeoutId;
@@ -229,12 +217,18 @@ const deleteItem = async () => {
     deleteLoading.value = true;
     try {
         await api.delete(`/microsite/delete/${itemToDelete.value.uuid}`);
+
+        const index = microsites.value.findIndex(item => item.uuid === itemToDelete.value.uuid);
+        if (index !== -1) {
+            microsites.value.splice(index, 1);
+        }
+
         snackbarText.value = "Microsite deleted successfully";
         snackbarColor.value = "success";
         snackbar.value = true;
         showDeleteConfirm.value = false;
         itemToDelete.value = null;
-        fetchDrafts(); // Refresh list
+
     } catch (error) {
         snackbar.value = true;
     } finally {
