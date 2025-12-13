@@ -40,8 +40,8 @@
               </div>
             </div>
           </div>
-          <v-chip :color="getStatusColor(partnerInfo.status)" size="default" variant="flat" class="px-4 flex-shrink-0">
-            <span class="text-capitalize font-weight-medium">{{ partnerInfo.status }}</span>
+          <v-chip :color="'warning'" size="default" variant="flat" class="px-4 flex-shrink-0">
+            <span class="text-capitalize font-weight-medium">Action Required</span>
           </v-chip>
         </div>
       </v-card>

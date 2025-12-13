@@ -3,11 +3,17 @@
     <!-- Main White Card -->
     <v-card flat class="rounded-xl pa-8 card-padding" elevation="0">
       <!-- Header Section Inside Card -->
-      <div class="mb-8">
+      <div class="mb-4">
         <div class="d-flex align-center justify-space-between mb-1">
           <div>
-            <h1 class="font-weight-bold text-grey-darken-3 mb-1"
-              :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Review Microsite Submission</h1>
+            <div class="d-flex align-center gap-3">
+              <h1 class="font-weight-bold text-grey-darken-3 mb-1"
+                :class="$vuetify.display.smAndDown ? 'fs-18' : 'fs-20'">Review Microsite Submission</h1>
+              <v-chip v-if="microsite?.status" :color="getStatusColor(microsite?.status)" size="small"
+                class="text-capitalize font-weight-bold" variant="flat">
+                {{ microsite?.status }}
+              </v-chip>
+            </div>
             <p class="text-grey-darken-1" :class="$vuetify.display.smAndDown ? 'text-subtitle-2' : 'text-subtitle-1'">
               Review and approve or reject microsite details
             </p>
@@ -20,25 +26,23 @@
       </div>
 
       <!-- Media Section -->
-      <div class="mb-8">
-        <h2 class="fs-18 font-weight-medium mb-6 d-flex align-center text-grey-darken-3">
+      <div class="mb-0">
+        <!-- <h2 class="fs-18 font-weight-medium mb-6 d-flex align-center text-grey-darken-3">
           <v-icon icon="mdi-image-outline" size="20" class="mr-2"></v-icon>
           Media
-        </h2>
+        </h2> -->
 
-        <v-row align="center">
-          <v-col cols="12" md="4">
-            <div class="d-flex align-start">
-              <v-avatar size="120" class="mr-4">
-                <v-img :src="getImage(microsite?.avatar_icon, 'uploads/avatar/')"
-                  lazy-src="getImage(microsite?.avatar_icon, 'uploads/avatar/')" cover></v-img>
-              </v-avatar>
+        <v-row align="center" justify="center">
+          <v-col cols="12" class="d-flex flex-column align-center justify-center">
+            <v-avatar size="120" class="mb-2">
+              <v-img :src="getImage(microsite?.avatar_icon, 'uploads/avatar/')"
+                lazy-src="getImage(microsite?.avatar_icon, 'uploads/avatar/')" cover></v-img>
+            </v-avatar>
+            <div class="text-h6 font-weight-bold text-grey-darken-3 d-flex align-center">
+              Code: ABCD2
+              <v-icon icon="mdi-check-decagram" color="blue" size="small" class="ml-2">
 
-            </div>
-          </v-col>
-          <v-col cols="12" md="8" class="d-flex align-center justify-end">
-            <div class="product-launch-pill responsive-pill">
-              {{ microsite?.title }}
+              </v-icon>
             </div>
           </v-col>
         </v-row>
@@ -52,15 +56,27 @@
         </h2>
 
         <v-row class="mb-4">
+          <v-col cols="12" md="6">
+            <div class="text-box-style">
+              <div class="text-caption text-grey-darken-1 mb-0">Title</div>
+              <div class="text-body-1 text-grey-darken-3">{{ microsite?.title }}</div>
+            </div>
+          </v-col>
+          <v-col cols="12" md="6">
+            <div class="text-box-style">
+              <div class="text-caption text-grey-darken-1 mb-0">Subtitle</div>
+              <div class="text-body-1 text-grey-darken-3">{{ microsite?.subtitle ? microsite?.subtitle : 'N/A' }}</div>
+            </div>
+          </v-col>
           <v-col cols="12" md="4">
             <div class="text-box-style">
-              <div class="text-caption text-grey-darken-1 mb-1">Full Name</div>
+              <div class="text-caption text-grey-darken-1 mb-0">Full Name</div>
               <div class="text-body-1 text-grey-darken-3">{{ microsite?.full_name }}</div>
             </div>
           </v-col>
           <v-col cols="12" md="4">
             <div class="text-box-style">
-              <div class="text-caption text-grey-darken-1 mb-1">Business name</div>
+              <div class="text-caption text-grey-darken-1 mb-0">Business name</div>
               <div class="text-body-1 text-grey-darken-3">{{ microsite?.business_name }}</div>
             </div>
           </v-col>
@@ -94,6 +110,25 @@
         </v-card>
       </div>
 
+
+
+      <v-divider class="my-8"></v-divider>
+
+      <!-- Services Section -->
+      <div class="mb-8">
+        <h2 class="fs-18 font-weight-medium mb-6 d-flex align-center text-grey-darken-3">
+          <v-icon icon="mdi-briefcase-outline" size="20" class="mr-2"></v-icon>
+          Services
+        </h2>
+
+        <div class="d-flex flex-wrap gap-3" v-if="microsite?.services.length > 0">
+          <v-chip v-for="service in microsite.services" :key="service" color="deep-purple-accent-2"
+            class="text-white px-4" size="large">
+            {{ service.name }}
+          </v-chip>
+        </div>
+      </div>
+      <v-divider class="my-8"></v-divider>
       <!-- Social Links Section -->
       <div class="mb-8">
         <h2 class="fs-18 font-weight-medium mb-4 d-flex align-center text-grey-darken-3">
@@ -113,28 +148,15 @@
                   <div class="text-body-2 text-grey-darken-3 text-truncate" style="max-width: 400px;">{{ link.url }}
                     <v-tooltip activator="parent" location="bottom">{{ link.url }}</v-tooltip>
                   </div>
+                  <v-btn icon="mdi-open-in-new" variant="text" density="comfortable" size="small" color="grey-darken-2"
+                    :href="link.url" target="_blank" class="view-link-btn">
+                  </v-btn>
                 </div>
+
               </div>
             </div>
           </v-col>
         </v-row>
-      </div>
-
-      <v-divider class="my-8"></v-divider>
-
-      <!-- Services Section -->
-      <div class="mb-8">
-        <h2 class="fs-18 font-weight-medium mb-6 d-flex align-center text-grey-darken-3">
-          <v-icon icon="mdi-briefcase-outline" size="20" class="mr-2"></v-icon>
-          Services
-        </h2>
-
-        <div class="d-flex flex-wrap gap-3" v-if="microsite?.services.length > 0">
-          <v-chip v-for="service in microsite.services" :key="service" color="deep-purple-accent-2"
-            class="text-white px-4" size="large">
-            {{ service.name }}
-          </v-chip>
-        </div>
       </div>
 
       <!-- Admin Comments Section -->
@@ -166,7 +188,7 @@
 
       <!-- Note -->
       <div class="d-flex justify-center gap-4 mt-3">
-        <p :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Once approved, microsite will be live within 24 hours
+        <p :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Once approved, microsite will be live with seconds
         </p>
       </div>
     </v-card>
@@ -194,6 +216,26 @@ const socialLinks = ref([]);
 const services = ref([]);
 const router = useRouter();
 const route = useRoute();
+
+const getStatusColor = (status) => {
+  const colors = {
+    'approved': 'blue',
+    'pending': 'warning',
+    'rejected': 'error',
+    'draft': 'grey'
+  }
+  return colors[status?.toLowerCase()] || 'grey'
+}
+
+const getStatusIcon = (status) => {
+  const icons = {
+    'approved': 'mdi-check-decagram',
+    'pending': 'mdi-clock-outline',
+    'rejected': 'mdi-alert-circle-outline',
+    'draft': 'mdi-file-document-edit-outline'
+  }
+  return icons[status?.toLowerCase()] || 'mdi-help-circle-outline'
+}
 
 const getSocialColor = (type) => {
   const colors = {
@@ -333,6 +375,13 @@ const approveMicrosite = async () => {
   padding: 12px 16px;
   background-color: #FFFFFF;
   transition: all 0.2s ease;
+  position: relative;
+}
+
+.view-link-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
 }
 
 .social-link-box:hover {
