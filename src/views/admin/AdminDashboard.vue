@@ -21,14 +21,14 @@
 
             <!-- Filters Section -->
             <v-row class="mb-6">
-                <v-col cols="12" md="3">
+                <v-col cols="12" md="6">
                     <v-text-field v-model="search" placeholder="Search" prepend-inner-icon="mdi-magnify"
                         variant="outlined" density="comfortable" hide-details bg-color="white"
                         class="rounded-lg"></v-text-field>
                 </v-col>
-                <v-col cols="12" md="9">
+                <v-col cols="12" md="6">
                     <v-row align="center" class="flex-wrap">
-                        <v-col cols="12" sm="9" class="d-flex justify-end">
+                        <v-col cols="12" sm="12" class="d-flex justify-end">
                             <div class="d-flex align-center">
                                 <v-text-field v-model="fromDate" type="date" variant="outlined" density="comfortable"
                                     hide-details bg-color="white" class="date-input"
@@ -90,11 +90,21 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <tr v-if="!loading && partners.length === 0">
+                                <td colspan="5" class="text-center py-8">
+                                    <div class="d-flex flex-column align-center justify-center">
+                                        <v-icon icon="mdi-magnify-remove-outline" size="48"
+                                            color="grey-lighten-1 mb-2"></v-icon>
+                                        <div class="text-body-1 text-grey-darken-1">Data not found</div>
+                                    </div>
+                                </td>
+                            </tr>
                             <tr v-for="(item, index) in partners" :key="index">
                                 <td class="py-4">
                                     <div class="d-flex align-center">
-                                        <v-avatar size="40" class="mr-4" color="primary">
-                                            <span class="text-h5">{{ item.user_name?.charAt(0).toUpperCase() }}</span>
+                                        <v-avatar size="40" class="mr-4" :color="getAvatarColor(item.user_name)">
+                                            <span class="text-h6 text-white">{{ item.user_name?.charAt(0).toUpperCase()
+                                                }}</span>
                                         </v-avatar>
                                         <div>
                                             <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
@@ -256,6 +266,15 @@ const viewPartner = (partner) => {
 
 const getStatusColor = (status) => {
     return status === 'Accepted' ? 'green-lighten-4 text-green-darken-4' : 'orange-lighten-4 text-orange-darken-4';
+};
+
+const getAvatarColor = (name) => {
+    const colors = [
+        'red', 'pink', 'purple', 'deep-purple', 'indigo', 'blue', 'light-blue', 'cyan', 'teal', 'green', 'light-green', 'lime', 'yellow', 'amber', 'orange', 'deep-orange', 'brown', 'blue-grey', 'grey'
+    ];
+    if (!name) return 'primary';
+    const index = name.charCodeAt(0) % colors.length;
+    return colors[index];
 };
 
 </script>
