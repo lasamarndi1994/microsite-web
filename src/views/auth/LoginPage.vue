@@ -12,7 +12,13 @@
             <v-text-field v-model="password" label="Password" variant="outlined" density="default"
               :type="showPassword ? 'text' : 'password'" :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
               @click:append-inner="showPassword = !showPassword" :error-messages="passwordError"
-              class="mb-2 text-start" />
+              class="mb-0 text-start" />
+            <div class="d-flex justify-end mb-2">
+              <a href="#" class="text-decoration-none text-primary fs-14 font-weight-medium"
+                @click.prevent="forgotPasswordDialog = true">
+                Forgot Password?
+              </a>
+            </div>
 
             <v-text-field v-if="!isPasswordSet" v-model="confirmPassword" label="Confirm Password" variant="outlined"
               density="default" :type="showConfirmPassword ? 'text' : 'password'"
@@ -41,6 +47,21 @@
   <v-snackbar v-model="showSuccess" color="success" timeout="3000" location="bottom center">
     {{ successMessage }}
   </v-snackbar>
+  <v-dialog v-model="forgotPasswordDialog" max-width="400">
+    <v-card class="rounded-lg pa-6 text-center">
+      <v-avatar color="orange-lighten-5" size="64" class="mb-4">
+        <v-icon icon="mdi-lock-reset" color="orange" size="32"></v-icon>
+      </v-avatar>
+      <h3 class="text-h6 font-weight-bold mb-2">Forgot Password</h3>
+      <p class="text-body-2 text-medium-emphasis mb-6">
+        Contact the organization to update your password.
+      </p>
+      <v-btn variant="flat" block height="40" width="22" class="btn-primary text-white text-none"
+        @click="forgotPasswordDialog = false">
+        Okay, Got it
+      </v-btn>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script setup>
@@ -58,6 +79,7 @@ const store = useAuthStore();
 const loading = ref(false);
 const showSuccess = ref(false);
 const successMessage = ref('');
+const forgotPasswordDialog = ref(false);
 
 
 const isMobileVerified = ref(false);
