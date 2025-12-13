@@ -12,12 +12,12 @@
                     </div>
                     <!-- Top Actions -->
                     <div class="d-flex align-center gap-3">
-                        <v-btn variant="outlined" color="grey-darken-2" size="small" class="text-capitalize"
+                        <v-btn variant="tonal" color="grey-darken-2" size="small" class="text-capitalize"
                             v-if="isPreview" @click="handlePreview" prepend-icon="mdi-eye-outline">
                             Preview
                         </v-btn>
 
-                        <v-btn variant="text" color="grey-darken-2" icon @click="goBack">
+                        <v-btn variant="tonal" color="grey-darken-2" icon @click="goBack">
                             <v-icon>mdi-close</v-icon>
                             <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
                         </v-btn>
@@ -44,8 +44,8 @@
                                 </v-btn>
                                 <div class="text-caption text-grey mt-1 text-center font-weight-medium"
                                     v-if="!bannerPhoto">
-                                    Recommended: 1200x400px <span class="mx-1">•</span> Min: 400x400px
-                                    Max size: 5MB <span class="mx-1">•</span> JPG, PNG
+                                    Upload a JPG or PNG image. Recommended size is 800 × 400 px, minimum size is 400 ×
+                                    400 px, and maximum file size is 2 MB.
                                 </div>
                                 <input type="file" ref="bannerInputRef" accept="image/*" class="d-none"
                                     @change="onBannerChange" />
@@ -113,8 +113,8 @@
                                 </v-col>
                                 <v-col cols="12" md="6">
                                     <v-text-field v-model="subTitle" label="Subtitle (Optional)"
-                                        placeholder="e.g. Design & Development" variant="outlined" density="default"
-                                        class="bg-white" hide-details="auto"
+                                        placeholder="e.g. Design | Development | Marketing" variant="outlined"
+                                        density="default" class="bg-white" hide-details="auto"
                                         :error-messages="subTitleError"></v-text-field>
                                 </v-col>
 
@@ -276,7 +276,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import api from '@/api'
-import { getImage } from '@/utils/helpers'
+import { getImage, getSocialPlatformsList } from '@/utils/helpers'
 
 import { useField, useForm } from 'vee-validate'
 
@@ -340,6 +340,17 @@ const triggerBannerUpload = () => {
 const onProfileChange = async (e) => {
     const file = e.target.files[0]
     if (file) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp']
+        if (!allowedTypes.includes(file.type)) {
+            profileError.value = 'Only PNG, JPEG, SVG, and WEBP formats are allowed.'
+            profileFile.value = null
+            profilePhoto.value = null
+            profileBase64.value = ''
+            if (profileInputRef.value) profileInputRef.value.value = ''
+            return
+        }
+        profileError.value = '' // Clear error on valid file
+
         profileFile.value = file
         profilePhoto.value = URL.createObjectURL(file)
         try {
@@ -353,6 +364,26 @@ const onProfileChange = async (e) => {
 const onBannerChange = (e) => {
     const file = e.target.files[0]
     if (file) {
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp']
+        if (!allowedTypes.includes(file.type)) {
+            bannerError.value = 'Only PNG, JPEG, SVG, and WEBP formats are allowed.'
+            bannerFile.value = null
+            bannerPhoto.value = null
+            bannerBase64.value = ''
+            if (bannerInputRef.value) bannerInputRef.value.value = ''
+            return
+        }
+
+        // Validate file size (2MB)
+        if (file.size > 2 * 1024 * 1024) {
+            bannerError.value = 'File size exceeds 2 MB.'
+            bannerFile.value = null
+            bannerPhoto.value = null
+            bannerBase64.value = ''
+            if (bannerInputRef.value) bannerInputRef.value.value = ''
+            return
+        }
+
         const img = new Image()
         img.src = URL.createObjectURL(file)
         img.onload = async () => {
@@ -392,62 +423,7 @@ const removeBannerPhoto = () => {
 }
 
 // Social media platforms data
-const socialPlatforms = ref([
-    {
-        name: 'Website',
-        icon: 'mdi-web',
-        color: 'grey-darken-2',
-        placeholder: 'https://www.yourwebsite.com'
-    },
-    {
-        name: 'Facebook',
-        icon: 'mdi-facebook',
-        color: '#1877F2',
-        placeholder: 'https://www.facebook.com/username'
-    },
-    {
-        name: 'Instagram',
-        icon: 'mdi-instagram',
-        color: '#E4405F',
-        placeholder: 'https://www.instagram.com/username'
-    },
-    {
-        name: 'Twitter/X',
-        icon: 'mdi-twitter',
-        color: '#1DA1F2',
-        placeholder: 'https://twitter.com/username'
-    },
-    {
-        name: 'LinkedIn',
-        icon: 'mdi-linkedin',
-        color: '#0A66C2',
-        placeholder: 'https://www.linkedin.com/in/username'
-    },
-    {
-        name: 'YouTube',
-        icon: 'mdi-youtube',
-        color: '#FF0000',
-        placeholder: 'https://www.youtube.com/@username'
-    },
-    {
-        name: 'TikTok',
-        icon: 'mdi-music-note',
-        color: '#000000',
-        placeholder: 'https://www.tiktok.com/@username'
-    },
-    {
-        name: 'WhatsApp',
-        icon: 'mdi-whatsapp',
-        color: '#25D366',
-        placeholder: 'https://wa.me/1234567890'
-    },
-    {
-        name: 'GitHub',
-        icon: 'mdi-github',
-        color: '#181717',
-        placeholder: 'https://github.com/username'
-    }
-])
+const socialPlatforms = ref(getSocialPlatformsList())
 
 const socialLinks = ref([
     { platform: socialPlatforms.value[0], url: '' }
@@ -656,7 +632,7 @@ const fetchMicrositeDetails = async (uuid) => {
                     const pName = p.name.toLowerCase();
                     const lName = (link.name).toLowerCase();
                     return pName === lName ||
-                        (pName.includes('twitter') && lName.includes('twitter')) ||
+                        (pName === 'x' && lName.includes('twitter')) ||
                         (pName.includes('twitter') && lName === 'x');
                 });
                 return {

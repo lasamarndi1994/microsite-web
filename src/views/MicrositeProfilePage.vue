@@ -188,13 +188,13 @@
             </div>
         </v-main>
         <!-- Join Me Dialog -->
-        <v-dialog v-model="showJoinDialog" max-width="600" location="center">
+        <v-dialog v-model="showJoinDialog" max-width="600" location="center" scroll-strategy="none">
             <v-card class="rounded-lg pa-0 overflow-hidden">
                 <!-- Banner & Avatar Section -->
                 <div class="position-relative mb-12">
-                    <v-img :src="getImage(microsite.banner_image, 'uploads/banner/')" cover height="100"
-                        class="align-start justify-end pa-2">
-                        <v-btn icon="mdi-close" variant="text" color="white" density="compact"
+                    <v-img :src="getImage(microsite.banner_image, 'uploads/banner/')" cover height="100">
+                        <v-btn icon="mdi-close" variant="flat" color="white"
+                            class="text-red position-absolute top-0 right-0 ma-2" density="compact"
                             @click="showJoinDialog = false"></v-btn>
                     </v-img>
                     <div class="position-absolute" style="bottom: -40px; left: 24px;">
@@ -211,13 +211,15 @@
 
                     <div class="mb-4">
                         <v-text-field v-model="name" label="Name" variant="outlined" density="comfortable"
-                            hide-details="auto" class="mb-5" :error-messages="nameError"></v-text-field>
+                            maxlength="100" hide-details="auto" class="mb-5" :error-messages="nameError"
+                            @keypress="isName($event)"></v-text-field>
 
                         <v-text-field v-model="mobile" label="Mobile Number" variant="outlined" density="comfortable"
-                            hide-details="auto" class="mb-5" :error-messages="mobileError"></v-text-field>
+                            maxlength="10" hide-details="auto" class="mb-5" :error-messages="mobileError"
+                            @keypress="isNumber($event)"></v-text-field>
 
                         <v-text-field v-model="email" label="E-mail Address" placeholder="Ex : ajru@gmail.com"
-                            variant="outlined" density="comfortable" hide-details="auto" class="mb-5"
+                            variant="outlined" density="comfortable" hide-details="auto" class="mb-5" maxlength="100"
                             :error-messages="emailError"></v-text-field>
                     </div>
 
@@ -236,15 +238,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch, computed } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import AppBar from '@/components/AppBar.vue'
 import { useField, useForm } from 'vee-validate'
 import api from '@/api'
-import { getImage } from '@/utils/helpers'
+import { getImage, getSocialIcon, getSocialColor } from '@/utils/helpers'
 import { useAuthStore } from '@/stores/authStore'
 import { useHead } from '@unhead/vue'
-import { computed } from 'vue'
+
 
 const store = useAuthStore()
 
@@ -256,15 +258,116 @@ const showSuccess = ref(false)
 const successMessage = ref('')
 const { validate, resetForm } = useForm()
 
-const { value: name, errorMessage: nameError } = useField('name', 'required')
-const { value: mobile, errorMessage: mobileError } = useField('mobile', 'required|numeric|min:10')
+watch(showJoinDialog, (val) => {
+    if (!val) {
+        resetForm()
+    }
+})
+
+const { value: name, errorMessage: nameError } = useField('name', (value) => {
+    if (!value) return 'Name is required'
+    if (!/^[a-zA-Z\s]*$/.test(value)) return 'Special characters are not allowed'
+    return true
+})
+const { value: mobile, errorMessage: mobileError } = useField('mobile', (value) => {
+    if (!value) return 'Mobile Number is required'
+    if (!/^\d+$/.test(value)) return 'Mobile Number must contain only digits'
+    if (value.length < 10) return 'Enter valid mobile number'
+    return true
+})
 const { value: email, errorMessage: emailError } = useField('email', 'required|email')
+
+const isNumber = (evt) => {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        evt.preventDefault();
+    } else {
+        return true;
+    }
+}
+
+const isName = (evt) => {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    // Allow A-Z, a-z, space (32)
+    if (!((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122) || charCode === 32)) {
+        evt.preventDefault();
+    }
+}
 
 // Initialize values
 
 
 // Microsite Data
 const microsite = ref(null)
+
+
+const loading = ref(true)
+const isSiteActive = ref(false)
+const fetchMicrosite = async () => {
+    const { username, slug } = route.params
+    if (!username || !slug) {
+        router.push('/page-not-found-404')
+        return
+    }
+    try {
+        loading.value = true
+        const response = await api.get(`/microsite/view/${username}/${slug}`)
+        if (response.data.data && response.data.data.status === 'Approved' || store.isAuthenticated) {
+            if (response.data.data.status === 'Approved') {
+                isSiteActive.value = true;
+            }
+            microsite.value = response.data.data;
+        } else {
+            isSiteActive.value = false;
+            router.push('/page-not-found-404')
+        }
+    } catch (error) {
+        router.push('/page-not-found-404')
+    } finally {
+        loading.value = false
+    }
+}
+
+onMounted(() => {
+    fetchMicrosite()
+})
+
+
+
+const handleJoin = async () => {
+    if (store.isAuthenticated) {
+        return;
+    }
+    const { valid } = await validate()
+    if (valid && microsite.value) {
+        joinLoading.value = true
+        try {
+            const payload = {
+                name: name.value,
+                email: email.value,
+                mobile_number: mobile.value.toString(),
+                microsite_id: microsite.value.id,
+                user_id: microsite.value.user_id
+            }
+
+            const response = await api.post('/lead/create', payload)
+
+            if (response.data && response.data.status) {
+                showJoinDialog.value = false
+                successMessage.value = response.data.message || 'Joined successfully!'
+                showSuccess.value = true
+                resetForm()
+            }
+        } catch (error) {
+            console.error('Error joining microsite:', error)
+            // Ideally handle error feedback here too
+        } finally {
+            joinLoading.value = false
+        }
+    }
+}
 
 // Dynamic Meta Tags
 useHead({
@@ -333,101 +436,6 @@ useHead({
         }
     ]
 })
-const loading = ref(true)
-const isSiteActive = ref(false)
-const fetchMicrosite = async () => {
-    const { username, slug } = route.params
-    if (!username || !slug) {
-        router.push('/page-not-found-404')
-        return
-    }
-    try {
-        loading.value = true
-        const response = await api.get(`/microsite/view/${username}/${slug}`)
-        if (response.data.data && response.data.data.status === 'Approved' || store.isAuthenticated) {
-            if (response.data.data.status === 'Approved') {
-                isSiteActive.value = true;
-            }
-            microsite.value = response.data.data;
-        } else {
-            isSiteActive.value = false;
-            router.push('/page-not-found-404')
-        }
-    } catch (error) {
-        router.push('/page-not-found-404')
-    } finally {
-        loading.value = false
-    }
-}
-
-onMounted(() => {
-    fetchMicrosite()
-})
-
-const getSocialColor = (type) => {
-    const colors = {
-        'facebook': '#1877F2',
-        'instagram': '#E4405F',
-        'twitter': '#1DA1F2',
-        'x': '#000000',
-        'linkedin': '#0A66C2',
-        'youtube': '#FF0000',
-        'tiktok': '#000000',
-        'whatsapp': '#25D366',
-        'github': '#181717',
-        'telegram': '#0088cc',
-        'website': 'grey-darken-2'
-    }
-    return colors[type.toLowerCase()] || 'grey-darken-2'
-}
-
-const getSocialIcon = (type) => {
-    const icons = {
-        'website': 'mdi-web',
-        'tiktok': 'mdi-music-note',
-        'twitter/x': 'mdi-twitter',
-        'facebook': 'mdi-facebook',
-        'instagram': 'mdi-instagram',
-        'linkedin': 'mdi-linkedin',
-        'youtube': 'mdi-youtube',
-        'whatsapp': 'mdi-whatsapp',
-        'github': 'mdi-github',
-        'telegram': 'mdi-telegram'
-    }
-    return icons[type.toLowerCase()] || 'mdi-' + type.toLowerCase().replace(' ', '-')
-}
-
-const handleJoin = async () => {
-    if (store.isAuthenticated) {
-        return;
-    }
-    const { valid } = await validate()
-    if (valid && microsite.value) {
-        joinLoading.value = true
-        try {
-            const payload = {
-                name: name.value,
-                email: email.value,
-                mobile_number: mobile.value.toString(),
-                microsite_id: microsite.value.id
-            }
-
-            const response = await api.post('/lead/create', payload)
-
-            if (response.data && response.data.status) {
-                showJoinDialog.value = false
-                successMessage.value = response.data.message || 'Joined successfully!'
-                showSuccess.value = true
-                resetForm()
-            }
-        } catch (error) {
-            console.error('Error joining microsite:', error)
-            // Ideally handle error feedback here too
-        } finally {
-            joinLoading.value = false
-        }
-    }
-}
 </script>
 <style scoped>
 .gap-3 {

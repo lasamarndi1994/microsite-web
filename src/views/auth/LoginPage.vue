@@ -105,7 +105,7 @@ const validateMobileNumber = async () => {
   }
 };
 
-const performLogin = async () => {
+const authLogin = async () => {
   loading.value = true;
   api.post("/auth/login", {
     mobile_number: mobile.value,
@@ -163,7 +163,7 @@ const handleLogin = async () => {
     if (isPasswordSet.value) {
       // Login Flow
       if (passwordResult.valid) {
-        await performLogin();
+        await authLogin();
       }
     } else {
       // Create Account / Update Password Flow
@@ -176,6 +176,9 @@ const handleLogin = async () => {
         await performUpdatePassword();
       }
     }
+  }
+  else {
+    setMobileErrors("Mobile number required");
   }
 };
 

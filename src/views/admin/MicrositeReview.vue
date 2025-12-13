@@ -203,7 +203,7 @@ import { ref, onMounted } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useField, useForm } from 'vee-validate';
 import api from '@/api';
-import { getImage } from '@/utils/helpers';
+import { getImage, getSocialIcon, getSocialColor } from '@/utils/helpers';
 
 const showSuccess = ref(false);
 const successMessage = ref('');
@@ -237,38 +237,7 @@ const getStatusIcon = (status) => {
   return icons[status?.toLowerCase()] || 'mdi-help-circle-outline'
 }
 
-const getSocialColor = (type) => {
-  const colors = {
-    'facebook': '#1877F2',
-    'instagram': '#E4405F',
-    'twitter': '#1DA1F2',
-    'x': '#000000',
-    'linkedin': '#0A66C2',
-    'youtube': '#FF0000',
-    'tiktok': '#000000',
-    'whatsapp': '#25D366',
-    'github': '#181717',
-    'telegram': '#0088cc',
-    'website': 'grey-darken-2'
-  }
-  return colors[type?.toLowerCase()] || 'grey-darken-2'
-}
 
-const getSocialIcon = (type) => {
-  const icons = {
-    'website': 'mdi-web',
-    'tiktok': 'mdi-music-note',
-    'twitter/x': 'mdi-twitter',
-    'facebook': 'mdi-facebook',
-    'instagram': 'mdi-instagram',
-    'linkedin': 'mdi-linkedin',
-    'youtube': 'mdi-youtube',
-    'whatsapp': 'mdi-whatsapp',
-    'github': 'mdi-github',
-    'telegram': 'mdi-telegram'
-  }
-  return icons[type?.toLowerCase()] || 'mdi-' + type?.toLowerCase().replace(' ', '-')
-}
 
 
 

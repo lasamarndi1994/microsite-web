@@ -1,6 +1,7 @@
 <template>
     <app-layout>
-        <v-card flat class="card-padding rounded-xl" min-height="80vh">
+        <v-card ref="micrositeContainer" flat class="card-padding rounded-xl"
+            :style="{ minHeight: containerMinHeight }">
             <!-- Welcome Section -->
             <v-row class="mb-4" align="center">
                 <v-col cols="12" lg="8">
@@ -142,7 +143,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick } from 'vue'
 import { useRouter, useRoute } from "vue-router";
 import api from "@/api";
 
@@ -156,6 +157,9 @@ const router = useRouter();
 const route = useRoute();
 const activeTab = ref('my-microsites');
 const isLoading = ref(false);
+
+const micrositeContainer = ref(null);
+const containerMinHeight = ref('80vh');
 
 const createMicrosite = () => {
     router.push("/create-microsite");
@@ -186,6 +190,10 @@ const fetchMicrosites = async (status = null) => {
     } catch (error) {
         console.error('Error fetching microsites:', error);
     } finally {
+        // Reset min-height after content is loaded and rendered
+        nextTick(() => {
+            containerMinHeight.value = '80vh';
+        });
         isLoading.value = false;
     }
 };
@@ -199,6 +207,13 @@ const handleFilterChange = (status) => {
 
 const updateActiveTab = (tab) => {
     if (activeTab.value === tab) return;
+
+    // Lock current height before switching
+    if (micrositeContainer.value && micrositeContainer.value.$el) {
+        const height = micrositeContainer.value.$el.offsetHeight;
+        containerMinHeight.value = `${height}px`;
+    }
+
     activeTab.value = tab;
     router.replace({ query: { ...route.query, tab } });
     if (tab === 'my-microsites') {

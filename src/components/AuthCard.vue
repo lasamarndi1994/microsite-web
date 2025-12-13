@@ -6,7 +6,12 @@
 </template>
 
 <script setup>
-
+const props = defineProps({
+  elevation: {
+    type: Number,
+    default: 2
+  }
+})
 </script>
 
 <style scoped>
