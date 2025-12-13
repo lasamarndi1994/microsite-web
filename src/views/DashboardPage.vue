@@ -8,38 +8,16 @@
                     <h1 class="font-weight-bold text-grey-darken-3"
                         :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Welcome Back</h1>
                 </v-col>
-                <v-col cols="12" lg="4" class="d-none d-lg-flex justify-end">
-                    <v-btn variant="outlined" style="border-color: #7f56da; color: #7f56da" class="text-capitalize mr-4"
-                        height="44" @click="DraftMicrosite" max-width="200px">
-                        <template v-slot:prepend>
-                            <v-icon size="16">mdi-file-document-outline</v-icon>
-                        </template>
-                        Drafts
-                    </v-btn>
-                    <v-btn class="btn-primary text-white text-capitalize" height="44" flat @click="createMicrosite">
-                        <template v-slot:prepend>
-                            <div class="d-inline-flex align-center justify-center mr-2"
-                                style="width: 20px; height: 20px; border-radius: 30%; border: 1px solid white;">
-                                <v-icon size="16" color="white">mdi-plus</v-icon>
-                            </div>
-                        </template>
-                        Create new microsite
-                    </v-btn>
-                </v-col>
-            </v-row>
-
-            <v-row class="mb-4 d-lg-none">
-                <v-col cols="12" sm="6">
+                <v-col cols="12" lg="4" class="d-flex flex-column flex-lg-row justify-end align-lg-center">
                     <v-btn variant="outlined" style="border-color: #7f56da; color: #7f56da"
-                        class="text-capitalize w-100" height="44" @click="DraftMicrosite">
+                        class="text-capitalize mb-3 mb-lg-0 mr-lg-4 w-100 w-lg-auto" height="44" @click="DraftMicrosite"
+                        max-width="100%">
                         <template v-slot:prepend>
                             <v-icon size="16">mdi-file-document-outline</v-icon>
                         </template>
                         Drafts
                     </v-btn>
-                </v-col>
-                <v-col cols="12" sm="6">
-                    <v-btn class="btn-primary text-white text-capitalize w-100" height="44" flat
+                    <v-btn class="btn-primary text-white text-capitalize w-100 w-lg-auto" height="44" flat
                         @click="createMicrosite">
                         <template v-slot:prepend>
                             <div class="d-inline-flex align-center justify-center mr-2"
@@ -51,6 +29,8 @@
                     </v-btn>
                 </v-col>
             </v-row>
+
+
 
             <!-- Analytics Section -->
             <h2 class="fs-18 font-weight-bold mb-4">Analytics</h2>
@@ -139,6 +119,8 @@
             <MicrositeListPage v-else :microsites="microsites" :loading="isLoading" @filter-change="handleFilterChange"
                 @refresh="refresh" />
         </v-card>
+
+        <MicrositeLimitDialog v-model="showLimitDialog" />
     </app-layout>
 </template>
 
@@ -147,10 +129,10 @@ import { ref, onMounted, nextTick } from 'vue'
 import { useRouter, useRoute } from "vue-router";
 import api from "@/api";
 
-
 import MicrositeListPage from "@/views/microsite/ListPage.vue";
-
 import MyMicrositeGridPage from "@/views/microsite/GridPage.vue";
+import { useMicrositeLimit } from "@/composables/useMicrositeLimit";
+import MicrositeLimitDialog from "@/components/MicrositeLimitDialog.vue";
 
 
 const router = useRouter();
@@ -161,8 +143,12 @@ const isLoading = ref(false);
 const micrositeContainer = ref(null);
 const containerMinHeight = ref('80vh');
 
+const { showLimitDialog, fetchUserLimit, checkLimit } = useMicrositeLimit();
+
 const createMicrosite = () => {
-    router.push("/create-microsite");
+    checkLimit(() => {
+        router.push("/create-microsite");
+    });
 };
 
 const DraftMicrosite = () => {
@@ -224,6 +210,7 @@ const updateActiveTab = (tab) => {
 };
 
 onMounted(() => {
+    fetchUserLimit();
     const tab = route.query.tab;
     if (tab && (tab === 'my-microsites' || tab === 'pending')) {
         activeTab.value = tab;

@@ -129,7 +129,6 @@
           </tbody>
         </v-table>
 
-
       </v-card>
     </v-card>
   </app-layout>

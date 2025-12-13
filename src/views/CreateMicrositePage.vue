@@ -267,6 +267,7 @@
             </v-container>
         </v-card>
     </app-layout>
+    <MicrositeLimitDialog v-model="showLimitDialog" />
     <v-snackbar v-model="showSuccess" color="success" timeout="3000" location="bottom center">
         {{ successMessage }}
     </v-snackbar>
@@ -278,11 +279,14 @@ import { useRouter, useRoute } from 'vue-router'
 import api from '@/api'
 import { getImage, getSocialPlatformsList } from '@/utils/helpers'
 
+import MicrositeLimitDialog from "@/components/MicrositeLimitDialog.vue";
+
 import { useField, useForm } from 'vee-validate'
 
 const router = useRouter()
 const route = useRoute()
 const { validate } = useForm()
+
 
 const { value: title, errorMessage: titleError } = useField('title', 'required')
 const { value: subTitle, errorMessage: subTitleError } = useField('subTitle') // Optional
@@ -311,7 +315,8 @@ const loading = ref(false)
 const micrositeSlug = ref('')
 const userSlug = ref('')
 const isPreview = ref(false);
-
+const showLimitDialog = ref(false);
+const limitCount = ref(0);
 
 
 // Image Upload Logic
@@ -506,6 +511,10 @@ const handlePreview = () => {
 }
 
 const handleSaveAndUpdate = async (status = 'Pending') => {
+    if (limitCount.value >= 3) {
+        showLimitDialog.value = true;
+        return;
+    }
     // Reset manual errors
     profileError.value = ''
     bannerError.value = '' // Assuming bannerError is already defined for dimensions, we reuse or add logic
@@ -555,6 +564,9 @@ const handleSaveAndUpdate = async (status = 'Pending') => {
     }
 
     if (valid && manualValid) {
+        // Check limit for creation
+
+
         // Proceed with save
         loading.value = true
         try {
@@ -678,6 +690,14 @@ const fetchAuthUser = async () => {
     try {
         const response = await api.get('/auth/user');
         const user = response.data.data; // Adjust based on API response structure
+
+        limitCount.value = user.microsite_count;
+
+        if (limitCount.value >= 3) {
+            showLimitDialog.value = true;
+        }
+
+
         if (user) {
             resetFullName({ value: user.user_name || '' });
             resetBusinessName({ value: user.business_name || '' });
@@ -703,15 +723,14 @@ const fetchAuthUser = async () => {
     }
 }
 
+
 onMounted(async () => {
     if (route.params.uuid) {
         isPreview.value = true;
         await fetchMicrositeDetails(route.params.uuid);
     }
     else {
-        // Prefill user data for new microsite
-        await fetchAuthUser()
-
+        await fetchAuthUser();
     }
 
 })

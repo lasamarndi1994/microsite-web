@@ -39,39 +39,7 @@
                                     placeholder="DD/MM/YYYY"></v-text-field>
                             </div>
                         </v-col>
-                        <!-- 
-            <v-col cols="12" sm="3" class="d-flex justify-end">
-              <v-btn variant="outlined" prepend-icon="mdi-filter-variant" class="text-capitalize" height="48"
-                color="grey-darken-3" style="border-color: #7f56da; color: #7f56da">
-                {{ selectedFilterLabel || 'Filters' }}
-                <v-menu activator="parent">
-                  <v-list class="py-3 px-2" min-width="220">
-                    <v-list-item v-for="(filter, index) in filterOptions" :key="index" :value="filter.value"
-                      class="mb-2 filter-item rounded-lg" @click="selectFilter(filter.value)">
-                      <template v-slot:default>
-                        <div class="d-flex align-center justify-space-between w-100">
-                          <v-chip :color="filter.color" size="small" variant="flat" class="px-3">
-                            <v-icon :icon="filter.icon" size="16" class="mr-1"></v-icon>
-                            <span class="text-capitalize font-weight-medium">{{ filter.label }}</span>
-                          </v-chip>
-                          <v-icon v-if="selectedFilter === filter.value" icon="mdi-check-circle" color="success"
-                            size="20"></v-icon>
-                        </div>
-                      </template>
-</v-list-item>
-<v-divider class="my-2"></v-divider>
-<v-list-item class="filter-item rounded-lg" @click="clearFilter">
-    <template v-slot:default>
-                        <div class="d-flex align-center">
-                          <v-icon icon="mdi-close-circle-outline" size="18" class="mr-2 text-grey"></v-icon>
-                          <span class="text-body-2 text-grey-darken-2">Clear Filter</span>
-                        </div>
-                      </template>
-</v-list-item>
-</v-list>
-</v-menu>
-</v-btn>
-</v-col> -->
+
                     </v-row>
                 </v-col>
             </v-row>
@@ -95,7 +63,7 @@
                                     <div class="d-flex flex-column align-center justify-center">
                                         <v-icon icon="mdi-magnify-remove-outline" size="48"
                                             color="grey-lighten-1 mb-2"></v-icon>
-                                        <div class="text-body-1 text-grey-darken-1">Data not found</div>
+                                        <div class="text-body-1 text-grey-darken-1">Data not found.</div>
                                     </div>
                                 </td>
                             </tr>
@@ -104,7 +72,7 @@
                                     <div class="d-flex align-center">
                                         <v-avatar size="40" class="mr-4" :color="getAvatarColor(item.user_name)">
                                             <span class="text-h6 text-white">{{ item.user_name?.charAt(0).toUpperCase()
-                                            }}</span>
+                                                }}</span>
                                         </v-avatar>
                                         <div>
                                             <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
@@ -145,7 +113,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import api from '@/api';
 import { formatDate } from '@/utils/helpers';

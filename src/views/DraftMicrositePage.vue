@@ -136,6 +136,7 @@
                     </v-row>
                 </v-card>
             </v-dialog>
+            <MicrositeLimitDialog v-model="showLimitDialog" />
             <!--  -->
         </v-card>
     </app-layout>
@@ -147,8 +148,11 @@ import { useRouter } from 'vue-router';
 import { getImage, formatDate } from '@/utils/helpers';
 import api from '@/api';
 import EmptyState from '@/components/EmptyState.vue';
+import { useMicrositeLimit } from "@/composables/useMicrositeLimit";
+import MicrositeLimitDialog from "@/components/MicrositeLimitDialog.vue";
 
 const router = useRouter();
+const { showLimitDialog, fetchUserLimit, checkLimit } = useMicrositeLimit();
 
 const microsites = ref([]);
 const loading = ref(false);
@@ -162,7 +166,9 @@ const snackbarColor = ref('');
 
 
 const createMicrosite = () => {
-    router.push("/create-microsite");
+    checkLimit(() => {
+        router.push("/create-microsite");
+    });
 };
 
 const navigateEditProfile = (uuid) => {
@@ -237,6 +243,7 @@ const deleteItem = async () => {
 };
 
 onMounted(() => {
+    fetchUserLimit();
     fetchDrafts();
 });
 </script>
