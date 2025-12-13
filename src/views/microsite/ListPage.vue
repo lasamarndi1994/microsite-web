@@ -115,7 +115,7 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                                }}
+                            }}
                             </td>
                             <td class="text-right">
 
@@ -286,7 +286,7 @@ const performSearch = async () => {
             localMicrosites.value = [];
         }
     } catch (error) {
-        console.error("Search error:", error);
+
         localMicrosites.value = [];
     }
 };
@@ -303,8 +303,8 @@ const copyUrl = (item) => {
     navigator.clipboard.writeText(url).then(() => {
         snackbarText.value = "Successfully copied URL";
         snackbar.value = true;
-    }).catch(err => {
-        console.error('Failed to copy: ', err);
+    }).catch(() => {
+
         snackbarText.value = "Failed to copy URL";
         snackbar.value = true;
     });
