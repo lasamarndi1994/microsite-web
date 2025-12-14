@@ -45,7 +45,7 @@
                                 <div class="text-caption text-grey mt-1 text-center font-weight-medium"
                                     v-if="!bannerPhoto">
                                     Upload a JPG or PNG image. Recommended size is 800 × 400 px, minimum size is 400 ×
-                                    400 px, and maximum file size is 2 MB.
+                                    400 px, and maximum file size is 5 MB.
                                 </div>
                                 <input type="file" ref="bannerInputRef" accept="image/*" class="d-none"
                                     @change="onBannerChange" />
@@ -390,8 +390,8 @@ const onBannerChange = (e) => {
         }
 
         // Validate file size (2MB)
-        if (file.size > 2 * 1024 * 1024) {
-            bannerError.value = 'File size exceeds 2 MB.'
+        if (file.size > 5 * 1024 * 1024) {
+            bannerError.value = 'File size exceeds 5 MB.'
             bannerFile.value = null
             bannerPhoto.value = null
             bannerBase64.value = ''

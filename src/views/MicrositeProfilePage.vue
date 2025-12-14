@@ -54,11 +54,11 @@
                         class="align-center">
                         <div class="d-flex fill-height align-center justify-center">
                             <div class="text-center text-white px-4" style="max-width: 800px;">
-                                <h2 class="font-weight-regular mb-2" style="line-height: 1.4;"
-                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
+                                <h2 class="font-weight-medium mb-2" style="line-height: 1.4;"
+                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h4'">
                                     {{ microsite.title }}
                                 </h2>
-                                <p class="font-weight-light"
+                                <p class="font-weight-medium fs-10"
                                     :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
                                     {{ microsite.sub_title }}
                                 </p>
@@ -66,16 +66,16 @@
                         </div>
                         <!-- Overlay for better text readability -->
                         <div class="position-absolute top-0 left-0 w-100 h-100"
-                            style="background: rgba(0, 0, 0, 0.4); z-index: 0;"></div>
+                            style="background: rgba(0, 0, 0, 0.2); z-index: 0;"></div>
                         <!-- Content needs higher z-index -->
                         <div class="position-absolute top-0 left-0 w-100 h-100 d-flex align-center justify-center"
                             style="z-index: 1;">
                             <div class="text-center text-white px-4" style="max-width: 800px;">
                                 <h2 class="font-weight-medium mb-2" style="line-height: 1.4;"
-                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
+                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h4'">
                                     {{ microsite.title }}
                                 </h2>
-                                <p class="font-weight-regular"
+                                <p class="font-weight-medium fs-10"
                                     :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
                                     {{ microsite.sub_title }}
                                 </p>
