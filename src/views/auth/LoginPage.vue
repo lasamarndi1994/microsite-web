@@ -13,7 +13,7 @@
               :type="showPassword ? 'text' : 'password'" :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
               @click:append-inner="showPassword = !showPassword" :error-messages="passwordError"
               class="mb-0 text-start" />
-            <div class="d-flex justify-end mb-2">
+            <div class="d-flex justify-end mb-2" v-if="isPasswordSet">
               <a href="#" class="text-decoration-none text-primary fs-14 font-weight-medium"
                 @click.prevent="forgotPasswordDialog = true">
                 Forgot Password?
