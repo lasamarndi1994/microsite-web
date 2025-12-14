@@ -44,7 +44,8 @@
         </v-row>
 
         <!-- Microsites List -->
-        <EmptyState v-if="!loading && localMicrosites.length === 0" @create="createMicrosite" />
+        <EmptyState v-if="!loading && localMicrosites.length === 0" actionLabel="Create new microsite"
+            @action="createMicrosite" />
         <v-card v-else flat border class="rounded-lg">
             <v-table>
                 <thead>
@@ -115,7 +116,7 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                            }}
+                                }}
                             </td>
                             <td class="text-right">
 

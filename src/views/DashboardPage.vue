@@ -123,7 +123,7 @@
                 @refresh="refresh" />
         </v-card>
 
-        <MicrositeLimitDialog v-model="showLimitDialog" />
+        <!-- <MicrositeLimitDialog v-model="showLimitDialog" /> -->
     </app-layout>
 </template>
 
@@ -134,8 +134,7 @@ import api from "@/api";
 
 import MicrositeListPage from "@/views/microsite/ListPage.vue";
 import MyMicrositeGridPage from "@/views/microsite/GridPage.vue";
-import { useMicrositeLimit } from "@/composables/useMicrositeLimit";
-import MicrositeLimitDialog from "@/components/MicrositeLimitDialog.vue";
+
 
 
 const router = useRouter();
@@ -147,12 +146,10 @@ const micrositeContainer = ref(null);
 const containerMinHeight = ref('80vh');
 const analytics = ref(null);
 
-const { showLimitDialog, fetchUserLimit, checkLimit } = useMicrositeLimit();
+
 
 const createMicrosite = () => {
-    checkLimit(() => {
-        router.push("/create-microsite");
-    });
+    router.push("/create-microsite");
 };
 
 const DraftMicrosite = () => {
@@ -214,7 +211,7 @@ const updateActiveTab = (tab) => {
 };
 
 onMounted(() => {
-    fetchUserLimit();
+
     const tab = route.query.tab;
     if (tab && (tab === 'my-microsites' || tab === 'pending')) {
         activeTab.value = tab;

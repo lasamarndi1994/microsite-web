@@ -6,7 +6,7 @@
                     type="image, article"></v-skeleton-loader>
             </v-col>
         </v-row>
-        <EmptyState v-else-if="microsites.length === 0" @create="createMicrosite" />
+        <EmptyState v-else-if="microsites.length === 0" actionLabel="Create new microsite" @action="createMicrosite" />
         <v-row v-else>
             <v-col cols="12" md="4" v-for="(site, index) in microsites" :key="index">
                 <v-card flat border class="rounded-lg overflow-hidden microsite-card cursor-pointer" height="100%"
