@@ -215,7 +215,7 @@
                                                             class="mr-2"></v-icon>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                    }}</v-list-item-title>
+                                                        }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
@@ -511,7 +511,7 @@ const handlePreview = () => {
 }
 
 const handleSaveAndUpdate = async (status = 'Pending') => {
-    if (limitCount.value >= 3) {
+    if (limitCount.value >= 100) {
         showLimitDialog.value = true;
         return;
     }
@@ -693,7 +693,7 @@ const fetchAuthUser = async () => {
 
         limitCount.value = user.microsite_count;
 
-        if (limitCount.value >= 3) {
+        if (limitCount.value >= 100) {
             showLimitDialog.value = true;
         }
 

@@ -7,8 +7,8 @@
                 </v-avatar>
             </div>
             <v-card-text class="text-center text-body-1">
-                You reach limit for createing micro site if you want create more send the requrest to. will allow will
-                create access
+                You have reached the limit for creating microsites. If you want to create more, send a request to us. We
+                will allow you to create more.
             </v-card-text>
             <v-card-actions class="justify-center mt-4">
                 <v-btn color="btn-primary" variant="flat" class="btn-primary text-white px-6 text-capitalize rounded-lg"

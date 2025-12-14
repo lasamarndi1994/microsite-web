@@ -18,12 +18,12 @@
 
               <v-icon icon="mdi-file-question-outline" size="100" color="grey-lighten-2" class="mb-6"></v-icon>
 
-              <div class="d-flex flex-column flex-sm-row gap-6 justify-center">
-                <v-btn class="btn-primary text-white text-capitalize m-2" prepend-icon="mdi-home" height="48" flat
-                  to="/" size="large">
+              <div class="d-flex flex-column flex-sm-row align-center justify-center" style="gap: 16px;">
+                <v-btn class="btn-primary text-white text-capitalize" prepend-icon="mdi-home" height="48" flat to="/"
+                  size="large">
                   Go to Home
                 </v-btn>
-                <v-btn variant="outlined" class="text-secondary-color text-capitalize ml-4"
+                <v-btn variant="outlined" class="text-secondary-color text-capitalize"
                   style="border-color: var(--secondary-color);" prepend-icon="mdi-arrow-left" height="48"
                   @click="$router.back()" size="large">
                   Go Back

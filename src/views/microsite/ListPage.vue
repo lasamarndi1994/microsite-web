@@ -58,7 +58,7 @@
                 </thead>
                 <tbody>
                     <template v-if="loading">
-                        <tr v-for="n in 5" :key="n">
+                        <tr v-for="n in 3" :key="n">
                             <td class="py-4">
                                 <div class="d-flex align-center">
                                     <v-skeleton-loader type="avatar" width="40" height="40"
@@ -121,7 +121,7 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                                }}
+                            }}
                             </td>
                             <td class="text-right">
 

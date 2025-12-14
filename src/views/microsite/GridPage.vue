@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-row v-if="loading">
-            <v-col cols="12" md="4" v-for="n in 6" :key="n">
+            <v-col cols="12" md="4" v-for="n in 3" :key="n">
                 <v-skeleton-loader class="mx-auto border rounded-lg" max-width="100%"
                     type="image, article"></v-skeleton-loader>
             </v-col>

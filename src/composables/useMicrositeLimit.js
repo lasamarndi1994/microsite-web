@@ -20,7 +20,7 @@ export function useMicrositeLimit() {
 
     const checkLimit = (onAllowed) => {
 
-        if (micrositeCount.value >= 3) {
+        if (micrositeCount.value >= 100) {
 
             showLimitDialog.value = true;
         } else {
