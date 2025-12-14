@@ -16,7 +16,7 @@
             <div class="d-flex justify-end mb-2" v-if="isPasswordSet">
               <a href="#" class="text-decoration-none text-primary fs-14 font-weight-medium"
                 @click.prevent="forgotPasswordDialog = true">
-                Forgot Password ?
+                Forgot Password?
               </a>
             </div>
 
