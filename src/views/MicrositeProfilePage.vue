@@ -55,7 +55,7 @@
                         <div class="d-flex fill-height align-center justify-center">
                             <div class="text-center text-white px-4" style="max-width: 800px;">
                                 <h2 class="font-weight-medium mb-2" style="line-height: 1.4;"
-                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h4'">
+                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
                                     {{ microsite.title }}
                                 </h2>
                                 <p class="font-weight-medium fs-10"
@@ -72,7 +72,7 @@
                             style="z-index: 1;">
                             <div class="text-center text-white px-4" style="max-width: 800px;">
                                 <h2 class="font-weight-medium mb-2" style="line-height: 1.4;"
-                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h4'">
+                                    :class="$vuetify.display.smAndDown ? 'text-h6' : 'text-h5'">
                                     {{ microsite.title }}
                                 </h2>
                                 <p class="font-weight-medium fs-10"
