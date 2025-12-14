@@ -147,10 +147,10 @@
                     <!-- About Section -->
                     <div class="mb-8">
                         <h2 class="text-h6 font-weight-bold mb-4">About</h2>
-                        <div class="border rounded-lg pa-6 text-grey-darken-3"
-                            :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'">
-                            {{ microsite.description }}
-                        </div>
+
+                        <p class="border rounded-lg pa-6 text-grey-darken-3 mb-0 mt-0 p-0 m-0"
+                            :class="$vuetify.display.smAndDown ? 'text-body-2' : 'text-body-1'"
+                            v-html="microsite.description" style="white-space: pre-wrap;"></p>
                     </div>
 
                     <!-- Services Section -->

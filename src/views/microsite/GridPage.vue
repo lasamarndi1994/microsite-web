@@ -24,7 +24,8 @@
                     </v-img>
                     <v-card-text class="pa-4">
                         <div class="d-flex align-center justify-space-between">
-                            <h3 class="fs-22 font-weight-bold hover-text-primary transition-colors">{{ site.title }}
+                            <h3 class="fs-22 font-weight-bold hover-text-primary transition-colors ">{{
+                                truncateText(site.title, 12) }}
                             </h3>
                             <v-btn icon variant="text" size="small" @click.stop="copyUrl(site)" color="grey-darken-1">
                                 <v-icon size="20" class="hover-text-primary transition-colors">mdi-content-copy</v-icon>
@@ -32,7 +33,7 @@
                             </v-btn>
                         </div>
                         <p class="text-caption text-grey-darken-1 mt-2 mb-0 fs-14 font-weight-medium">
-                            {{ site.description }}
+                            {{ truncateText(site.description, 60) }}
                         </p>
                     </v-card-text>
                 </v-card>
@@ -95,6 +96,15 @@ const getStatusColor = (status) => {
         case 'Active': return 'info';
         default: return 'grey';
     }
+};
+
+const truncateText = (text, limit) => {
+    if (!text) return '';
+    const words = text.split(' ');
+    if (words.length > limit) {
+        return words.slice(0, limit).join(' ') + '...';
+    }
+    return text;
 };
 </script>
 

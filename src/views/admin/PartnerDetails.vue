@@ -106,7 +106,8 @@
                       :lazy-src="getImage(item.banner_image, 'uploads/banner/')"></v-img>
                   </v-avatar>
                   <div>
-                    <div class="text-subtitle-2 font-weight-bold">{{ item.title }}</div>
+                    <div class="text-subtitle-2 font-weight-bold text-truncate" style="max-width: 400px;">{{
+                      item.title }}</div>
                     <div class="text-caption text-grey">{{ item.sub_title }}</div>
                   </div>
                 </div>

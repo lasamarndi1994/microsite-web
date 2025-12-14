@@ -104,7 +104,12 @@
                                     </v-avatar>
 
                                     <div class="cursor-pointer" @click="navigateToProfile(item.user.slug, item.slug)">
-                                        <div class="text-subtitle-2 font-weight-bold">{{ item.title }}</div>
+                                        <div class="text-subtitle-2 font-weight-bold text-truncate"
+                                            style="max-width: 350px;">
+                                            {{
+                                                item.title }}
+
+                                        </div>
                                         <div class="text-caption text-grey">{{ item.sub_title }}</div>
                                     </div>
                                 </div>
