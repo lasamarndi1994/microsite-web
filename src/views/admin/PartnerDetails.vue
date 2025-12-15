@@ -17,7 +17,6 @@
           </v-btn>
         </div>
       </div>
-
       <!-- Partner Info Card -->
       <v-card flat class="bg-purple-lighten-5 mb-8 rounded-lg pa-6">
         <div class="d-flex flex-column flex-sm-row align-center justify-space-between ga-4">
@@ -97,8 +96,30 @@
               <th class="text-right text-caption text-grey">Action</th>
             </tr>
           </thead>
+
           <tbody>
-            <tr v-for="(item, index) in microsites" :key="index">
+            <tr v-if="loading" v-for="n in 2" :key="'skeleton-' + n">
+              <td class="py-4">
+                <div class="d-flex align-center">
+                  <v-skeleton-loader type="avatar" size="40" class="mr-4"></v-skeleton-loader>
+                  <div>
+                    <v-skeleton-loader type="text" width="150" class="mb-1"></v-skeleton-loader>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <v-skeleton-loader type="text" width="120"></v-skeleton-loader>
+              </td>
+            </tr>
+            <tr v-if="!loading && microsites.length === 0">
+              <td colspan="4" class="text-center py-8">
+                <div class="d-flex flex-column align-center justify-center">
+                  <v-icon icon="mdi-magnify-remove-outline" size="48" color="grey-lighten-1 mb-2"></v-icon>
+                  <div class="text-body-1 text-grey-darken-1">Data not found.</div>
+                </div>
+              </td>
+            </tr>
+            <tr v-if="!loading" v-for="(item, index) in microsites" :key="index">
               <td class="py-4">
                 <div class="d-flex align-center">
                   <v-avatar :color="item.iconBg" rounded="lg" size="40" class="mr-4">
@@ -182,8 +203,11 @@ const partnerInfo = ref({});
 
 
 const microsites = ref([]);
+const loading = ref(false);
 
 const fetchPartnerDetails = async () => {
+  loading.value = true;
+
   try {
     const uuid = route.params.id;
     const params = {
@@ -194,21 +218,14 @@ const fetchPartnerDetails = async () => {
     const response = await api.get(`admin/users/${uuid}/microsites`, { params });
 
     if (response.data.status) {
-      const userData = response.data.user;
-      const micrositesData = response.data.data;
-
-      // Map User Info
-      if (userData) {
-        partnerInfo.value = userData;
-      }
-
-      // Map Microsites
-      if (micrositesData.length > 0) {
-        microsites.value = micrositesData;
-      }
+      loading.value = false;
+      partnerInfo.value = response.data.user;
+      microsites.value = response.data.data;
     }
   } catch (error) {
     console.error("Error fetching partner details:", error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -223,7 +240,7 @@ watch(selectedFilter, () => {
 
 watch(search, debounce(() => {
   fetchPartnerDetails();
-}, 500));
+}, 100));
 
 const selectFilter = (value) => {
   selectedFilter.value = value;

@@ -39,7 +39,7 @@
                 lazy-src="getImage(microsite?.avatar_icon, 'uploads/avatar/')" cover></v-img>
             </v-avatar>
             <div class="text-h6 font-weight-bold text-grey-darken-3 d-flex align-center">
-              Code: {{ microsite?.user.user_code }}
+              Code: {{ microsite?.user.user_code || 'N/A' }}
               <v-icon icon="mdi-check-decagram" color="blue" size="small" class="ml-2">
 
               </v-icon>
@@ -110,9 +110,6 @@
           </v-img>
         </v-card>
       </div>
-
-
-
       <v-divider class="my-8"></v-divider>
 
       <!-- Services Section -->
@@ -121,7 +118,6 @@
           <v-icon icon="mdi-briefcase-outline" size="20" class="mr-2"></v-icon>
           Services
         </h2>
-
         <div class="d-flex flex-wrap gap-3" v-if="microsite?.services.length > 0">
           <v-chip v-for="service in microsite.services" :key="service" color="deep-purple-accent-2"
             class="text-white px-4" size="large">

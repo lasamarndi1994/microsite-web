@@ -215,25 +215,11 @@ onMounted(() => {
     fetchUsers();
 });
 
-const selectFilter = (value) => {
-    selectedFilter.value = value;
-    const filter = filterOptions.value.find(f => f.value === value);
-    selectedFilterLabel.value = filter ? filter.label : null;
-
-};
-
-const clearFilter = () => {
-    selectedFilter.value = null;
-    selectedFilterLabel.value = null;
-};
-
 const viewPartner = (partner) => {
     router.push({ name: 'PartnerDetails', params: { id: partner.uuid } });
 };
 
-const getStatusColor = (status) => {
-    return status === 'Accepted' ? 'green-lighten-4 text-green-darken-4' : 'orange-lighten-4 text-orange-darken-4';
-};
+
 
 const getAvatarColor = (name) => {
     const colors = [
