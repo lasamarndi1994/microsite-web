@@ -198,7 +198,7 @@
       <!-- Note -->
       <div class="d-flex justify-center gap-4 mt-3">
         <p :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Once {{ microsite?.status === 'Approved' ? 'Approved'
-          : 'Rejected' }}, microsite will be live with seconds
+          : 'Rejected' }}, microsite will be live within seconds
         </p>
       </div>
     </v-card>
