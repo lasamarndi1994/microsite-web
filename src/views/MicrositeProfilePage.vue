@@ -475,6 +475,12 @@ useHead({
 
 .social-icon {
     font-size: 30px;
+    transition: border-radius 0.3s ease, transform 0.2s ease;
+}
+
+.social-icon:hover {
+    border-radius: 50% !important;
+    transform: translateY(-2px);
 }
 
 a {
