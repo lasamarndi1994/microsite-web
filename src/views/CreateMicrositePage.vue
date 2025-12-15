@@ -511,7 +511,7 @@ const handlePreview = () => {
 }
 
 const handleSaveAndUpdate = async (status = 'Pending') => {
-    if (limitCount.value >= 100) {
+    if (limitCount.value >= 3) {
         showLimitDialog.value = true;
         return;
     }
@@ -693,7 +693,7 @@ const fetchAuthUser = async () => {
 
         limitCount.value = user.microsite_count;
 
-        if (limitCount.value >= 100) {
+        if (limitCount.value >= 3) {
             showLimitDialog.value = true;
         }
 
