@@ -150,12 +150,20 @@
                   :color="item.status == 'Pending' ? undefined : 'primary'" height="34"
                   @click="reviewMicrosite(item)">{{
                     item.status == 'Pending' ? 'Review' : 'View' }}</v-btn>
+                <v-btn v-if="item.status === 'Approved'" icon="mdi-content-copy" variant="text" color="grey"
+                  size="small" class="ml-2" @click="copyLink(item)">
+                  <v-icon>mdi-content-copy</v-icon>
+                  <v-tooltip activator="parent" location="bottom">Copy Link</v-tooltip>
+                </v-btn>
               </td>
             </tr>
           </tbody>
         </v-table>
       </v-card>
     </v-card>
+    <v-snackbar v-model="snackbar" :timeout="2000" color="success" location="bottom center">
+      {{ snackbarText }}
+    </v-snackbar>
   </app-layout>
 </template>
 
@@ -167,6 +175,9 @@ import { formatDate, getImage } from '@/utils/helpers';
 
 const router = useRouter();
 const route = useRoute();
+
+const snackbar = ref(false);
+const snackbarText = ref('');
 
 const search = ref('');
 const selectedFilter = ref(null);
@@ -269,6 +280,19 @@ const goBack = () => {
 
 const reviewMicrosite = (microsite) => {
   router.push({ name: 'MicrositeReview', params: { id: partnerInfo.value.uuid, uuid: microsite.uuid } });
+};
+
+const copyLink = (microsite) => {
+  const url = `${window.location.origin}/${partnerInfo.value.user_slug}/${microsite.slug}`;
+  navigator.clipboard.writeText(url).then(() => {
+    snackbarText.value = "Successfully copied URL";
+    snackbar.value = true;
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+    snackbarText.value = "Failed to copy URL";
+    snackbar.value = true;
+  });
+
 };
 
 const getStatusColor = (status) => {

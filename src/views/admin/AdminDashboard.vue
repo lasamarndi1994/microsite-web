@@ -53,7 +53,7 @@
                                 <th class="text-left text-caption text-grey">Partner</th>
                                 <th class="text-left text-caption text-grey">Mobile no</th>
                                 <th class="text-left text-caption text-grey">Last update</th>
-                                <th class="text-left text-caption text-grey">Microsite</th>
+                                <th class="text-left text-caption text-grey">Microsite Count</th>
                                 <th class="text-right text-caption text-grey"></th>
                             </tr>
                         </thead>
@@ -72,7 +72,7 @@
                                     <div class="d-flex align-center">
                                         <v-avatar size="40" class="mr-4" :color="getAvatarColor(item.user_name)">
                                             <span class="text-h6 text-white">{{ item.user_name?.charAt(0).toUpperCase()
-                                            }}</span>
+                                                }}</span>
                                         </v-avatar>
                                         <div>
                                             <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
@@ -83,8 +83,23 @@
                                 <td class="text-body-2 text-grey-darken-1">{{ item.mobile_number }}</td>
                                 <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
                                 <td>
-                                    <v-chip color="primary" size="small" variant="flat" class="px-2">
-                                        <span class="text-capitalize">{{ item.microsite_count }}</span>
+                                    <v-chip color="success" size="small" variant="flat" class="px-2 ml-2">
+                                        <span class="text-capitalize">{{ item.microsite_approved_count }}</span>
+                                        <v-tooltip activator="parent" location="bottom">
+                                            <span>Microsite Approved</span>
+                                        </v-tooltip>
+                                    </v-chip>
+                                    <v-chip color="error" size="small" variant="flat" class="px-2 ml-2">
+                                        <span class="text-capitalize">{{ item.microsite_rejected_count }}</span>
+                                        <v-tooltip activator="parent" location="bottom">
+                                            <span>Microsite Rejected</span>
+                                        </v-tooltip>
+                                    </v-chip>
+                                    <v-chip color="warning" size="small" variant="flat" class="px-2 ml-2">
+                                        <span class="text-capitalize">{{ item.microsite_pending_count }}</span>
+                                        <v-tooltip activator="parent" location="bottom">
+                                            <span>Microsite Pending</span>
+                                        </v-tooltip>
                                     </v-chip>
                                 </td>
                                 <td class="text-right">
