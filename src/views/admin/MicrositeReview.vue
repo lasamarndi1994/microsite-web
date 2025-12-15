@@ -39,7 +39,7 @@
                 lazy-src="getImage(microsite?.avatar_icon, 'uploads/avatar/')" cover></v-img>
             </v-avatar>
             <div class="text-h6 font-weight-bold text-grey-darken-3 d-flex align-center">
-              Code: ABCD2
+              Code: {{ microsite?.user.user_code }}
               <v-icon icon="mdi-check-decagram" color="blue" size="small" class="ml-2">
 
               </v-icon>
@@ -65,7 +65,8 @@
           <v-col cols="12" md="6">
             <div class="text-box-style">
               <div class="text-caption text-grey-darken-1 mb-0">Subtitle</div>
-              <div class="text-body-1 text-grey-darken-3">{{ microsite?.subtitle ? microsite?.subtitle : 'N/A' }}</div>
+              <div class="text-body-1 text-grey-darken-3">{{ microsite?.sub_title ? microsite?.sub_title : 'N/A' }}
+              </div>
             </div>
           </v-col>
           <v-col cols="12" md="4">
