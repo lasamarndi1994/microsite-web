@@ -173,7 +173,8 @@
                                 <div class="d-flex flex-column align-center text-center">
                                     <!-- Simple icon mapping or default -->
                                     <v-btn :color="getSocialColor(social.name)" size="x-large" variant="text"
-                                        class="mb-2 social-icon" :href="social.url" target="_blank">
+                                        class="mb-2 social-icon rounded-lg" :href="social.url" target="_blank"
+                                        style="min-width: 52px; width: 52px; padding: 0;">
                                         <div :style="{
                                             width: '30px',
                                             height: '30px',

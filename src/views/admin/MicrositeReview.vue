@@ -222,8 +222,7 @@ const { value: adminComments, errorMessage: adminCommentsError } = useField('adm
 
 const microsite = ref(null);
 const loading = ref(false);
-const socialLinks = ref([]);
-const services = ref([]);
+
 const router = useRouter();
 const route = useRoute();
 
