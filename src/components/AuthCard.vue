@@ -1,6 +1,6 @@
 <template>
   <v-card :elevation="$vuetify.display.smAndDown ? 0 : elevation" class="mx-auto my-2 auth-card"
-    :class="$vuetify.display.smAndDown ? 'pa-4 bg-transparent' : 'pa-16'">
+    :class="$vuetify.display.smAndDown ? 'pa-4 bg-transparent' : 'pa-14'">
     <slot></slot>
   </v-card>
 </template>
