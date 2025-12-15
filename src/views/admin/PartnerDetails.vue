@@ -40,7 +40,11 @@
             </div>
           </div>
           <v-chip :color="getStatusColor('Action Required')" size="default" variant="flat" class="px-4 flex-shrink-0">
-            <span class="text-capitalize font-weight-medium">Action Required</span>
+            <span class="text-capitalize font-weight-medium"> Action Required -</span>
+
+          </v-chip>
+          <v-chip :color="getStatusColor('Pending')" size="default" variant="flat" class="px-4 flex-shrink-0">
+            <span class="text-capitalize font-weight-medium"> {{ getActionCount() }} </span>
           </v-chip>
         </div>
       </v-card>
@@ -199,12 +203,15 @@ const filterOptions = ref([
 ]);
 
 const partnerInfo = ref({});
-
-
-
+const totalApprovedCount = ref(0);
+const totalMicrositesCount = ref(0);
 const microsites = ref([]);
 const loading = ref(false);
 
+const getActionCount = () => {
+  if (totalMicrositesCount.value - totalApprovedCount.value < 0) return 0;
+  return totalMicrositesCount.value - totalApprovedCount.value;
+}
 const fetchPartnerDetails = async () => {
   loading.value = true;
 
@@ -221,6 +228,8 @@ const fetchPartnerDetails = async () => {
       loading.value = false;
       partnerInfo.value = response.data.user;
       microsites.value = response.data.data;
+      totalApprovedCount.value = response.data.approved_count;
+      totalMicrositesCount.value = response.data.count;
     }
   } catch (error) {
     console.error("Error fetching partner details:", error);
@@ -240,7 +249,7 @@ watch(selectedFilter, () => {
 
 watch(search, debounce(() => {
   fetchPartnerDetails();
-}, 100));
+}, 200));
 
 const selectFilter = (value) => {
   selectedFilter.value = value;

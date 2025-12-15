@@ -31,12 +31,12 @@
                         <v-col cols="12" sm="12" class="d-flex justify-end">
                             <div class="d-flex align-center">
                                 <v-text-field v-model="fromDate" type="date" variant="outlined" density="comfortable"
-                                    hide-details bg-color="white" class="date-input"
-                                    placeholder="DD/MM/YYYY"></v-text-field>
+                                    hide-details bg-color="white" class="date-input" placeholder="DD/MM/YYYY"
+                                    label="From Date"></v-text-field>
                                 <span class="text-grey-darken-1 mx-2">to</span>
                                 <v-text-field v-model="toDate" type="date" variant="outlined" density="comfortable"
-                                    hide-details bg-color="white" class="date-input"
-                                    placeholder="DD/MM/YYYY"></v-text-field>
+                                    hide-details bg-color="white" class="date-input" placeholder="DD/MM/YYYY"
+                                    label="To Date"></v-text-field>
                             </div>
                         </v-col>
 
@@ -72,7 +72,7 @@
                                     <div class="d-flex align-center">
                                         <v-avatar size="40" class="mr-4" :color="getAvatarColor(item.user_name)">
                                             <span class="text-h6 text-white">{{ item.user_name?.charAt(0).toUpperCase()
-                                                }}</span>
+                                            }}</span>
                                         </v-avatar>
                                         <div>
                                             <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
