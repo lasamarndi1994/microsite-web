@@ -203,19 +203,41 @@
                                                     class="d-flex align-center justify-center bg-grey-lighten-4 rounded-s-lg px-2 flex-shrink-0"
                                                     style="height: 58px; width: 56px; border: 1px solid #E0E0E0; border-right: none; cursor: pointer;">
 
-                                                    <v-icon :icon="item.platform.icon" :color="item.platform.color"
-                                                        size="40"></v-icon>
+                                                    <div :style="{
+                                                        width: '40px',
+                                                        height: '40px',
+                                                        overflow: 'hidden',
+                                                        display: 'inline-block'
+                                                    }">
+                                                        <img :src="item.platform.icon" :style="{
+                                                            width: '100%',
+                                                            height: '100%',
+                                                            transform: 'translateY(-100%)',
+                                                            filter: `drop-shadow(0 40px 0 ${item.platform.color})`
+                                                        }" />
+                                                    </div>
                                                 </div>
                                             </template>
                                             <v-list density="compact" class="py-0">
                                                 <v-list-item v-for="social in socialPlatforms" :key="social.name"
                                                     @click="item.platform = social" color="primary">
                                                     <template v-slot:prepend>
-                                                        <v-icon :icon="social.icon" :color="social.color" size="40"
-                                                            class="mr-2"></v-icon>
+                                                        <div :style="{
+                                                            width: '40px',
+                                                            height: '40px',
+                                                            overflow: 'hidden',
+                                                            display: 'inline-block'
+                                                        }" class="mr-2">
+                                                            <img :src="social.icon" :style="{
+                                                                width: '100%',
+                                                                height: '100%',
+                                                                transform: 'translateY(-100%)',
+                                                                filter: `drop-shadow(0 40px 0 ${social.color})`
+                                                            }" />
+                                                        </div>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                        }}</v-list-item-title>
+                                                    }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>

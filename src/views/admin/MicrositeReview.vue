@@ -141,7 +141,19 @@
             <div class="social-link-box">
               <div class="d-flex align-center">
                 <v-avatar color="grey-lighten-4" size="48" rounded="lg" class="mr-3">
-                  <v-icon :icon="getSocialIcon(link.name)" :color="getSocialColor(link.name)" size="24"></v-icon>
+                  <div :style="{
+                    width: '24px',
+                    height: '24px',
+                    overflow: 'hidden',
+                    display: 'inline-block'
+                  }">
+                    <img :src="getSocialIcon(link.name)" :style="{
+                      width: '100%',
+                      height: '100%',
+                      transform: 'translateY(-100%)',
+                      filter: `drop-shadow(0 24px 0 ${getSocialColor(link.name)})`
+                    }" />
+                  </div>
                 </v-avatar>
                 <div class="flex-grow-1">
                   <div class="text-caption text-grey-darken-1 mb-1">{{ link.name }}</div>
