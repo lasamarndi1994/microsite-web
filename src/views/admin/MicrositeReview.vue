@@ -178,7 +178,7 @@
             Reject
           </v-btn>
         </v-col>
-        <v-col cols="12" sm="auto" class="d-flex justify-center">
+        <v-col cols="12" sm="auto" class="d-flex justify-center" v-if="microsite?.status !== 'Approved'">
           <v-btn color="success" class="text-white text-capitalize px-16" height="48" flat rounded="lg"
             @click="approveMicrosite">
             Approve
@@ -188,7 +188,8 @@
 
       <!-- Note -->
       <div class="d-flex justify-center gap-4 mt-3">
-        <p :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Once approved, microsite will be live with seconds
+        <p :class="$vuetify.display.smAndDown ? 'fs-14' : 'fs-16'">Once {{ microsite?.status === 'Approved' ? 'Approved'
+          : 'Rejected' }}, microsite will be live with seconds
         </p>
       </div>
     </v-card>
