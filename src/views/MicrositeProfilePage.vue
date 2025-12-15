@@ -172,9 +172,22 @@
                                 v-for="(social, index) in microsite.social_links" :key="index">
                                 <div class="d-flex flex-column align-center text-center">
                                     <!-- Simple icon mapping or default -->
-                                    <v-btn :icon="getSocialIcon(social.name)" :color="getSocialColor(social.name)"
-                                        size="x-large" variant="text" class="mb-2 social-icon" :href="social.url"
-                                        target="_blank"></v-btn>
+                                    <v-btn :color="getSocialColor(social.name)" size="x-large" variant="text"
+                                        class="mb-2 social-icon" :href="social.url" target="_blank">
+                                        <div :style="{
+                                            width: '30px',
+                                            height: '30px',
+                                            overflow: 'hidden',
+                                            display: 'inline-block'
+                                        }">
+                                            <img :src="getSocialIcon(social.name)" :style="{
+                                                width: '100%',
+                                                height: '100%',
+                                                transform: 'translateY(-100%)',
+                                                filter: `drop-shadow(0 30px 0 ${getSocialColor(social.name)})`
+                                            }" />
+                                        </div>
+                                    </v-btn>
                                     <a :href="social.url" target="_blank"
                                         class="text-caption text-decoration-underline text-grey-darken-3 text-truncate"
                                         style="max-width: 120px;">
