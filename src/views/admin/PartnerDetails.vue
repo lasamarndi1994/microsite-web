@@ -40,7 +40,7 @@
               </div>
             </div>
           </div>
-          <v-chip :color="'warning'" size="default" variant="flat" class="px-4 flex-shrink-0">
+          <v-chip :color="getStatusColor('Action Required')" size="default" variant="flat" class="px-4 flex-shrink-0">
             <span class="text-capitalize font-weight-medium">Action Required</span>
           </v-chip>
         </div>
@@ -129,7 +129,6 @@
             </tr>
           </tbody>
         </v-table>
-
       </v-card>
     </v-card>
   </app-layout>
