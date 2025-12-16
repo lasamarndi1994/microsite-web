@@ -225,7 +225,6 @@ const getActionCount = () => {
 }
 const fetchPartnerDetails = async () => {
   loading.value = true;
-
   try {
     const uuid = route.params.id;
     const params = {
