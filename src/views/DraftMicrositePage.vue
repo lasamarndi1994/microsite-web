@@ -42,27 +42,9 @@
                     </thead>
                     <tbody>
                         <template v-if="loading">
-                            <tr v-for="n in 5" :key="n">
-                                <td class="py-4 pl-6">
-                                    <div class="d-flex align-center">
-                                        <v-skeleton-loader type="avatar" width="40" height="40"
-                                            class="mr-4 ma-0"></v-skeleton-loader>
-                                        <div class="w-100">
-                                            <v-skeleton-loader type="text" width="60%" class="ma-0 ml-2"
-                                                height="14"></v-skeleton-loader>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <v-skeleton-loader type="text" width="100" class="ma-0"></v-skeleton-loader>
-                                </td>
-                                <td class="text-right pr-6">
-                                    <div class="d-flex justify-end">
-                                        <v-skeleton-loader type="chip" width="0" height="0"
-                                            class="ml-2 ma-0"></v-skeleton-loader>
-                                        <v-skeleton-loader type="chip" width="0" height="0"
-                                            class="ml-2 ma-0"></v-skeleton-loader>
-                                    </div>
+                            <tr>
+                                <td colspan="5" class="py-4">
+                                    <v-skeleton-loader type="table-row-divider@3"></v-skeleton-loader>
                                 </td>
                             </tr>
                         </template>

@@ -29,65 +29,67 @@
                     </v-btn>
                 </v-col>
             </v-row>
-
-
-
             <!-- Analytics Section -->
             <h2 class="fs-18 font-weight-bold mb-4">Analytics</h2>
             <v-row class="mb-8">
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-card flat border class="pa-4 rounded-lg card-hover">
                         <div class="d-flex align-center">
                             <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
                                 <img src="@/assets/images/Frame12.svg" alt="Visitors" width="44" height="44" />
                             </v-avatar>
                             <div>
-                                <div class="fs-11 text-grey">Visitors</div>
+                                <div class="fs-11 text-grey">Total Visitors</div>
                                 <div class="fs-21 font-weight-bold">{{ analytics?.total_views || 0 }}</div>
                             </div>
-                            <v-spacer></v-spacer>
-                            <v-chip color="success" size="small" variant="tonal" class="px-2">
-                                +{{ analytics?.total_views / 2 || 0 }}% <v-icon end icon="mdi-arrow-up"
-                                    size="small"></v-icon>
-                            </v-chip>
                         </div>
                     </v-card>
                 </v-col>
 
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-card flat border class="pa-4 rounded-lg card-hover">
                         <div class="d-flex align-center">
                             <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
                                 <img src="@/assets/images/Frame54.svg" alt="Engagement" width="44" height="44" />
                             </v-avatar>
                             <div>
-                                <div class="fs-11 text-grey">Engagement</div>
+                                <div class="fs-11 text-grey">Total Engagement</div>
                                 <div class="fs-21 font-weight-bold">{{ analytics?.total_engagement || 0 }}</div>
                             </div>
-                            <v-spacer></v-spacer>
-                            <v-chip color="success" size="small" variant="tonal" class="px-2">
-                                +{{ analytics?.total_engagement / 2 || 0 }}% <v-icon end icon="mdi-arrow-up"
-                                    size="small"></v-icon>
-                            </v-chip>
+
                         </div>
                     </v-card>
                 </v-col>
 
-                <v-col cols="12" md="4">
+                <v-col cols="12" md="3">
                     <v-card flat border class="pa-4 rounded-lg card-hover">
                         <div class="d-flex align-center">
                             <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
                                 <img src="@/assets/images/Frame54(1).svg" alt="Conversions" width="44" height="44" />
                             </v-avatar>
                             <div>
-                                <div class="fs-11 text-grey">Conversions</div>
+                                <div class="fs-11 text-grey">Total Conversions</div>
                                 <div class="fs-21 font-weight-bold">{{ analytics?.total_leads || 0 }}</div>
                             </div>
+                        </div>
+                    </v-card>
+                </v-col>
+
+                <v-col cols="12" md="3">
+                    <v-card flat border class="pa-4 rounded-lg card-hover cursor-pointer"
+                        @click="router.push('/my-microsites')"
+                        style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); border: 1px solid #ce93d8 !important;">
+                        <div class="d-flex align-center">
+                            <v-avatar color="white" rounded="lg" size="46" class="mr-4">
+                                <v-icon size="26" color="purple-darken-2">mdi-web</v-icon>
+                            </v-avatar>
+                            <div>
+                                <div class="fs-11 text-purple-darken-3 font-weight-medium">Your Microsite</div>
+                                <div class="fs-21 font-weight-bold text-purple-darken-4">{{ analytics?.total_leads || 0
+                                    }}</div>
+                            </div>
                             <v-spacer></v-spacer>
-                            <v-chip color="success" size="small" variant="tonal" class="px-2">
-                                + {{ analytics?.total_leads / 2 || 0 }}% <v-icon end icon="mdi-arrow-up"
-                                    size="small"></v-icon>
-                            </v-chip>
+                            <v-icon color="purple-darken-2" icon="mdi-arrow-right"></v-icon>
                         </div>
                     </v-card>
                 </v-col>

@@ -32,6 +32,12 @@ const routes = [
     meta: { requiresAuth: true },
   },
   {
+    path: '/my-microsites',
+    name: 'MyMicrosites',
+    component: () => import('@/views/MyMicrositesPage.vue'),
+    meta: { requiresAuth: true },
+  },
+  {
     path: '/create-microsite',
     name: 'CreateMicrosite',
     component: () => import('@/views/CreateMicrositePage.vue'),

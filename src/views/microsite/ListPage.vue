@@ -57,36 +57,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <template v-if="loading">
-                        <tr v-for="n in 3" :key="n">
-                            <td class="py-4">
-                                <div class="d-flex align-center">
-                                    <v-skeleton-loader type="avatar" width="40" height="40"
-                                        class="mr-4 ma-0"></v-skeleton-loader>
-                                    <div class="w-100">
-                                        <v-skeleton-loader type="text" width="60%" class="ma-0 ml-2"
-                                            height="14"></v-skeleton-loader>
+                    <tr v-if="loading">
+                        <td colspan="5" class="py-4">
+                            <v-skeleton-loader type="table-row-divider@3"></v-skeleton-loader>
+                        </td>
+                    </tr>
 
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <v-skeleton-loader type="text" width="60" height="80" class="ma-0"></v-skeleton-loader>
-                            </td>
-                            <td>
-                                <v-skeleton-loader type="text" width="100" class="ma-0"></v-skeleton-loader>
-                            </td>
-                            <td class="text-center">
-                                <div class="d-flex justify-center">
-                                    <v-skeleton-loader type="chip" width="0" height="0"
-                                        class="ml-2 ma-0"></v-skeleton-loader>
-                                    <v-skeleton-loader type="chip" width="0" height="0"
-                                        class="ml-2 ma-0"></v-skeleton-loader>
-
-                                </div>
-                            </td>
-                        </tr>
-                    </template>
                     <template v-else>
 
                         <tr v-for="(item, index) in localMicrosites" :key="index">
@@ -121,7 +97,7 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                            }}
+                                }}
                             </td>
                             <td class="text-right">
 
