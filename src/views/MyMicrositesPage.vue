@@ -133,7 +133,7 @@
                                 <td class="text-caption">{{ lead.email }}</td>
                                 <td class="text-caption">{{ lead.mobile_number }}</td>
                                 <td class="text-caption">{{ formatDate(lead.created_at) }}</td>
-                                <td class="text-caption">{{ lead.lead_message }}</td>
+                                <td class="text-caption">{{ lead.lead_message || 'N/A' }}</td>
                             </tr>
                         </tbody>
                     </v-table>
