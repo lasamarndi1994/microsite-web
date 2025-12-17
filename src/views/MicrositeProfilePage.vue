@@ -374,9 +374,7 @@ const handleJoin = async () => {
                 microsite_id: microsite.value.id,
                 user_id: microsite.value.user_id
             }
-
             const response = await api.post('/lead/create', payload)
-
             if (response.data && response.data.status) {
                 showJoinDialog.value = false
                 successMessage.value = response.data.message || 'Joined successfully!'

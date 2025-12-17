@@ -72,7 +72,7 @@
                                     <div class="d-flex align-center">
                                         <v-avatar size="40" class="mr-4" :color="getAvatarColor(item.user_name)">
                                             <span class="text-h6 text-white">{{ item.user_name?.charAt(0).toUpperCase()
-                                                }}</span>
+                                            }}</span>
                                         </v-avatar>
                                         <div>
                                             <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
