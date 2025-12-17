@@ -43,7 +43,7 @@
                                     <td class="py-4">
                                         <div class="d-flex align-center">
                                             <v-avatar size="40" class="mr-4" rounded="lg">
-                                                <v-img :src="getImage(item.banner_image, 'uploads/banner_image/')"
+                                                <v-img :src="getImage(item.banner_image, 'uploads/banner/')"
                                                     cover></v-img>
                                             </v-avatar>
                                             <div>
@@ -110,45 +110,19 @@
 
                                 <tr v-if="expandedMicrosite === item.uuid" class="bg-grey-lighten-5">
                                     <td colspan="5" class="pa-4">
-                                        <div v-if="leadsLoading" class="d-flex justify-center py-4">
-                                            <v-progress-circular indeterminate color="primary"></v-progress-circular>
-                                        </div>
-                                        <div v-else-if="!leads[item.id] || leads[item.id].length === 0"
-                                            class="text-center text-grey py-4">
-                                            No leads found.
-                                        </div>
-                                        <v-table v-else density="compact" class="bg-transparent">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-caption font-weight-bold">Name</th>
-                                                    <th class="text-caption font-weight-bold">Email</th>
-                                                    <th class="text-caption font-weight-bold">Mobile</th>
-                                                    <th class="text-caption font-weight-bold">Date</th>
-                                                    <th class="text-caption font-weight-bold">Response</th>
-                                                </tr>
-                                            </thead>
-                        <tbody>
-                            <tr v-for="(lead, lIndex) in leads[item.id]" :key="lIndex">
-                                <td class="text-caption">{{ lead.name }}</td>
-                                <td class="text-caption">{{ lead.email }}</td>
-                                <td class="text-caption">{{ lead.mobile_number }}</td>
-                                <td class="text-caption">{{ formatDate(lead.created_at) }}</td>
-                                <td class="text-caption">{{ lead.lead_message || 'N/A' }}</td>
-                            </tr>
+                                        <LeadDetails :leads="leads[item.id]" :loading="leadsLoading" />
+                                    </td>
+                                </tr>
+                            </template>
                         </tbody>
                     </v-table>
-                    </td>
-                    </tr>
-</template>
-</tbody>
-</v-table>
-</div>
-</v-card>
-</v-card>
-<v-snackbar v-model="snackbar.show" :color="snackbar.color" :timeout="3000" location="bottom center">
-    {{ snackbar.text }}
-</v-snackbar>
-</app-layout>
+                </div>
+            </v-card>
+        </v-card>
+        <v-snackbar v-model="snackbar.show" :color="snackbar.color" :timeout="3000" location="bottom center">
+            {{ snackbar.text }}
+        </v-snackbar>
+    </app-layout>
 </template>
 
 <script setup>
@@ -156,6 +130,7 @@ import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import api from "@/api";
 import { getImage, formatDate } from '@/utils/helpers';
+import LeadDetails from '@/components/LeadDetails.vue';
 
 const router = useRouter();
 const microsites = ref([]);
@@ -239,7 +214,6 @@ const copyToClipboard = (userSlug, slug) => {
             color: 'success'
         };
     }).catch(err => {
-        console.error('Failed to copy: ', err);
         snackbar.value = {
             show: true,
             text: 'Failed to copy link',
@@ -248,7 +222,6 @@ const copyToClipboard = (userSlug, slug) => {
     });
 };
 
-import { useAuthStore } from '@/stores/authStore';
 
 onMounted(() => {
     fetchMicrosites();

@@ -84,9 +84,8 @@
                                 <v-icon size="26" color="purple-darken-2">mdi-web</v-icon>
                             </v-avatar>
                             <div>
-                                <div class="fs-11 text-purple-darken-3 font-weight-medium">Your Microsite</div>
-                                <div class="fs-21 font-weight-bold text-purple-darken-4">{{ analytics?.total_leads || 0
-                                    }}</div>
+                                <div class="fs-11 text-purple-darken-3 font-weight-medium">View Your</div>
+                                <div class="fs-21 font-weight-bold text-purple-darken-4">Leads</div>
                             </div>
                             <v-spacer></v-spacer>
                             <v-icon color="purple-darken-2" icon="mdi-arrow-right"></v-icon>
