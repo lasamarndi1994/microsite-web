@@ -25,7 +25,7 @@
                     <v-card-text class="pa-4">
                         <div class="d-flex align-center justify-space-between">
                             <h3 class="fs-22 font-weight-bold hover-text-primary transition-colors ">{{
-                                truncateText(site.title, 12) }}
+                                truncateText(site.title, 6) }}
                             </h3>
                             <v-btn icon variant="text" size="small" @click.stop="copyUrl(site)" color="grey-darken-1">
                                 <v-icon size="20" class="hover-text-primary transition-colors">mdi-content-copy</v-icon>
@@ -33,7 +33,7 @@
                             </v-btn>
                         </div>
                         <p class="text-caption text-grey-darken-1 mt-2 mb-0 fs-14 font-weight-medium">
-                            {{ truncateText(site.description, 60) }}
+                            {{ truncateText(site.description, 30) }}
                         </p>
                     </v-card-text>
                 </v-card>
