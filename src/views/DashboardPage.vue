@@ -108,9 +108,9 @@
                     <v-col cols="6" sm="auto">
                         <v-btn class="text-capitalize px-md-6 px-3 text-body-2 text-sm-body-1 ms-sm-3 ms-0 mobile-hover"
                             variant="flat" rounded="lg" height="44" width="200"
-                            :class="activeTab === 'pending' ? 'btn-primary text-white' : ''"
-                            @click="updateActiveTab('pending')">
-                            Pending Microsites
+                            :class="activeTab === 'all' ? 'btn-primary text-white' : ''"
+                            @click="updateActiveTab('all')">
+                            All Microsites
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -187,7 +187,7 @@ const fetchMicrosites = async (status = null) => {
 };
 
 const handleFilterChange = (status) => {
-    // Assuming status values from filter match API expected values (active, pending, rejected)
+    // Assuming status values from filter match API expected values (active, all, rejected)
     // Capitalize if API expects capitalized status, or pass as is if API handles it.
     const formattedStatus = status ? status.charAt(0).toUpperCase() + status.slice(1) : null;
     fetchMicrosites(formattedStatus);
@@ -206,7 +206,7 @@ const updateActiveTab = (tab) => {
     router.replace({ query: { ...route.query, tab } });
     if (tab === 'my-microsites') {
         fetchMicrosites('Approved');
-    } else if (tab === 'pending') {
+    } else if (tab === 'all') {
         fetchMicrosites();
     }
 };
@@ -214,12 +214,12 @@ const updateActiveTab = (tab) => {
 onMounted(() => {
 
     const tab = route.query.tab;
-    if (tab && (tab === 'my-microsites' || tab === 'pending')) {
+    if (tab && (tab === 'my-microsites' || tab === 'all')) {
         activeTab.value = tab;
     }
 
-    if (activeTab.value === 'pending') {
-        fetchMicrosites('Pending');
+    if (activeTab.value === 'all') {
+        fetchMicrosites();
     } else {
         fetchMicrosites('Approved');
     }
