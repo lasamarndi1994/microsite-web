@@ -237,7 +237,7 @@
                                                         </div>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                    }}</v-list-item-title>
+                                                        }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
@@ -314,8 +314,6 @@ const { value: title, errorMessage: titleError } = useField('title', 'required')
 const { value: subTitle, errorMessage: subTitleError } = useField('subTitle') // Optional
 const { value: fullName, errorMessage: fullNameError, resetField: resetFullName } = useField('fullName', (value) => {
     if (!value) return 'Full Name is required';
-    const regex = /^[a-zA-Z\s]+$/;
-    if (!regex.test(value)) return 'Special characters are not allowed';
     return true;
 })
 const { value: businessName, errorMessage: businessNameError, resetField: resetBusinessName } = useField('businessName', (value) => {

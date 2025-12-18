@@ -29,7 +29,7 @@
                                     <v-skeleton-loader type="table-row-divider@3"></v-skeleton-loader>
                                 </td>
                             </tr>
-                            <tr v-if="!isLoading && microsites.length === 0">
+                            <tr v-if="!isLoading && filteredMicrosites.length === 0">
                                 <td colspan="5" class="text-center py-8">
                                     <div class="d-flex flex-column align-center justify-center">
                                         <v-icon icon="mdi-magnify-remove-outline" size="48"
@@ -53,6 +53,7 @@
                                                     style="max-width: 300px;">
                                                     {{ item.subtitle }}</div>
                                             </div>
+                                        </div>
                                     </td>
 
                                     <td>
@@ -61,8 +62,7 @@
                                             <span class="text-capitalize">{{ item.status }}</span>
                                         </v-chip>
                                     </td>
-                                    <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}
-                                    </td>
+                                    <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
                                     <td>
                                         <div class="d-flex align-center">
                                             <v-chip color="blue-lighten-5" class="text-blue-darken-2 mr-2" size="small"
@@ -126,7 +126,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import api from "@/api";
 import { getImage, formatDate } from '@/utils/helpers';
@@ -145,11 +145,7 @@ const snackbar = ref({
 const fetchMicrosites = async () => {
     isLoading.value = true;
     try {
-        const params = {};
-        if (searchQuery.value) {
-            params.search = searchQuery.value;
-        }
-        const response = await api.get("/microsite/approved", { params });
+        const response = await api.get("/microsite/approved");
         microsites.value = response.data.data || [];
     } catch (error) {
         console.error('Error fetching microsites:', error);
@@ -158,12 +154,15 @@ const fetchMicrosites = async () => {
     }
 };
 
-let searchTimeout;
-watch(searchQuery, () => {
-    clearTimeout(searchTimeout);
-    searchTimeout = setTimeout(() => {
-        fetchMicrosites();
-    }, 500);
+const filteredMicrosites = computed(() => {
+    if (!searchQuery.value) {
+        return microsites.value;
+    }
+    const query = searchQuery.value.toLowerCase();
+    return microsites.value.filter(item =>
+        item.title.toLowerCase().includes(query) ||
+        (item.subtitle && item.subtitle.toLowerCase().includes(query))
+    );
 });
 
 const getStatusColor = (status) => {
