@@ -75,6 +75,8 @@
                     </v-card>
                 </v-col>
 
+                <!--View lead section-->
+
                 <v-col cols="12" md="3">
                     <v-card flat border class="pa-4 rounded-lg card-hover cursor-pointer"
                         @click="router.push('/my-microsites')"
@@ -88,7 +90,9 @@
                                 <div class="fs-21 font-weight-bold text-purple-darken-4">Leads</div>
                             </div>
                             <v-spacer></v-spacer>
-                            <v-icon color="purple-darken-2" icon="mdi-arrow-right"></v-icon>
+                            <v-icon color="purple-darken-2" icon="mdi-chevron-double-right" class="blink-icon">
+                                <v-tooltip activator="parent" location="top">View Leads</v-tooltip>
+                            </v-icon>
                         </div>
                     </v-card>
                 </v-col>
@@ -260,5 +264,23 @@ const refresh = (uuid) => {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
     border-color: var(--primary-color) !important;
+}
+
+.blink-icon {
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 </style>
