@@ -58,63 +58,72 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-if="!loading && partners.length === 0">
-                                <td colspan="5" class="text-center py-8">
-                                    <div class="d-flex flex-column align-center justify-center">
-                                        <v-icon icon="mdi-magnify-remove-outline" size="48"
-                                            color="grey-lighten-1 mb-2"></v-icon>
-                                        <div class="text-body-1 text-grey-darken-1">Data not found.</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr v-for="(item, index) in partners" :key="index">
-                                <td class="py-4">
-                                    <div class="d-flex align-center">
-                                        <v-avatar size="40" class="mr-4" :color="getAvatarColor(item.user_name)">
-                                            <span class="text-h6 text-white">{{ item.user_name?.charAt(0).toUpperCase()
-                                            }}</span>
-                                        </v-avatar>
-                                        <div>
-                                            <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
-                                            <div class="text-caption text-grey">{{ item.email }}</div>
+                            <template v-if="loading">
+                                <tr>
+                                    <v-skeleton-loader type="table-row-divider@10"></v-skeleton-loader>
+                                </tr>
+                            </template>
+                            <template v-else>
+                                <tr v-if="partners.length === 0">
+                                    <td colspan="5" class="text-center py-8">
+                                        <div class="d-flex flex-column align-center justify-center">
+                                            <v-icon icon="mdi-magnify-remove-outline" size="48"
+                                                color="grey-lighten-1 mb-2"></v-icon>
+                                            <div class="text-body-1 text-grey-darken-1">Data not found.</div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td class="text-body-2 text-grey-darken-1">{{ item.mobile_number }}</td>
-                                <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
-                                <td>
-                                    <div class="d-flex align-center">
-                                        <v-chip color="green-lighten-5" class="text-green-darken-2 mr-2" size="small"
-                                            label>
-                                            <v-icon start icon="mdi-check-circle" size="14"></v-icon>
-                                            {{ item.microsite_approved_count }}
-                                            <v-tooltip activator="parent" location="bottom">
-                                                Microsite Approved
-                                            </v-tooltip>
-                                        </v-chip>
-                                        <v-chip color="red-lighten-5" class="text-red-darken-2 mr-2" size="small" label>
-                                            <v-icon start icon="mdi-close-circle" size="14"></v-icon>
-                                            {{ item.microsite_rejected_count }}
-                                            <v-tooltip activator="parent" location="bottom">
-                                                Microsite Rejected
-                                            </v-tooltip>
-                                        </v-chip>
-                                        <v-chip color="orange-lighten-5" class="text-orange-darken-2" size="small"
-                                            label>
-                                            <v-icon start icon="mdi-clock-outline" size="14"></v-icon>
-                                            {{ item.microsite_pending_count }}
-                                            <v-tooltip activator="parent" location="bottom">
-                                                Microsite Pending
-                                            </v-tooltip>
-                                        </v-chip>
-                                    </div>
-                                </td>
-                                <td class="text-right">
-                                    <v-btn variant="text" color="grey" size="large" @click="viewPartner(item)"
-                                        class="fs-14 fw-500 text-secondary-color text-decoration-underline"
-                                        style="text-transform: none;">View</v-btn>
-                                </td>
-                            </tr>
+                                    </td>
+                                </tr>
+                                <tr v-for="(item, index) in partners" :key="index">
+                                    <td class="py-4">
+                                        <div class="d-flex align-center">
+                                            <v-avatar size="40" class="mr-4" :color="getAvatarColor(item.user_name)">
+                                                <span class="text-h6 text-white">{{
+                                                    item.user_name?.charAt(0).toUpperCase()
+                                                    }}</span>
+                                            </v-avatar>
+                                            <div>
+                                                <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
+                                                <div class="text-caption text-grey">{{ item.email }}</div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="text-body-2 text-grey-darken-1">{{ item.mobile_number }}</td>
+                                    <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
+                                    <td>
+                                        <div class="d-flex align-center">
+                                            <v-chip color="green-lighten-5" class="text-green-darken-2 mr-2"
+                                                size="small" label>
+                                                <v-icon start icon="mdi-check-circle" size="14"></v-icon>
+                                                {{ item.microsite_approved_count }}
+                                                <v-tooltip activator="parent" location="bottom">
+                                                    Microsite Approved
+                                                </v-tooltip>
+                                            </v-chip>
+                                            <v-chip color="red-lighten-5" class="text-red-darken-2 mr-2" size="small"
+                                                label>
+                                                <v-icon start icon="mdi-close-circle" size="14"></v-icon>
+                                                {{ item.microsite_rejected_count }}
+                                                <v-tooltip activator="parent" location="bottom">
+                                                    Microsite Rejected
+                                                </v-tooltip>
+                                            </v-chip>
+                                            <v-chip color="orange-lighten-5" class="text-orange-darken-2" size="small"
+                                                label>
+                                                <v-icon start icon="mdi-clock-outline" size="14"></v-icon>
+                                                {{ item.microsite_pending_count }}
+                                                <v-tooltip activator="parent" location="bottom">
+                                                    Microsite Pending
+                                                </v-tooltip>
+                                            </v-chip>
+                                        </div>
+                                    </td>
+                                    <td class="text-right">
+                                        <v-btn variant="text" color="grey" size="large" @click="viewPartner(item)"
+                                            class="fs-14 fw-500 text-secondary-color text-decoration-underline"
+                                            style="text-transform: none;">View</v-btn>
+                                    </td>
+                                </tr>
+                            </template>
                         </tbody>
                     </v-table>
                 </div>
