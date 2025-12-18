@@ -86,7 +86,7 @@
                                 <v-icon size="26" color="purple-darken-2">mdi-web</v-icon>
                             </v-avatar>
                             <div>
-                                <div class="fs-11 text-purple-darken-3 font-weight-medium">View Your</div>
+                                <div class="fs-10 text-purple-darken-3 font-weight-medium">View Your</div>
                                 <div class="fs-21 font-weight-bold text-purple-darken-4">Leads</div>
                             </div>
                             <v-spacer></v-spacer>
@@ -264,23 +264,5 @@ const refresh = (uuid) => {
     transform: translateY(-5px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
     border-color: var(--primary-color) !important;
-}
-
-.blink-icon {
-    animation: blink 1.5s infinite;
-}
-
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.3;
-    }
-
-    100% {
-        opacity: 1;
-    }
 }
 </style>

@@ -236,22 +236,4 @@ onMounted(() => {
 .table-responsive {
     overflow-x: auto;
 }
-
-.blink-icon {
-    animation: blink 1.5s infinite;
-}
-
-@keyframes blink {
-    0% {
-        opacity: 1;
-    }
-
-    50% {
-        opacity: 0.3;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
 </style>
