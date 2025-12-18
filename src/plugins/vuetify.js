@@ -1,4 +1,4 @@
-import { createVuetify } from 'vuetify'; 
+import { createVuetify } from 'vuetify';
 import { aliases, mdi } from 'vuetify/iconsets/mdi';
 import 'vuetify/styles';
 
@@ -14,7 +14,7 @@ const vuetify = createVuetify({
     sets: { mdi },
   },
   theme: {
-    defaultTheme: 'light', 
+    defaultTheme: 'light',
   },
 });
 

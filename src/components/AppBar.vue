@@ -1,7 +1,7 @@
 <template>
     <v-app-bar flat color="white" class="border-b">
         <v-container class="d-flex align-center py-0">
-            <img src="@/assets/images/logo.svg" alt="logo"
+            <img src="@/assets/images/logo.svg" alt="logo" width="162" height="27"
                 :style="(store.isAuthenticated || store.isAdminAuthenticated) ? 'cursor: pointer;' : ''"
                 @click="navigateToHome">
             <v-spacer></v-spacer>
