@@ -207,7 +207,7 @@ const updateActiveTab = (tab) => {
     if (tab === 'my-microsites') {
         fetchMicrosites('Approved');
     } else if (tab === 'pending') {
-        fetchMicrosites('Pending');
+        fetchMicrosites();
     }
 };
 

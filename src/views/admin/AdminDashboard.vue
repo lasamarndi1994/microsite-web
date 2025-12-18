@@ -22,9 +22,9 @@
             <!-- Filters Section -->
             <v-row class="mb-6">
                 <v-col cols="12" md="6">
-                    <v-text-field v-model="search" placeholder="Search" prepend-inner-icon="mdi-magnify"
-                        variant="outlined" density="comfortable" hide-details bg-color="white"
-                        class="rounded-lg"></v-text-field>
+                    <v-text-field v-model="search" placeholder="Search by email and mobile number"
+                        prepend-inner-icon="mdi-magnify" variant="outlined" density="comfortable" hide-details
+                        bg-color="white" class="rounded-lg" clearable></v-text-field>
                 </v-col>
                 <v-col cols="12" md="6">
                     <v-row align="center" class="flex-wrap">
@@ -32,11 +32,11 @@
                             <div class="d-flex align-center">
                                 <v-text-field v-model="fromDate" type="date" variant="outlined" density="comfortable"
                                     hide-details bg-color="white" class="date-input" placeholder="DD/MM/YYYY"
-                                    label="From Date"></v-text-field>
+                                    label="From Date" clearable></v-text-field>
                                 <span class="text-grey-darken-1 mx-2">to</span>
                                 <v-text-field v-model="toDate" type="date" variant="outlined" density="comfortable"
                                     hide-details bg-color="white" class="date-input" placeholder="DD/MM/YYYY"
-                                    label="To Date"></v-text-field>
+                                    label="To Date" clearable></v-text-field>
                             </div>
                         </v-col>
 
@@ -83,24 +83,31 @@
                                 <td class="text-body-2 text-grey-darken-1">{{ item.mobile_number }}</td>
                                 <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
                                 <td>
-                                    <v-chip color="success" size="small" variant="flat" class="px-2 ml-2">
-                                        <span class="text-capitalize">{{ item.microsite_approved_count }}</span>
-                                        <v-tooltip activator="parent" location="bottom">
-                                            <span>Microsite Approved</span>
-                                        </v-tooltip>
-                                    </v-chip>
-                                    <v-chip color="error" size="small" variant="flat" class="px-2 ml-2">
-                                        <span class="text-capitalize">{{ item.microsite_rejected_count }}</span>
-                                        <v-tooltip activator="parent" location="bottom">
-                                            <span>Microsite Rejected</span>
-                                        </v-tooltip>
-                                    </v-chip>
-                                    <v-chip color="warning" size="small" variant="flat" class="px-2 ml-2">
-                                        <span class="text-capitalize">{{ item.microsite_pending_count }}</span>
-                                        <v-tooltip activator="parent" location="bottom">
-                                            <span>Microsite Pending</span>
-                                        </v-tooltip>
-                                    </v-chip>
+                                    <div class="d-flex align-center">
+                                        <v-chip color="green-lighten-5" class="text-green-darken-2 mr-2" size="small"
+                                            label>
+                                            <v-icon start icon="mdi-check-circle" size="14"></v-icon>
+                                            {{ item.microsite_approved_count }}
+                                            <v-tooltip activator="parent" location="bottom">
+                                                Microsite Approved
+                                            </v-tooltip>
+                                        </v-chip>
+                                        <v-chip color="red-lighten-5" class="text-red-darken-2 mr-2" size="small" label>
+                                            <v-icon start icon="mdi-close-circle" size="14"></v-icon>
+                                            {{ item.microsite_rejected_count }}
+                                            <v-tooltip activator="parent" location="bottom">
+                                                Microsite Rejected
+                                            </v-tooltip>
+                                        </v-chip>
+                                        <v-chip color="orange-lighten-5" class="text-orange-darken-2" size="small"
+                                            label>
+                                            <v-icon start icon="mdi-clock-outline" size="14"></v-icon>
+                                            {{ item.microsite_pending_count }}
+                                            <v-tooltip activator="parent" location="bottom">
+                                                Microsite Pending
+                                            </v-tooltip>
+                                        </v-chip>
+                                    </div>
                                 </td>
                                 <td class="text-right">
                                     <v-btn variant="text" color="grey" size="large" @click="viewPartner(item)"
