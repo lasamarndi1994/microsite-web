@@ -87,7 +87,7 @@
                                                 {{ item.lead_count || 0 }}
                                                 <v-icon end
                                                     :icon="expandedMicrosite === item.uuid ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                                                    size="20" class="ml-1 cursor-pointer"
+                                                    size="20" class="ml-1 cursor-pointer blink-icon"
                                                     @click.stop="toggleExpansion(item)"></v-icon>
                                                 <v-tooltip activator="parent" location="bottom">
                                                     No of Leads
@@ -235,5 +235,23 @@ onMounted(() => {
 
 .table-responsive {
     overflow-x: auto;
+}
+
+.blink-icon {
+    animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 1;
+    }
 }
 </style>
