@@ -29,7 +29,7 @@
                                     <v-skeleton-loader type="table-row-divider@3"></v-skeleton-loader>
                                 </td>
                             </tr>
-                            <tr v-if="!isLoading && filteredMicrosites.length === 0">
+                            <tr v-if="!isLoading && microsites.length === 0">
                                 <td colspan="5" class="text-center py-8">
                                     <div class="d-flex flex-column align-center justify-center">
                                         <v-icon icon="mdi-magnify-remove-outline" size="48"
@@ -38,95 +38,98 @@
                                     </div>
                                 </td>
                             </tr>
-                            <template v-for="(item, index) in filteredMicrosites" :key="index">
-                                <tr>
-                                    <td class="py-4">
-                                        <div class="d-flex align-center">
-                                            <v-avatar size="40" class="mr-4" rounded="lg">
-                                                <v-img :src="getImage(item.banner_image, 'uploads/banner_image/')"
-                                                    cover></v-img>
-                                            </v-avatar>
-                                            <div>
-                                                <div class="text-subtitle-2 font-weight-bold text-truncate"
-                                                    style="max-width: 300px;">{{ item.title }}</div>
-                                                <div class="text-caption text-grey text-truncate"
-                                                    style="max-width: 300px;">
-                                                    {{ item.subtitle }}</div>
+                            <template v-if="!isLoading">
+                                <template v-for="(item, index) in microsites" :key="index">
+                                    <tr>
+                                        <td class="py-4">
+                                            <div class="d-flex align-center">
+                                                <v-avatar size="40" class="mr-4" rounded="lg">
+                                                    <v-img :src="getImage(item.banner_image, 'uploads/banner_image/')"
+                                                        cover></v-img>
+                                                </v-avatar>
+                                                <div>
+                                                    <div class="text-subtitle-2 font-weight-bold text-truncate"
+                                                        style="max-width: 300px;">{{ item.title }}</div>
+                                                    <div class="text-caption text-grey text-truncate"
+                                                        style="max-width: 300px;">
+                                                        {{ item.subtitle }}</div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
+                                        </td>
 
-                                    <td>
-                                        <v-chip :color="getStatusColor(item.status)" size="small" variant="flat"
-                                            class="px-2 text-white font-weight-bold">
-                                            <span class="text-capitalize">{{ item.status }}</span>
-                                        </v-chip>
-                                    </td>
-                                    <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
-                                    <td>
-                                        <div class="d-flex align-center">
-                                            <v-chip color="blue-lighten-5" class="text-blue-darken-2 mr-2" size="small"
-                                                label>
-                                                <v-icon start icon="mdi-eye" size="14"></v-icon>
-                                                {{ item.view_count || 0 }}
-                                                <v-tooltip activator="parent" location="bottom">
-                                                    No of Views
-                                                </v-tooltip>
+                                        <td>
+                                            <v-chip :color="getStatusColor(item.status)" size="small" variant="flat"
+                                                class="px-2 text-white font-weight-bold">
+                                                <span class="text-capitalize">{{ item.status }}</span>
                                             </v-chip>
-                                            <v-chip color="purple-lighten-5" class="text-purple-darken-2 mr-2"
-                                                size="small" label>
-                                                <v-icon start icon="mdi-cursor-default-click" size="14"></v-icon>
-                                                {{ item.engagement_count || 0 }}
-                                                <v-tooltip activator="parent" location="bottom">
-                                                    No of Engagement
-                                                </v-tooltip>
-                                            </v-chip>
-                                            <v-chip color="green-lighten-5" class="text-green-darken-2" size="small"
-                                                label>
-                                                <v-icon start icon="mdi-account-group" size="14"></v-icon>
-                                                {{ item.lead_count || 0 }}
-                                                <v-icon end
-                                                    :icon="expandedMicrosite === item.uuid ? 'mdi-chevron-up' : 'mdi-chevron-down'"
-                                                    size="20" class="ml-1 cursor-pointer"
-                                                    @click.stop="toggleExpansion(item)"></v-icon>
-                                                <v-tooltip activator="parent" location="bottom">
-                                                    No of Leads
-                                                </v-tooltip>
-                                            </v-chip>
-                                        </div>
-                                    </td>
+                                        </td>
+                                        <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}
+                                        </td>
+                                        <td>
+                                            <div class="d-flex align-center">
+                                                <v-chip color="blue-lighten-5" class="text-blue-darken-2 mr-2"
+                                                    size="small" label>
+                                                    <v-icon start icon="mdi-eye" size="14"></v-icon>
+                                                    {{ item.view_count || 0 }}
+                                                    <v-tooltip activator="parent" location="bottom">
+                                                        No of Views
+                                                    </v-tooltip>
+                                                </v-chip>
+                                                <v-chip color="purple-lighten-5" class="text-purple-darken-2 mr-2"
+                                                    size="small" label>
+                                                    <v-icon start icon="mdi-cursor-default-click" size="14"></v-icon>
+                                                    {{ item.engagement_count || 0 }}
+                                                    <v-tooltip activator="parent" location="bottom">
+                                                        No of Engagement
+                                                    </v-tooltip>
+                                                </v-chip>
+                                                <v-chip color="green-lighten-5" class="text-green-darken-2" size="small"
+                                                    label>
+                                                    <v-icon start icon="mdi-account-group" size="14"></v-icon>
+                                                    {{ item.lead_count || 0 }}
+                                                    <v-icon end
+                                                        :icon="expandedMicrosite === item.uuid ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                                                        size="20" class="ml-1 cursor-pointer"
+                                                        @click.stop="toggleExpansion(item)"></v-icon>
+                                                    <v-tooltip activator="parent" location="bottom">
+                                                        No of Leads
+                                                    </v-tooltip>
+                                                </v-chip>
+                                            </div>
+                                        </td>
 
-                                    <td class="text-right">
-                                        <v-btn variant="text" color="primary" size="small"
-                                            @click="navigateToProfile(item.user_slug, item.slug)"
-                                            class="text-capitalize">
-                                            View
-                                        </v-btn>
-                                        <v-btn icon="mdi-content-copy" variant="text" color="grey" size="small"
-                                            @click="copyToClipboard(item.user_slug, item.slug)">
-                                        </v-btn>
-                                    </td>
-                                </tr>
+                                        <td class="text-right">
+                                            <v-btn variant="text" color="primary" size="small"
+                                                @click="navigateToProfile(item.user_slug, item.slug)"
+                                                class="text-capitalize">
+                                                View
+                                            </v-btn>
+                                            <v-btn icon="mdi-content-copy" variant="text" color="grey" size="small"
+                                                @click="copyToClipboard(item.user_slug, item.slug)">
+                                            </v-btn>
+                                        </td>
+                                    </tr>
 
-                                <tr v-if="expandedMicrosite === item.uuid" class="bg-grey-lighten-5">
-                                    <td colspan="5" class="pa-4">
-                                        <div v-if="leadsLoading" class="d-flex justify-center py-4">
-                                            <v-progress-circular indeterminate color="primary"></v-progress-circular>
-                                        </div>
-                                        <div v-else-if="!leads[item.id] || leads[item.id].length === 0"
-                                            class="text-center text-grey py-4">
-                                            No leads found.
-                                        </div>
-                                        <v-table v-else density="compact" class="bg-transparent">
-                                            <thead>
-                                                <tr>
-                                                    <th class="text-caption font-weight-bold">Name</th>
-                                                    <th class="text-caption font-weight-bold">Email</th>
-                                                    <th class="text-caption font-weight-bold">Mobile</th>
-                                                    <th class="text-caption font-weight-bold">Date</th>
-                                                    <th class="text-caption font-weight-bold">Response</th>
-                                                </tr>
-                                            </thead>
+                                    <tr v-if="expandedMicrosite === item.uuid" class="bg-grey-lighten-5">
+                                        <td colspan="5" class="pa-4">
+                                            <div v-if="leadsLoading" class="d-flex justify-center py-4">
+                                                <v-progress-circular indeterminate
+                                                    color="primary"></v-progress-circular>
+                                            </div>
+                                            <div v-else-if="!leads[item.id] || leads[item.id].length === 0"
+                                                class="text-center text-grey py-4">
+                                                No leads found.
+                                            </div>
+                                            <v-table v-else density="compact" class="bg-transparent">
+                                                <thead>
+                                                    <tr>
+                                                        <th class="text-caption font-weight-bold">Name</th>
+                                                        <th class="text-caption font-weight-bold">Email</th>
+                                                        <th class="text-caption font-weight-bold">Mobile</th>
+                                                        <th class="text-caption font-weight-bold">Date</th>
+                                                        <th class="text-caption font-weight-bold">Response</th>
+                                                    </tr>
+                                                </thead>
                         <tbody>
                             <tr v-for="(lead, lIndex) in leads[item.id]" :key="lIndex">
                                 <td class="text-caption">{{ lead.name }}</td>
@@ -135,11 +138,14 @@
                                 <td class="text-caption">{{ formatDate(lead.created_at) }}</td>
                                 <td class="text-caption">{{ lead.lead_message || 'N/A' }}</td>
                             </tr>
+
                         </tbody>
                     </v-table>
                     </td>
                     </tr>
 </template>
+</template>
+
 </tbody>
 </v-table>
 </div>
@@ -152,7 +158,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import api from "@/api";
 import { getImage, formatDate } from '@/utils/helpers';
@@ -170,7 +176,11 @@ const snackbar = ref({
 const fetchMicrosites = async () => {
     isLoading.value = true;
     try {
-        const response = await api.get("/microsite/approved");
+        const params = {};
+        if (searchQuery.value) {
+            params.search = searchQuery.value;
+        }
+        const response = await api.get("/microsite/approved", { params });
         microsites.value = response.data.data || [];
     } catch (error) {
         console.error('Error fetching microsites:', error);
@@ -179,15 +189,12 @@ const fetchMicrosites = async () => {
     }
 };
 
-const filteredMicrosites = computed(() => {
-    if (!searchQuery.value) {
-        return microsites.value;
-    }
-    const query = searchQuery.value.toLowerCase();
-    return microsites.value.filter(item =>
-        item.title.toLowerCase().includes(query) ||
-        (item.subtitle && item.subtitle.toLowerCase().includes(query))
-    );
+let searchTimeout;
+watch(searchQuery, () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(() => {
+        fetchMicrosites();
+    }, 500);
 });
 
 const getStatusColor = (status) => {
