@@ -1,13 +1,13 @@
 <template>
   <v-container class="d-flex align-center py-5">
-    <img src="@/assets/images/logo.svg" alt="logo">
+    <img src="@/assets/images/logo.svg" alt="logo" width="162" height="27">
     <v-spacer></v-spacer>
   </v-container>
 
   <v-divider></v-divider>
   <v-container fluid class="pa-0 mt-10">
-    <img src="@/assets/images/bg1.svg" class="auth-bg-img left" />
-    <img src="@/assets/images/23bg1.svg" class="auth-bg-img right" />
+    <img src="@/assets/images/bg1.svg" class="auth-bg-img left" width="335" height="290" />
+    <img src="@/assets/images/23bg1.svg" class="auth-bg-img right" width="451" height="458" />
 
     <v-row no-gutters>
       <v-col cols="12" class="text-center d-flex flex-column justify-center align-center pa-4"

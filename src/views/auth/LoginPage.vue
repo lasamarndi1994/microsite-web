@@ -178,6 +178,11 @@ const performUpdatePassword = async () => {
 };
 
 const handleLogin = async () => {
+  if (!isMobileVerified.value) {
+    await validateMobileNumber();
+    return;
+  }
+
   if (isMobileVerified.value) {
     // Password Validation Phase
     const passwordResult = await validatePassword();
@@ -198,9 +203,6 @@ const handleLogin = async () => {
         await performUpdatePassword();
       }
     }
-  }
-  else {
-    setMobileErrors("Mobile number required");
   }
 };
 
