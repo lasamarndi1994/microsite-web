@@ -237,11 +237,16 @@
                             :error-messages="emailError"></v-text-field>
                     </div>
 
-                    <v-btn block color="deep-purple-accent-2" size="large" :disabled="!isSiteActive"
+                    <v-btn block color="deep-purple-accent-2" size="large"
+                        :disabled="!isSiteActive || store.isAuthenticated"
                         class="text-capitalize text-white rounded-lg mb-6" flat height="48" @click="handleJoin"
                         :loading="joinLoading">
+
                         Join Now
                     </v-btn>
+                    <v-tooltip activator="parent" location="bottom" v-if="!isSiteActive || store.isAuthenticated">
+                        You are already logged in,So can't enter the lead.
+                    </v-tooltip>
                 </div>
             </v-card>
         </v-dialog>
