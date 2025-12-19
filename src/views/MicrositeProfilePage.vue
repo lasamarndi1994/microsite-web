@@ -245,7 +245,7 @@
                         Join Now
                     </v-btn>
                     <v-tooltip activator="parent" location="bottom" v-if="!isSiteActive || store.isAuthenticated">
-                        You are already logged in,So can't enter the lead.
+                        Since you are already logged in, you cannot enter the lead.
                     </v-tooltip>
                 </div>
             </v-card>
