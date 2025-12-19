@@ -271,7 +271,8 @@
                     <!-- Footer Actions -->
                     <v-row class="mt-8" justify="center">
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
-                            <v-btn variant="outlined" class="text-capitalize" height="48"
+                            <v-btn variant="outlined" class="text-capitalize" height="48" :loading="draftStatusLoading"
+                                :disabled="draftStatusLoading"
                                 style="border-color: var(--secondary-color); color: var(--secondary-color);"
                                 prepend-icon="mdi-file-document-outline" @click="handleSaveAndUpdate('Draft')">
                                 Save in Draft
@@ -280,7 +281,8 @@
                         <v-col cols="12" sm="auto" class="d-flex justify-center">
                             <v-btn class="btn-primary text-white text-capitalize"
                                 prepend-icon="mdi-content-save-outline" height="48" flat
-                                @click="handleSaveAndUpdate('Pending')" elevation="2" :loading="loading">
+                                @click="handleSaveAndUpdate('Pending')" elevation="2" :loading="loading"
+                                :disabled="loading">
                                 {{ isPreview ? 'Update and Continue' : 'Save and Continue' }}
                             </v-btn>
                         </v-col>
@@ -352,6 +354,7 @@ const bannerError = ref("")
 const selectedServices = ref([])
 const availableServices = ref(['Market Education', 'Account Opening Support', 'Community Group Access', 'Platform Training', 'Trading Tools & Resources'])
 const newService = ref('')
+const draftStatusLoading = ref(false)
 
 const convertToBase64 = (file) => {
     return new Promise((resolve, reject) => {
@@ -378,6 +381,16 @@ const onProfileChange = async (e) => {
         const allowedTypes = ['image/jpeg', 'image/png', 'image/svg+xml', 'image/webp']
         if (!allowedTypes.includes(file.type)) {
             profileError.value = 'Only PNG, JPEG, SVG, and WEBP formats are allowed.'
+            profileFile.value = null
+            profilePhoto.value = null
+            profileBase64.value = ''
+            if (profileInputRef.value) profileInputRef.value.value = ''
+            return
+        }
+
+        // Validate file size (1MB)
+        if (file.size > 1 * 1024 * 1024) {
+            profileError.value = 'File size exceeds 1 MB.'
             profileFile.value = null
             profilePhoto.value = null
             profileBase64.value = ''
@@ -588,7 +601,13 @@ const handleSaveAndUpdate = async (status = 'Pending') => {
 
 
         // Proceed with save
-        loading.value = true
+        if (status === 'Draft') {
+            draftStatusLoading.value = true
+        }
+        else {
+            loading.value = true
+        }
+
         try {
             const formData = {
                 title: title.value,
@@ -641,7 +660,8 @@ const handleSaveAndUpdate = async (status = 'Pending') => {
             console.error('Error creating/updating microsite:', error);
             // Handle error (e.g., show notification)
         } finally {
-            loading.value = false
+            draftStatusLoading.value = false;
+            loading.value = false;
         }
     } else {
         // Scroll to top to show errors

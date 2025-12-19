@@ -67,7 +67,7 @@
                                                 style="max-width: 350px;">{{ item.title }}</div>
                                             <div class="text-caption text-grey">{{ item.sub_title ||
                                                 item.user?.web_url
-                                            }}</div>
+                                                }}</div>
                                         </div>
                                     </div>
                                 </td>
@@ -160,7 +160,7 @@ const navigateEditProfile = (uuid) => {
 const fetchDrafts = async () => {
     loading.value = true;
     try {
-        let url = '/microsite/lists?status=Draft'; // Assuming backend supports this status
+        let url = '/microsite/draft'; // Assuming backend supports this status
         const response = await api.get(url);
         microsites.value = response.data.data || [];
         if (searchQuery.value) {
