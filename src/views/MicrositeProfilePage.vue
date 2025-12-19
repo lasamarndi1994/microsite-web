@@ -291,6 +291,7 @@ const { value: name, errorMessage: nameError } = useField('name', (value) => {
 const { value: mobile, errorMessage: mobileError } = useField('mobile', (value) => {
     if (!value) return 'Mobile Number is required'
     if (!/^\d+$/.test(value)) return 'Mobile Number must contain only digits'
+    if (parseInt(value.charAt(0)) < 6) return 'Mobile Number should start with 6 or above'
     if (value.length < 10) return 'Enter valid mobile number'
     return true
 })

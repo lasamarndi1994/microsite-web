@@ -92,7 +92,12 @@ const passwordRules = computed(() => {
   return isPasswordSet.value ? 'required' : 'required|min:6|special_char';
 });
 
-const { value: mobile, errorMessage: mobileError, validate: validateMobile, setErrors: setMobileErrors, resetField: resetMobile } = useField('mobile', 'required|numeric|min:10');
+const { value: mobile, errorMessage: mobileError, validate: validateMobile, setErrors: setMobileErrors, resetField: resetMobile } = useField('mobile', (value) => {
+  if (!value) return 'Mobile Number is required';
+  if (!/^\d+$/.test(value)) return 'Mobile Number must contain only digits';
+  if (value.length < 10) return 'mobile number should be 10 digit';
+  return true;
+});
 const { value: password, errorMessage: passwordError, validate: validatePassword, resetField: resetPassword, setErrors: setPasswordErrors } = useField('password', passwordRules);
 const { value: confirmPassword, errorMessage: confirmPasswordError, validate: validateConfirmPassword, setErrors: setConfirmPasswordErrors, resetField: resetConfirmPassword } = useField('confirmPassword', 'required|min:6|special_char');
 
