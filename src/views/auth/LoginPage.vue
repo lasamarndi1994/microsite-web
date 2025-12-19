@@ -95,7 +95,7 @@ const passwordRules = computed(() => {
 const { value: mobile, errorMessage: mobileError, validate: validateMobile, setErrors: setMobileErrors, resetField: resetMobile } = useField('mobile', (value) => {
   if (!value) return 'Mobile Number is required';
   if (!/^\d+$/.test(value)) return 'Mobile Number must contain only digits';
-  if (value.length < 10) return 'mobile number should be 10 digit';
+  if (value.length < 10) return 'Mobile number should be 10 digit';
   return true;
 });
 const { value: password, errorMessage: passwordError, validate: validatePassword, resetField: resetPassword, setErrors: setPasswordErrors } = useField('password', passwordRules);
