@@ -50,11 +50,11 @@
                     <v-table>
                         <thead>
                             <tr>
-                                <th class="text-left text-caption text-grey">Partner</th>
-                                <th class="text-left text-caption text-grey">Mobile no</th>
-                                <th class="text-left text-caption text-grey">Last update</th>
-                                <th class="text-left text-caption text-grey">Microsite Count</th>
-                                <th class="text-right text-caption text-grey"></th>
+                                <th class="text-left text-caption text-grey font-weight-bold">Partner</th>
+                                <th class="text-left text-caption text-grey font-weight-bold">Mobile no</th>
+                                <th class="text-left text-caption text-grey font-weight-bold">Last update</th>
+                                <th class="text-left text-caption text-grey font-weight-bold">Microsite Count</th>
+                                <th class="text-right text-caption text-grey font-weight-bold"></th>
                             </tr>
                         </thead>
                         <tbody>

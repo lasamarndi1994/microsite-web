@@ -35,9 +35,12 @@
                 <v-table>
                     <thead>
                         <tr>
-                            <th class="text-left text-caption text-grey pl-6" style="width: 50%;">Microsites</th>
-                            <th class="text-left text-caption text-grey" style="width: 30%;">Last Update</th>
-                            <th class="text-right text-caption text-grey pr-6" style="width: 20%;"></th>
+                            <th class="text-left text-caption font-weight-bold text-grey pl-6" style="width: 50%;">
+                                Microsites</th>
+                            <th class="text-left text-caption font-weight-bold text-grey" style="width: 30%;">Last
+                                Update</th>
+                            <th class="text-right text-caption font-weight-bold text-grey pr-6" style="width: 20%;">
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +70,7 @@
                                                 style="max-width: 350px;">{{ item.title }}</div>
                                             <div class="text-caption text-grey">{{ item.sub_title ||
                                                 item.user?.web_url
-                                                }}</div>
+                                            }}</div>
                                         </div>
                                     </div>
                                 </td>

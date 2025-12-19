@@ -50,10 +50,10 @@
             <v-table>
                 <thead>
                     <tr>
-                        <th class="text-left text-caption text-grey">Microsites</th>
-                        <th class="text-left text-caption text-grey">Status</th>
-                        <th class="text-left text-caption text-grey">Last Update</th>
-                        <th class="text-center   text-caption text-grey"></th>
+                        <th class="text-left text-caption text-grey font-weight-bold">Microsites</th>
+                        <th class="text-left text-caption text-grey font-weight-bold">Status</th>
+                        <th class="text-left text-caption text-grey font-weight-bold">Last Update</th>
+                        <th class="text-center text-caption text-grey font-weight-bold"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,7 +97,7 @@
                                 </v-chip>
                             </td>
                             <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at || item.created_at)
-                                }}
+                            }}
                             </td>
                             <td class="text-right">
 

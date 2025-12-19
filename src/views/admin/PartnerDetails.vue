@@ -44,7 +44,7 @@
 
           </v-chip>
           <v-chip :color="getStatusColor('Pending')" size="default" variant="flat" class="px-4 flex-shrink-0">
-            <span class="text-capitalize font-weight-medium"> {{ getActionCount() }} </span>
+            <span class="text-capitalize font-weight-medium"> {{ pendingCount }} </span>
           </v-chip>
         </div>
       </v-card>
@@ -94,10 +94,10 @@
         <v-table>
           <thead>
             <tr>
-              <th class="text-left text-caption text-grey">Microsite</th>
-              <th class="text-left text-caption text-grey">Last Update</th>
-              <th class="text-left text-caption text-grey">Status</th>
-              <th class="text-right text-caption text-grey">Action</th>
+              <th class="text-left text-caption text-grey font-weight-bold">Microsite</th>
+              <th class="text-left text-caption text-grey font-weight-bold">Last Update</th>
+              <th class="text-left text-caption text-grey font-weight-bold">Status</th>
+              <th class="text-right text-caption text-grey font-weight-bold">Action</th>
             </tr>
           </thead>
 
@@ -214,15 +214,13 @@ const filterOptions = ref([
 ]);
 
 const partnerInfo = ref({});
-const totalApprovedCount = ref(0);
-const totalMicrositesCount = ref(0);
+const pendingCount = ref(0);
+
 const microsites = ref([]);
 const loading = ref(false);
 
-const getActionCount = () => {
-  if (totalMicrositesCount.value - totalApprovedCount.value < 0) return 0;
-  return totalMicrositesCount.value - totalApprovedCount.value;
-}
+
+
 const fetchPartnerDetails = async () => {
   loading.value = true;
   try {
@@ -238,8 +236,7 @@ const fetchPartnerDetails = async () => {
       loading.value = false;
       partnerInfo.value = response.data.user;
       microsites.value = response.data.data;
-      totalApprovedCount.value = response.data.approved_count;
-      totalMicrositesCount.value = response.data.count;
+      pendingCount.value = response.data.pending_count;
     }
   } catch (error) {
     console.error("Error fetching partner details:", error);
