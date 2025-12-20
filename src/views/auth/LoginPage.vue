@@ -34,7 +34,7 @@
           </v-btn>
 
           <p class="mt-3 text-center" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">Using your mobile number
-            and {{ isMobileVerified ? (isPasswordSet ? 'login' : 'create account') : 'login the process' }}
+            and {{ isMobileVerified ? (isPasswordSet ? 'login' : 'create account') : 'login' }}
           </p>
 
 
