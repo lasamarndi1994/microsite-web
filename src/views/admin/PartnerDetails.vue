@@ -5,16 +5,17 @@
       <div class="mb-8">
         <div class="d-flex align-center justify-space-between mb-1">
           <div>
-            <h1 class="font-weight-bold text-grey-darken-3 mb-1"
-              :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Partner Details</h1>
-            <p class="text-grey-darken-1" :class="$vuetify.display.smAndDown ? 'text-subtitle-2' : 'text-subtitle-1'">
+            <div class="d-flex align-center gap-3">
+              <v-btn icon="mdi-arrow-left" variant="text" @click="goBack" class="mr-1"></v-btn>
+              <h1 class="font-weight-bold text-grey-darken-3 mb-0"
+                :class="$vuetify.display.smAndDown ? 'fs-16' : 'fs-24'">Partner Details</h1>
+            </div>
+            <p class="text-grey-darken-1 ml-14"
+              :class="$vuetify.display.smAndDown ? 'text-subtitle-2' : 'text-subtitle-1'">
               Essential partner information and microsite submissions
             </p>
           </div>
-          <v-btn variant="text" color="grey-darken-2" icon @click="goBack">
-            <v-icon>mdi-arrow-left</v-icon>
-            <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
-          </v-btn>
+
         </div>
       </div>
       <!-- Partner Info Card -->

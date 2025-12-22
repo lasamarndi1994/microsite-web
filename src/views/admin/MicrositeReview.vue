@@ -7,21 +7,20 @@
         <div class="d-flex align-center justify-space-between mb-1">
           <div>
             <div class="d-flex align-center gap-3">
-              <h1 class="font-weight-bold text-grey-darken-3 mb-1"
-                :class="$vuetify.display.smAndDown ? 'fs-18' : 'fs-20'">Review Microsite Submission</h1>
+              <v-btn icon="mdi-arrow-left" variant="text" @click="goBack" class="mr-1"></v-btn>
+              <h1 class="font-weight-bold text-grey-darken-3 mb-0 ml-0"
+                :class="$vuetify.display.smAndDown ? 'fs-16' : 'fs-20'">Review Microsite Submission</h1>
               <v-chip v-if="microsite?.status" :color="getStatusColor(microsite?.status)" size="small"
                 class="text-capitalize font-weight-bold" variant="flat">
                 {{ microsite?.status }}
               </v-chip>
             </div>
-            <p class="text-grey-darken-1" :class="$vuetify.display.smAndDown ? 'text-subtitle-2' : 'text-subtitle-1'">
+            <p class="text-grey-darken-1 ml-14"
+              :class="$vuetify.display.smAndDown ? 'text-subtitle-2' : 'text-subtitle-1'">
               Review and approve or reject microsite details
             </p>
           </div>
-          <v-btn variant="text" color="grey-darken-2" icon @click="goBack">
-            <v-icon>mdi-arrow-left</v-icon>
-            <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
-          </v-btn>
+
         </div>
       </div>
 

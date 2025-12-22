@@ -50,6 +50,9 @@
             <div v-else-if="microsite">
                 <!-- Banner Section -->
                 <div class="banner-container position-relative">
+                    <v-btn icon="mdi-arrow-left" variant="tonal" color="white" v-if="store.isAuthenticated"
+                        class="position-absolute top-0 left-0 ma-4" style="z-index: 10;" @click="$router.back()">
+                    </v-btn>
                     <v-img :src="getImage(microsite.banner_image, 'uploads/banner/')" cover height="300"
                         class="align-center">
                         <div class="d-flex fill-height align-center justify-center">

@@ -70,7 +70,7 @@
                                                 style="max-width: 350px;">{{ item.title }}</div>
                                             <div class="text-caption text-grey">{{ item.sub_title ||
                                                 item.user?.web_url
-                                                }}</div>
+                                            }}</div>
                                         </div>
                                     </div>
                                 </td>

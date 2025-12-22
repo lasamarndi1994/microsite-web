@@ -5,10 +5,13 @@
             <v-container class="pa-0" style="max-width: 1000px;">
                 <div class="d-flex align-center justify-space-between mb-6">
                     <div>
-                        <h1 class="font-weight-bold text-grey-darken-3"
-                            :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">
-                            {{ isPreview ? 'Update' : 'Create' }} your microsite profile</h1>
-                        <p class="text-grey-darken-1 text-body-2 mt-1">Setup your professional microsite</p>
+                        <div class="d-flex align-center gap-3">
+                            <v-btn icon="mdi-arrow-left" variant="text" @click="goBack" class="mr-1"></v-btn>
+                            <h1 class="font-weight-bold text-grey-darken-3"
+                                :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">
+                                {{ isPreview ? 'Update' : 'Create' }} your microsite profile</h1>
+                        </div>
+                        <p class="text-grey-darken-1 text-body-2 mt-0 ml-14">Setup your professional microsite</p>
                     </div>
                     <!-- Top Actions -->
                     <div class="d-flex align-center gap-3">
@@ -17,10 +20,7 @@
                             Preview
                         </v-btn>
 
-                        <v-btn variant="tonal" color="grey-darken-2" icon @click="goBack">
-                            <v-icon>mdi-arrow-left</v-icon>
-                            <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
-                        </v-btn>
+
                     </div>
                 </div>
 
@@ -237,7 +237,7 @@
                                                         </div>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                    }}</v-list-item-title>
+                                                        }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
