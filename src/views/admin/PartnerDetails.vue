@@ -23,12 +23,9 @@
         <div class="d-flex flex-column flex-sm-row align-center justify-space-between ga-4">
           <div class="d-flex flex-column flex-sm-row align-center ga-4 w-100">
             <v-avatar size="80" class="flex-shrink-0">
-              <v-img :src="getImage(partnerInfo.user_avatar, 'uploads/avatar/')" cover>
-                <template v-slot:placeholder>
-                  <div class="d-flex align-center justify-center fill-height">
-                    <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
-                  </div>
-                </template>
+              <v-img :src="getImage(partnerInfo.user_avatar, 'uploads/avatar/')" cover
+                :lazy-src="getImage(partnerInfo.user_avatar, 'uploads/avatar/')">
+
               </v-img>
             </v-avatar>
             <div class="text-center text-sm-left">
