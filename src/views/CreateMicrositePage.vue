@@ -18,8 +18,8 @@
                         </v-btn>
 
                         <v-btn variant="tonal" color="grey-darken-2" icon @click="goBack">
-                            <v-icon>mdi-close</v-icon>
-                            <v-tooltip activator="parent" location="bottom">Close</v-tooltip>
+                            <v-icon>mdi-arrow-left</v-icon>
+                            <v-tooltip activator="parent" location="bottom">Back</v-tooltip>
                         </v-btn>
                     </div>
                 </div>
@@ -237,7 +237,7 @@
                                                         </div>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                        }}</v-list-item-title>
+                                                    }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
