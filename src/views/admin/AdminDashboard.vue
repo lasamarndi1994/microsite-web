@@ -31,12 +31,12 @@
                         <v-col cols="12" sm="12" class="d-flex justify-end">
                             <div class="d-flex align-center">
                                 <v-text-field v-model="fromDate" type="date" variant="outlined" density="comfortable"
-                                    hide-details bg-color="white" class="date-input" placeholder="DD/MM/YYYY"
-                                    label="From Date" clearable></v-text-field>
+                                    min="2024-01-01" max="2050-12-31" hide-details bg-color="white" class="date-input"
+                                    placeholder="DD/MM/YYYY" label="From Date" clearable></v-text-field>
                                 <span class="text-grey-darken-1 mx-2">to</span>
                                 <v-text-field v-model="toDate" type="date" variant="outlined" density="comfortable"
-                                    hide-details bg-color="white" class="date-input" placeholder="DD/MM/YYYY"
-                                    label="To Date" clearable></v-text-field>
+                                    min="2024-01-01" max="2050-12-31" hide-details bg-color="white" class="date-input"
+                                    placeholder="DD/MM/YYYY" label="To Date" clearable></v-text-field>
                             </div>
                         </v-col>
 
@@ -46,98 +46,74 @@
 
             <!-- Table Section -->
             <v-card flat border class="rounded-lg">
-                <div class="table-responsive">
-                    <v-table>
-                        <thead>
-                            <tr>
-                                <th class="text-left text-caption text-grey font-weight-bold">Partner</th>
-                                <th class="text-left text-caption text-grey font-weight-bold">Mobile no</th>
-                                <th class="text-left text-caption text-grey font-weight-bold">Last update</th>
-                                <th class="text-left text-caption text-grey font-weight-bold">Microsite Count</th>
-                                <th class="text-right text-caption text-grey font-weight-bold"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <template v-if="loading">
-                                <tr>
-                                    <v-skeleton-loader type="table-row-divider@10"></v-skeleton-loader>
-                                </tr>
-                            </template>
-                            <template v-else>
-                                <tr v-if="partners.length === 0">
-                                    <td colspan="5" class="text-center py-8">
-                                        <div class="d-flex flex-column align-center justify-center">
-                                            <v-icon icon="mdi-magnify-remove-outline" size="48"
-                                                color="grey-lighten-1 mb-2"></v-icon>
-                                            <div class="text-body-1 text-grey-darken-1">Data not found.</div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr v-for="(item, index) in partners" :key="index">
-                                    <td class="py-4">
-                                        <div class="d-flex align-center">
-                                            <v-avatar size="40" class="mr-4" :color="getAvatarColor(item.user_name)">
-                                                <span class="text-h6 text-white">{{
-                                                    item.user_name?.charAt(0).toUpperCase()
-                                                    }}</span>
-                                            </v-avatar>
-                                            <div>
-                                                <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
-                                                <div class="text-caption text-grey">{{ item.email }}</div>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="text-body-2 text-grey-darken-1">{{ item.mobile_number }}</td>
-                                    <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
-                                    <td>
-                                        <div class="d-flex align-center">
-                                            <v-chip color="green-lighten-5" class="text-green-darken-2 mr-2"
-                                                size="small" label>
-                                                <v-icon start icon="mdi-check-circle" size="14"></v-icon>
-                                                {{ item.microsite_approved_count }}
-                                                <v-tooltip activator="parent" location="bottom">
-                                                    Microsite Approved
-                                                </v-tooltip>
-                                            </v-chip>
-                                            <v-chip color="red-lighten-5" class="text-red-darken-2 mr-2" size="small"
-                                                label>
-                                                <v-icon start icon="mdi-close-circle" size="14"></v-icon>
-                                                {{ item.microsite_rejected_count }}
-                                                <v-tooltip activator="parent" location="bottom">
-                                                    Microsite Rejected
-                                                </v-tooltip>
-                                            </v-chip>
-                                            <v-chip color="orange-lighten-5" class="text-orange-darken-2" size="small"
-                                                label>
-                                                <v-icon start icon="mdi-clock-outline" size="14"></v-icon>
-                                                {{ item.microsite_pending_count }}
-                                                <v-tooltip activator="parent" location="bottom">
-                                                    Microsite Pending
-                                                </v-tooltip>
-                                            </v-chip>
-                                        </div>
-                                    </td>
-                                    <td class="text-right">
-                                        <v-btn variant="text" color="grey" size="large" @click="viewPartner(item)"
-                                            class="fs-14 fw-500 text-secondary-color text-decoration-underline"
-                                            style="text-transform: none;">View</v-btn>
-                                    </td>
-                                </tr>
-                            </template>
-                        </tbody>
-                    </v-table>
-                </div>
+                <v-data-table-server v-model:items-per-page="itemsPerPage" v-model:page="page" :headers="headers"
+                    :items="partners" :items-length="totalRecords" :loading="loading" @update:options="fetchUsers"
+                    class="admin-table" item-value="uuid" :items-per-page-options="itemsPerPageOptions">
 
-                <!-- Pagination -->
-                <v-row class="d-flex justify-center mt-4">
-                    <v-col cols="12">
-                        <div class="d-flex justify-center w-100">
-                            <v-pagination v-model="page" :length="totalPages" :total-visible="7"
-                                @update:model-value="fetchUsers"></v-pagination>
+                    <template v-slot:item.user_name="{ item }">
+                        <div class="d-flex align-center py-2">
+                            <v-avatar size="40" class="mr-4" :color="getAvatarColor(item.user_name)">
+                                <span class="text-h6 text-white">{{
+                                    item.user_name?.charAt(0).toUpperCase()
+                                }}</span>
+                            </v-avatar>
+                            <div>
+                                <div class="text-subtitle-2 font-weight-bold">{{ item.user_name }}</div>
+                                <div class="text-caption text-grey">{{ item.email }}</div>
+                            </div>
                         </div>
-                    </v-col>
-                </v-row>
+                    </template>
 
+                    <template v-slot:item.mobile_number="{ item }">
+                        <span class="text-body-2 text-grey-darken-1">{{ item.mobile_number }}</span>
+                    </template>
+
+                    <template v-slot:item.updated_at="{ item }">
+                        <span class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</span>
+                    </template>
+
+                    <template v-slot:item.microsite_count="{ item }">
+                        <div class="d-flex align-center">
+                            <v-chip color="green-lighten-5" class="text-green-darken-2 mr-2" size="small" label>
+                                <v-icon start icon="mdi-check-circle" size="14"></v-icon>
+                                {{ item.microsite_approved_count }}
+                                <v-tooltip activator="parent" location="bottom">
+                                    Microsite Approved
+                                </v-tooltip>
+                            </v-chip>
+                            <v-chip color="red-lighten-5" class="text-red-darken-2 mr-2" size="small" label>
+                                <v-icon start icon="mdi-close-circle" size="14"></v-icon>
+                                {{ item.microsite_rejected_count }}
+                                <v-tooltip activator="parent" location="bottom">
+                                    Microsite Rejected
+                                </v-tooltip>
+                            </v-chip>
+                            <v-chip color="orange-lighten-5" class="text-orange-darken-2" size="small" label>
+                                <v-icon start icon="mdi-clock-outline" size="14"></v-icon>
+                                {{ item.microsite_pending_count }}
+                                <v-tooltip activator="parent" location="bottom">
+                                    Microsite Pending
+                                </v-tooltip>
+                            </v-chip>
+                        </div>
+                    </template>
+
+                    <template v-slot:item.actions="{ item }">
+                        <div class="text-right">
+                            <v-btn variant="text" color="grey" size="large" @click="viewPartner(item)"
+                                class="fs-14 fw-500 text-secondary-color text-decoration-underline"
+                                style="text-transform: none;">View</v-btn>
+                        </div>
+                    </template>
+
+                    <template v-slot:no-data>
+                        <div class="d-flex flex-column align-center justify-center py-8">
+                            <v-icon icon="mdi-magnify-remove-outline" size="48" color="grey-lighten-1 mb-2"></v-icon>
+                            <div class="text-body-1 text-grey-darken-1">Data not found.</div>
+                        </div>
+                    </template>
+
+                </v-data-table-server>
             </v-card>
         </v-card>
     </app-layout>
@@ -160,7 +136,22 @@ const page = ref(1);
 const totalPages = ref(1);
 
 // Pagination
-const itemsPerPage = ref(20); // Display 10 items per page
+const itemsPerPage = ref(10);
+const itemsPerPageOptions = [
+    { value: 10, title: '10' },
+    { value: 20, title: '20' },
+    { value: 50, title: '50' },
+    { value: 100, title: '100' },
+    { value: 1000, title: '1000' }
+];
+
+const headers = [
+    { title: 'Partner', key: 'user_name', align: 'start', sortable: false },
+    { title: 'Mobile no', key: 'mobile_number', align: 'start', sortable: false },
+    { title: 'Last update', key: 'updated_at', align: 'start', sortable: false },
+    { title: 'Microsite Count', key: 'microsite_count', align: 'start', sortable: false },
+    { title: '', key: 'actions', align: 'end', sortable: false },
+];
 
 const filterOptions = ref([
     {
@@ -208,8 +199,36 @@ watch(search, debounce(() => {
     fetchUsers();
 }, 500));
 
-const fetchUsers = () => {
+const minDate = '2025-01-01';
+
+const maxDate = '9999-12-31';
+
+watch(fromDate, (newVal) => {
+    if (newVal) {
+        if (newVal < minDate) {
+            fromDate.value = minDate;
+        } else if (newVal > maxDate) {
+            fromDate.value = maxDate;
+        }
+    }
+});
+
+watch(toDate, (newVal) => {
+    if (newVal) {
+        if (newVal < minDate) {
+            toDate.value = minDate;
+        } else if (newVal > maxDate) {
+            toDate.value = maxDate;
+        }
+    }
+});
+
+const fetchUsers = ({ page: p, itemsPerPage: ipp } = {}) => {
     loading.value = true;
+
+    if (p) page.value = p;
+    if (ipp) itemsPerPage.value = ipp;
+
     const params = {
         page: page.value,
         limit: itemsPerPage.value,
@@ -314,6 +333,8 @@ const getAvatarColor = (name) => {
     text-transform: none !important;
     letter-spacing: normal !important;
     border-bottom: 1px solid #EAECF0 !important;
+    color: black !important;
+    font-weight: bold !important;
 }
 
 .admin-table :deep(td) {
@@ -370,5 +391,9 @@ const getAvatarColor = (name) => {
     .min-width-sm-40 {
         min-width: 32px;
     }
+}
+
+.max-width-150 {
+    max-width: 150px;
 }
 </style>

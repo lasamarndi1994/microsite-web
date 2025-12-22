@@ -50,10 +50,10 @@
             <v-table>
                 <thead>
                     <tr>
-                        <th class="text-left text-caption text-grey font-weight-bold">Microsites</th>
-                        <th class="text-left text-caption text-grey font-weight-bold">Status</th>
-                        <th class="text-left text-caption text-grey font-weight-bold">Last Update</th>
-                        <th class="text-center text-caption text-grey font-weight-bold"></th>
+                        <th class="text-left text-caption font-weight-bold">Microsites</th>
+                        <th class="text-left text-caption font-weight-bold">Status</th>
+                        <th class="text-left text-caption font-weight-bold">Last Update</th>
+                        <th class="text-center text-caption font-weight-bold"></th>
                     </tr>
                 </thead>
                 <tbody>

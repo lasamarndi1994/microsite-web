@@ -22,7 +22,13 @@
         <div class="d-flex flex-column flex-sm-row align-center justify-space-between ga-4">
           <div class="d-flex flex-column flex-sm-row align-center ga-4 w-100">
             <v-avatar size="80" class="flex-shrink-0">
-              <v-img :src="getImage(partnerInfo.user_avatar, 'uploads/avatar/')" cover></v-img>
+              <v-img :src="getImage(partnerInfo.user_avatar, 'uploads/avatar/')" cover>
+                <template v-slot:placeholder>
+                  <div class="d-flex align-center justify-center fill-height">
+                    <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+                  </div>
+                </template>
+              </v-img>
             </v-avatar>
             <div class="text-center text-sm-left">
               <div class="text-h5 font-weight-bold text-grey-darken-3 mb-1">{{ partnerInfo.user_name }}</div>
@@ -94,25 +100,17 @@
         <v-table>
           <thead>
             <tr>
-              <th class="text-left text-caption text-grey font-weight-bold">Microsite</th>
-              <th class="text-left text-caption text-grey font-weight-bold">Last Update</th>
-              <th class="text-left text-caption text-grey font-weight-bold">Status</th>
-              <th class="text-right text-caption text-grey font-weight-bold">Action</th>
+              <th class="text-left text-caption font-weight-bold">Microsite</th>
+              <th class="text-left text-caption font-weight-bold">Last Update</th>
+              <th class="text-left text-caption font-weight-bold">Status</th>
+              <th class="text-right text-caption font-weight-bold">Action</th>
             </tr>
           </thead>
 
           <tbody>
-            <tr v-if="loading" v-for="n in 2" :key="'skeleton-' + n">
-              <td class="py-4">
-                <div class="d-flex align-center">
-                  <v-skeleton-loader type="avatar" size="40" class="mr-4"></v-skeleton-loader>
-                  <div>
-                    <v-skeleton-loader type="text" width="150" class="mb-1"></v-skeleton-loader>
-                  </div>
-                </div>
-              </td>
-              <td>
-                <v-skeleton-loader type="text" width="120"></v-skeleton-loader>
+            <tr v-if="loading">
+              <td colspan="4" class="text-center py-8">
+                <v-skeleton-loader type="table-row-divider@3"></v-skeleton-loader>
               </td>
             </tr>
             <tr v-if="!loading && microsites.length === 0">
@@ -127,8 +125,13 @@
               <td class="py-4">
                 <div class="d-flex align-center">
                   <v-avatar :color="item.iconBg" rounded="lg" size="40" class="mr-4">
-                    <v-img :src="getImage(item.banner_image, 'uploads/banner/')" cover
-                      :lazy-src="getImage(item.banner_image, 'uploads/banner/')"></v-img>
+                    <v-img :src="getImage(item.banner_image, 'uploads/banner/')" cover>
+                      <template v-slot:placeholder>
+                        <div class="d-flex align-center justify-center fill-height">
+                          <v-progress-circular color="grey-lighten-4" indeterminate size="20"></v-progress-circular>
+                        </div>
+                      </template>
+                    </v-img>
                   </v-avatar>
                   <div>
                     <div class="text-subtitle-2 font-weight-bold text-truncate" style="max-width: 400px;">{{
