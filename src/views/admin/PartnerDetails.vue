@@ -95,71 +95,58 @@
 
       <!-- Microsites Table -->
       <v-card flat border class="rounded-lg">
-        <v-table>
-          <thead>
-            <tr>
-              <th class="text-left text-caption font-weight-bold">Microsite</th>
-              <th class="text-left text-caption font-weight-bold">Last Update</th>
-              <th class="text-left text-caption font-weight-bold">Status</th>
-              <th class="text-right text-caption font-weight-bold">Action</th>
-            </tr>
-          </thead>
+        <v-data-table :headers="headers" :items="microsites" :loading="loading" class="admin-table" hide-default-footer>
+          <template v-slot:item.microsite="{ item }">
+            <div class="d-flex align-center py-4">
+              <v-avatar :color="item.iconBg" rounded="lg" size="40" class="mr-4">
+                <v-img :src="getImage(item.banner_image, 'uploads/banner/')" cover>
+                  <template v-slot:placeholder>
+                    <div class="d-flex align-center justify-center fill-height">
+                      <v-progress-circular color="grey-lighten-4" indeterminate size="20"></v-progress-circular>
+                    </div>
+                  </template>
+                </v-img>
+              </v-avatar>
+              <div>
+                <div class="text-subtitle-2 font-weight-bold text-truncate" style="max-width: 400px;">{{
+                  item.title }}</div>
+                <div class="text-caption text-grey">{{ item.sub_title }}</div>
+              </div>
+            </div>
+          </template>
 
-          <tbody>
-            <tr v-if="loading">
-              <td colspan="4" class="text-center py-8">
-                <v-skeleton-loader type="table-row-divider@3"></v-skeleton-loader>
-              </td>
-            </tr>
-            <tr v-if="!loading && microsites.length === 0">
-              <td colspan="4" class="text-center py-8">
-                <div class="d-flex flex-column align-center justify-center">
-                  <v-icon icon="mdi-magnify-remove-outline" size="48" color="grey-lighten-1 mb-2"></v-icon>
-                  <div class="text-body-1 text-grey-darken-1">Data not found.</div>
-                </div>
-              </td>
-            </tr>
-            <tr v-if="!loading" v-for="(item, index) in microsites" :key="index">
-              <td class="py-4">
-                <div class="d-flex align-center">
-                  <v-avatar :color="item.iconBg" rounded="lg" size="40" class="mr-4">
-                    <v-img :src="getImage(item.banner_image, 'uploads/banner/')" cover>
-                      <template v-slot:placeholder>
-                        <div class="d-flex align-center justify-center fill-height">
-                          <v-progress-circular color="grey-lighten-4" indeterminate size="20"></v-progress-circular>
-                        </div>
-                      </template>
-                    </v-img>
-                  </v-avatar>
-                  <div>
-                    <div class="text-subtitle-2 font-weight-bold text-truncate" style="max-width: 400px;">{{
-                      item.title }}</div>
-                    <div class="text-caption text-grey">{{ item.sub_title }}</div>
-                  </div>
-                </div>
-              </td>
-              <td class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</td>
-              <td>
-                <v-chip :color="getMicrositeStatusColor(item.status)" size="small" variant="flat" class="px-2">
-                  <span class="text-capitalize">{{ item.status }}</span>
-                </v-chip>
-              </td>
-              <td class="text-right">
-                <v-btn class="text-capitalize rounded-lg"
-                  :class="item.status == 'Pending' ? 'btn-primary text-white' : ''"
-                  :variant="item.status == 'Pending' ? 'flat' : 'outlined'"
-                  :color="item.status == 'Pending' ? undefined : 'primary'" height="34"
-                  @click="reviewMicrosite(item)">{{
-                    item.status == 'Pending' ? 'Review' : 'View' }}</v-btn>
-                <v-btn v-if="item.status === 'Approved'" icon="mdi-content-copy" variant="text" color="grey"
-                  size="small" class="ml-2" @click="copyLink(item)">
-                  <v-icon>mdi-content-copy</v-icon>
-                  <v-tooltip activator="parent" location="bottom">Copy Link</v-tooltip>
-                </v-btn>
-              </td>
-            </tr>
-          </tbody>
-        </v-table>
+          <template v-slot:item.updated_at="{ item }">
+            <span class="text-body-2 text-grey-darken-1">{{ formatDate(item.updated_at) }}</span>
+          </template>
+
+          <template v-slot:item.status="{ item }">
+            <v-chip :color="getMicrositeStatusColor(item.status)" size="small" variant="flat" class="px-2">
+              <span class="text-capitalize">{{ item.status }}</span>
+            </v-chip>
+          </template>
+
+          <template v-slot:item.actions="{ item }">
+            <div class="text-right">
+              <v-btn class="text-capitalize rounded-lg"
+                :class="item.status == 'Pending' ? 'btn-primary text-white' : ''"
+                :variant="item.status == 'Pending' ? 'flat' : 'outlined'"
+                :color="item.status == 'Pending' ? undefined : 'primary'" height="34" @click="reviewMicrosite(item)">{{
+                  item.status == 'Pending' ? 'Review' : 'View' }}</v-btn>
+              <v-btn v-if="item.status === 'Approved'" icon="mdi-content-copy" variant="text" color="grey" size="small"
+                class="ml-2" @click="copyLink(item)">
+                <v-icon>mdi-content-copy</v-icon>
+                <v-tooltip activator="parent" location="bottom">Copy Link</v-tooltip>
+              </v-btn>
+            </div>
+          </template>
+
+          <template v-slot:no-data>
+            <div class="d-flex flex-column align-center justify-center py-8">
+              <v-icon icon="mdi-magnify-remove-outline" size="48" color="grey-lighten-1 mb-2"></v-icon>
+              <div class="text-body-1 text-grey-darken-1">Data not found.</div>
+            </div>
+          </template>
+        </v-data-table>
       </v-card>
     </v-card>
     <v-snackbar v-model="snackbar" :timeout="2000" color="success" location="bottom center">
@@ -220,7 +207,12 @@ const pendingCount = ref(0);
 const microsites = ref([]);
 const loading = ref(false);
 
-
+const headers = [
+  { title: 'Microsite', key: 'microsite', align: 'start', sortable: false },
+  { title: 'Last Update', key: 'updated_at', align: 'start', sortable: false },
+  { title: 'Status', key: 'status', align: 'start', sortable: false },
+  { title: 'Action', key: 'actions', align: 'end', sortable: false },
+];
 
 const fetchPartnerDetails = async () => {
   loading.value = true;
@@ -257,7 +249,7 @@ watch(selectedFilter, () => {
 
 watch(search, debounce(() => {
   fetchPartnerDetails();
-}, 200));
+}, 300));
 
 const selectFilter = (value) => {
   selectedFilter.value = value;
@@ -351,14 +343,16 @@ const getMicrositeStatusColor = (status) => {
   background-color: #F9FAFB;
 }
 
-:deep(th) {
+.admin-table :deep(th) {
   font-size: 13px !important;
   text-transform: none !important;
   letter-spacing: normal !important;
   border-bottom: 1px solid #EAECF0 !important;
+  color: black !important;
+  font-weight: bold !important;
 }
 
-:deep(td) {
+.admin-table :deep(td) {
   border-bottom: 1px solid #EAECF0 !important;
 }
 
