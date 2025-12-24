@@ -33,7 +33,7 @@
             {{ isMobileVerified ? (isPasswordSet ? 'Login' : 'Create Account') : 'Login' }}
           </v-btn>
 
-          <p class="mt-3 text-center" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'"> {{ isMobileVerified ? (isPasswordSet ? 'login' : 'Create an account using your mobile number.') : 'Login in using your mobile number' }} 
+          <p class="mt-3 text-center" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'"> {{ isMobileVerified ? (isPasswordSet ? 'Login in using your mobile number' : 'Create an account using your mobile number.') : 'Login in using your mobile number' }} 
           </p>
 
           <!-- <p class="mt-3 text-center" :class="$vuetify.display.smAndDown ? 'fs-12' : 'fs-16'">We’ll send a verification
