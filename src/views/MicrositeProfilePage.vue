@@ -330,7 +330,6 @@ const loading = ref(true)
 const isSiteActive = ref(false)
 const fetchMicrosite = async () => {
     const { slug } = route.params
-    console.log(slug)
     if (!slug) {
         router.push({ name: 'NotFound' })
         return

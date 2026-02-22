@@ -103,7 +103,7 @@
                                             View
                                         </v-btn>
                                         <v-btn icon="mdi-content-copy" variant="text" color="grey" size="small"
-                                            @click="copyToClipboard(item.slug)">
+                                            @click="copyToClipboard(item.user_slug, item.slug)">
                                         </v-btn>
                                     </td>
                                 </tr>

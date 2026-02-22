@@ -238,7 +238,7 @@
                                                         </div>
                                                     </template>
                                                     <v-list-item-title class="text-caption">{{ social.name
-                                                    }}</v-list-item-title>
+                                                        }}</v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </v-menu>
