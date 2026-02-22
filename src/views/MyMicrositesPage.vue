@@ -98,12 +98,11 @@
 
                                     <td class="text-right">
                                         <v-btn variant="text" color="primary" size="small"
-                                            @click="navigateToProfile(item.user_slug, item.slug)"
-                                            class="text-capitalize">
+                                            @click="navigateToProfile(item.slug)" class="text-capitalize">
                                             View
                                         </v-btn>
                                         <v-btn icon="mdi-content-copy" variant="text" color="grey" size="small"
-                                            @click="copyToClipboard(item.user_slug, item.slug)">
+                                            @click="copyToClipboard(item.slug)">
                                         </v-btn>
                                     </td>
                                 </tr>
@@ -174,8 +173,8 @@ const getStatusColor = (status) => {
     }
 };
 
-const navigateToProfile = (user_slug, slug) => {
-    router.push(`/${user_slug}/${slug}`);
+const navigateToProfile = (slug) => {
+    router.push(`/${slug}`);
 };
 
 const expandedMicrosite = ref(null);
