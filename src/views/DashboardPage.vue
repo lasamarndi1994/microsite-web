@@ -1,0 +1,268 @@
+<template>
+    <app-layout>
+        <v-card ref="micrositeContainer" flat class="card-padding rounded-xl"
+            :style="{ minHeight: containerMinHeight }">
+            <!-- Welcome Section -->
+            <v-row class="mb-4" align="center">
+                <v-col cols="12" lg="8">
+                    <h1 class="font-weight-bold text-grey-darken-3"
+                        :class="$vuetify.display.smAndDown ? 'fs-20' : 'fs-24'">Welcome Back</h1>
+                </v-col>
+                <v-col cols="12" lg="4" class="d-flex flex-column flex-lg-row justify-end align-lg-center">
+                    <v-btn variant="outlined" style="border-color: #7f56da; color: #7f56da"
+                        class="text-capitalize mb-3 mb-lg-0 mr-lg-4 w-100 w-lg-auto" height="44" @click="DraftMicrosite"
+                        max-width="100%">
+                        <template v-slot:prepend>
+                            <v-icon size="16">mdi-file-document-outline</v-icon>
+                        </template>
+                        Drafts
+                    </v-btn>
+                    <v-btn class="btn-primary text-white text-capitalize w-100 w-lg-auto" height="44" flat
+                        @click="createMicrosite">
+                        <template v-slot:prepend>
+                            <div class="d-inline-flex align-center justify-center mr-2"
+                                style="width: 20px; height: 20px; border-radius: 30%; border: 1px solid white;">
+                                <v-icon size="16" color="white">mdi-plus</v-icon>
+                            </div>
+                        </template>
+                        Create new microsite
+                    </v-btn>
+                </v-col>
+            </v-row>
+            <!-- Analytics Section -->
+            <h2 class="fs-18 font-weight-bold mb-4">Analytics</h2>
+            <v-row class="mb-8">
+                <v-col cols="12" md="3">
+                    <v-card flat border class="pa-4 rounded-lg card-hover">
+                        <div class="d-flex align-center">
+                            <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
+                                <img src="@/assets/images/Frame12.svg" alt="Visitors" width="44" height="44" />
+                            </v-avatar>
+                            <div>
+                                <div class="fs-11 text-grey">Total Visitors</div>
+                                <div class="fs-21 font-weight-bold">{{ analytics?.total_views || 0 }}</div>
+                            </div>
+                        </div>
+                    </v-card>
+                </v-col>
+
+                <v-col cols="12" md="3">
+                    <v-card flat border class="pa-4 rounded-lg card-hover">
+                        <div class="d-flex align-center">
+                            <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
+                                <img src="@/assets/images/Frame54.svg" alt="Engagement" width="44" height="44" />
+                            </v-avatar>
+                            <div>
+                                <div class="fs-11 text-grey">Total Engagement</div>
+                                <div class="fs-21 font-weight-bold">{{ analytics?.total_engagement || 0 }}</div>
+                            </div>
+
+                        </div>
+                    </v-card>
+                </v-col>
+
+                <v-col cols="12" md="3">
+                    <v-card flat border class="pa-4 rounded-lg card-hover">
+                        <div class="d-flex align-center">
+                            <v-avatar color="deep-purple-lighten-5" rounded="lg" size="48" class="mr-4">
+                                <img src="@/assets/images/Frame54(1).svg" alt="Conversions" width="44" height="44" />
+                            </v-avatar>
+                            <div>
+                                <div class="fs-11 text-grey">Total Conversions</div>
+                                <div class="fs-21 font-weight-bold">{{ analytics?.total_leads || 0 }}</div>
+                            </div>
+                        </div>
+                    </v-card>
+                </v-col>
+
+                <!--View lead section-->
+
+                <v-col cols="12" md="3">
+                    <v-card flat border class="pa-4 rounded-lg card-hover cursor-pointer"
+                        @click="router.push('/my-microsites')"
+                        style="background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); border: 1px solid #ce93d8 !important;">
+                        <div class="d-flex align-center">
+                            <v-avatar color="white" rounded="lg" size="46" class="mr-4">
+                                <v-icon size="26" color="purple-darken-2">mdi-web</v-icon>
+                            </v-avatar>
+                            <div>
+                                <div class="fs-10 text-purple-darken-3 font-weight-medium">View Your</div>
+                                <div class="fs-21 font-weight-bold text-purple-darken-4">Leads</div>
+                            </div>
+                            <v-spacer></v-spacer>
+                            <v-icon color="purple-darken-2" icon="mdi-chevron-double-right" class="blink-icon">
+                                <v-tooltip activator="parent" location="top">View Leads</v-tooltip>
+                            </v-icon>
+                        </div>
+                    </v-card>
+                </v-col>
+            </v-row>
+
+            <div class="bg-grey-lighten-4 rounded-lg pa-1 mb-6">
+                <v-row no-gutters>
+                    <v-col cols="6" sm="auto">
+                        <v-btn variant="text"
+                            class="text-capitalize px-md-6 px-3 text-body-2 text-sm-body-1 mobile-hover" rounded="lg"
+                            height="44" width="150"
+                            :class="activeTab === 'my-microsites' ? 'btn-primary text-white' : 'text-grey-darken-1'"
+                            @click="updateActiveTab('my-microsites')">
+                            My Microsites
+                        </v-btn>
+                    </v-col>
+                    <v-col cols="6" sm="auto">
+                        <v-btn class="text-capitalize px-md-6 px-3 text-body-2 text-sm-body-1 ms-sm-3 ms-0 mobile-hover"
+                            variant="flat" rounded="lg" height="44" width="200"
+                            :class="activeTab === 'all' ? 'btn-primary text-white' : ''"
+                            @click="updateActiveTab('all')">
+                            All Microsites
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </div>
+
+            <!-- Microsites Grid -->
+
+            <MyMicrositeGridPage v-if="activeTab === 'my-microsites'" :microsites="microsites" :loading="isLoading" />
+            <!-- Microsites List -->
+            <MicrositeListPage v-else :microsites="microsites" :loading="isLoading" @filter-change="handleFilterChange"
+                @refresh="refresh" />
+        </v-card>
+
+        <!-- <MicrositeLimitDialog v-model="showLimitDialog" /> -->
+    </app-layout>
+</template>
+
+<script setup>
+import { ref, onMounted, nextTick } from 'vue'
+import { useRouter, useRoute } from "vue-router";
+import api from "@/api";
+
+import MicrositeListPage from "@/views/microsite/ListPage.vue";
+import MyMicrositeGridPage from "@/views/microsite/GridPage.vue";
+
+
+
+const router = useRouter();
+const route = useRoute();
+const activeTab = ref('my-microsites');
+const isLoading = ref(false);
+
+const micrositeContainer = ref(null);
+const containerMinHeight = ref('80vh');
+const analytics = ref(null);
+
+
+
+const createMicrosite = () => {
+    router.push("/create-microsite");
+};
+
+const DraftMicrosite = () => {
+    router.push("/drafts-microsite");
+};
+
+
+const microsites = ref([]);
+
+const fetchMicrosites = async (status = null) => {
+    isLoading.value = true;
+    try {
+        let url = '/microsite/lists?page=1&limit=18';
+        if (status) {
+            url += `&status=${status}`;
+        }
+
+        const response = await api.get(url);
+        const colors = ['bg-grey-lighten-2', 'bg-deep-purple-lighten-4', 'bg-purple-lighten-4', 'bg-blue-lighten-4', 'bg-teal-lighten-4'];
+        const data = response.data.data || response.data;
+        microsites.value = Array.isArray(data) ? data.map(site => ({
+            ...site,
+            bgColor: site.bgColor || colors[Math.floor(Math.random() * colors.length)],
+        })) : [];
+    } catch (error) {
+        console.error('Error fetching microsites:', error);
+    } finally {
+        // Reset min-height after content is loaded and rendered
+        nextTick(() => {
+            containerMinHeight.value = '80vh';
+        });
+        isLoading.value = false;
+    }
+};
+
+const handleFilterChange = (status) => {
+    // Assuming status values from filter match API expected values (active, all, rejected)
+    // Capitalize if API expects capitalized status, or pass as is if API handles it.
+    const formattedStatus = status ? status.charAt(0).toUpperCase() + status.slice(1) : null;
+    fetchMicrosites(formattedStatus);
+};
+
+const updateActiveTab = (tab) => {
+    if (activeTab.value === tab) return;
+
+    // Lock current height before switching
+    if (micrositeContainer.value && micrositeContainer.value.$el) {
+        const height = micrositeContainer.value.$el.offsetHeight;
+        containerMinHeight.value = `${height}px`;
+    }
+
+    activeTab.value = tab;
+    router.replace({ query: { ...route.query, tab } });
+    if (tab === 'my-microsites') {
+        fetchMicrosites('Approved');
+    } else if (tab === 'all') {
+        fetchMicrosites();
+    }
+};
+
+onMounted(() => {
+
+    const tab = route.query.tab;
+    if (tab && (tab === 'my-microsites' || tab === 'all')) {
+        activeTab.value = tab;
+    }
+
+    if (activeTab.value === 'all') {
+        fetchMicrosites();
+    } else {
+        fetchMicrosites('Approved');
+    }
+
+    api.get('/analytics').then(response => {
+        analytics.value = response.data.data;
+
+    });
+});
+
+const refresh = (uuid) => {
+    if (uuid) {
+        const index = microsites.value.findIndex(item => item.uuid === uuid);
+        if (index !== -1) {
+            microsites.value.splice(index, 1);
+        }
+    } else {
+        fetchMicrosites();
+    }
+};
+
+
+
+
+</script>
+
+<style scoped>
+/* Card Hover Transitions */
+.card-hover,
+.microsite-card,
+.card {
+    transition: all 0.3s ease-in-out !important;
+}
+
+.card-hover:hover,
+.microsite-card:hover,
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1) !important;
+    border-color: var(--primary-color) !important;
+}
+</style>

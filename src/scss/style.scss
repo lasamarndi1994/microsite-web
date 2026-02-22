@@ -1,0 +1,302 @@
+@charset "UTF-8";
+
+// @import "./fornt.css";
+
+:root {
+
+  --primary-color: #7f56da;
+  --secondary-color: #512da8;
+  --tertiary-color: #FF3636;
+  --tertiary-opacity: #ff3636b0;
+  --success: #45823D;
+  --text-light: #ffffff;
+  --text-color1: #262630;
+  --text-color2: #534B4B;
+  --text-color4: #282828;
+  --bg-color1: #3856881C;
+
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: auto !important;
+}
+
+.text-primary-color {
+  color: var(--secondary-color);
+}
+
+.text-secondary-color {
+  color: var(--primary-color);
+}
+
+
+.fw-400 {
+  font-weight: 400;
+}
+
+.fw-500 {
+  font-weight: 500;
+}
+
+.fw-700 {
+  font-weight: 700;
+}
+
+.fw-600 {
+  font-weight: 600;
+}
+
+.fw-medium {
+  font-weight: 550;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.fs-14 {
+  font-size: 14px !important;
+}
+
+.fs-16 {
+  font-size: 16px;
+}
+
+.fs-18 {
+  font-size: 18px !important;
+}
+
+.fs-20 {
+  font-size: 20px;
+}
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.fs-24 {
+  font-size: 24px;
+}
+
+.progress-bar {
+  background: #00000033;
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.progress-text {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progress,
+.progress-stacked {
+  --bs-progress-height: 1rem;
+  --bs-progress-font-size: 0.75rem;
+  --bs-progress-bg: transparent;
+}
+
+.progress,
+.progress-stacked {
+  --bs-progress-height: 1rem;
+  --bs-progress-font-size: 0.75rem;
+  --bs-progress-bg: transparent;
+}
+
+.blink-icon {
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0.3;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.auth-logo {
+  max-width: 3%;
+
+  @media (max-width: 960px) {
+    max-width: 8%;
+  }
+}
+
+
+
+.fs-22 {
+  font-size: 22px;
+}
+
+.fs-24 {
+  font-size: 24px;
+}
+
+.btn {
+  border: none;
+  border-radius: 5px;
+  font-size: 14px;
+  height: 44px;
+  color: #ffffff;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  transition: all 0.3s ease-in-out !important;
+}
+
+.btn-primary:hover {
+  background: var(--secondary-color) !important;
+}
+
+.btn-primary:disabled {
+  background-color: var(--secondary-color);
+}
+
+// Border-radius 
+.border-radius-4 {
+  border-radius: 4px;
+}
+
+.border-radius-8 {
+  border-radius: 8px;
+}
+
+.auth-bg-img {
+  position: fixed;
+  z-index: -1;
+
+  &.left {
+    filter: brightness(0);
+    max-width: 335px;
+    max-height: 290px;
+    left: 1%;
+    top: 65%;
+
+    @media (max-width: 1600px) {
+      max-width: 290px;
+      top: 69%;
+    }
+  }
+
+  &.right {
+    max-width: 451px;
+    max-height: 458px;
+    left: 60%;
+    top: 30%;
+  }
+
+  @media (max-width: 1200px) {
+    display: none;
+  }
+}
+
+
+.responsive-body {
+  @media (max-width: 960px) {
+    font-size: 0.875rem !important;
+  }
+}
+
+.otp-responsive {
+  --v-otp-input-width: 50px;
+  --v-otp-input-height: 50px;
+
+  @media (max-width: 960px) {
+    --v-otp-input-width: 40px;
+    --v-otp-input-height: 40px;
+  }
+}
+
+.shadow-card {
+  box-shadow: 0 4px 20px 0 #0000000d !important;
+}
+
+.dashed-border {
+  border: 2px dashed #e0e0e0 !important;
+  border-radius: 8px;
+}
+
+.card-padding {
+  padding: 50px !important;
+
+  @media (max-width: 768px) {
+    padding: 40px !important;
+  }
+
+  @media (max-width: 480px) {
+    padding: 40px !important;
+  }
+}
+
+// Vuetify Input Focus Styles - Secondary Color
+.v-field--focused {
+  .v-field__outline {
+    --v-field-border-width: 2px;
+    color: var(--primary-color) !important;
+  }
+}
+
+.v-text-field--focused {
+  .v-field__outline {
+    color: var(--primary-color) !important;
+  }
+}
+
+.v-textarea--focused {
+  .v-field__outline {
+    color: var(--primary-color) !important;
+  }
+}
+
+// OTP Input Focus
+.v-otp-input--focused {
+  .v-field__outline {
+    color: var(--primary-color) !important;
+  }
+}
+
+// Input focus for all v-field components
+:deep(.v-field--focused) {
+
+  .v-field__outline__start,
+  .v-field__outline__end,
+  .v-field__outline__notch {
+    border-color: var(--primary-color) !important;
+  }
+}
+
+/* Button Hover Transitions */
+.btn,
+.v-btn {
+  transition: all 0.3s ease-in-out !important;
+  border: 1px solid transparent;
+}
+
+.btn:hover,
+.v-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px #0000001a;
+  border-color: var(--primary-color) !important;
+}
