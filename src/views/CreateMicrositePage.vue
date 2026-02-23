@@ -323,7 +323,7 @@ let slugCheckTimeout = null;
 const { value: slug_url, errorMessage: slugUrlError } = useField('slug_url', async (value) => {
     if (!value) return 'Slug URL is required';
     const regex = /^[a-z0-9-]+$/;
-    if (!regex.test(value)) return 'Only lowercase letters, numbers, and hyphens are allowed';
+    if (!regex.test(value)) return 'Please use only lowercase letters, numbers, and hyphens. Spaces are not allowed.';
     if (isPreview.value && value === micrositeSlug.value) {
         return true;
     }
@@ -334,7 +334,7 @@ const { value: slug_url, errorMessage: slugUrlError } = useField('slug_url', asy
             try {
                 const response = await api.get(`/microsite/check-slug?slug=${value}`);
                 if (response.data && response.data.is_exist) {
-                    resolve('This Slug URL is already taken,(For unique slug add -1 or -2 or -3)');
+                    resolve('This slug is already in use. Please add -1, -2, or -3 to make it unique.');
                 } else {
                     resolve(true);
                 }
@@ -571,8 +571,8 @@ const goBack = () => {
 }
 
 const handlePreview = () => {
-    if (route.params.uuid && micrositeSlug.value && userSlug.value) {
-        router.push(`/${userSlug.value}/${micrositeSlug.value}`);
+    if (route.params.uuid && micrositeSlug.value) {
+        router.push(`/${micrositeSlug.value}`);
     }
 }
 
